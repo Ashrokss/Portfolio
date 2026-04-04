@@ -130,6 +130,29 @@ for (let i = 0; i < formInputs.length; i++) {
     } else {
       formBtn.setAttribute("disabled", "");
     }
+  });
+}
+
+
+
+// resume toggle functionality
+const resumeToggleBtns = document.querySelectorAll("[data-resume-toggle]");
+const resumeSections = document.querySelectorAll("[data-resume-section]");
+
+for (let i = 0; i < resumeToggleBtns.length; i++) {
+  resumeToggleBtns[i].addEventListener("click", function () {
+
+    const toggleTarget = this.dataset.resumeToggle;
+
+    for (let j = 0; j < resumeSections.length; j++) {
+      if (toggleTarget === resumeSections[j].dataset.resumeSection) {
+        resumeSections[j].classList.add("active");
+        resumeToggleBtns[j].classList.add("active");
+      } else {
+        resumeSections[j].classList.remove("active");
+        resumeToggleBtns[j].classList.remove("active");
+      }
+    }
 
   });
 }
