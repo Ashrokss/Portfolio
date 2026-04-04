@@ -875,8 +875,131 @@ main {
   #RESUME
 \*-----------------------------------*/
 
+.header-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+  gap: 20px;
+}
+
+.resume-toggle-box {
+  background: var(--onyx);
+  padding: 5px;
+  border-radius: 14px;
+  display: flex;
+  gap: 5px;
+  box-shadow: var(--shadow-1);
+  border: 1px solid var(--jet);
+}
+
+.resume-toggle-btn {
+  padding: 8px 16px;
+  border-radius: 10px;
+  color: var(--light-gray);
+  font-size: var(--fs-7);
+  font-weight: var(--fw-500);
+  transition: var(--transition-1);
+}
+
+.resume-toggle-btn.active {
+  background: var(--bg-gradient-yellow-1);
+  color: var(--smoky-black);
+  box-shadow: var(--shadow-2);
+}
+
+.resume-toggle-btn:not(.active):hover {
+  color: var(--orange-yellow-crayola);
+}
+
+.resume-sections {
+  display: none;
+}
+
+.resume-sections.active {
+  display: block;
+  animation: fade 0.5s ease backwards;
+}
+
+/* PDF Viewer */
+
+.pdf-viewer-container {
+  width: 100%;
+  background: var(--bg-gradient-jet);
+  border-radius: 20px;
+  border: 1px solid var(--jet);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.pdf-iframe {
+  width: 100%;
+  height: 80vh;
+  min-height: 500px;
+  border: none;
+  background: white; /* Fallback background */
+}
+
+.pdf-mobile-fallback {
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  text-align: center;
+  background: var(--eerie-black-2);
+}
+
+.fallback-text {
+  color: var(--light-gray);
+  font-size: var(--fs-6);
+  max-width: 400px;
+}
+
+.btn-download {
+  background: var(--text-gradient-yellow);
+  color: var(--smoky-black);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 28px;
+  border-radius: 14px;
+  font-size: var(--fs-6);
+  font-weight: var(--fw-600);
+  transition: var(--transition-1);
+  box-shadow: var(--shadow-2);
+}
+
+.btn-download:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-3);
+}
+
+.btn-download ion-icon {
+  font-size: 20px;
+  --ionicon-stroke-width: 45px;
+}
+
 .article-title {
-  margin-bottom: 30px;
+  margin-bottom: 0; /* Handled by header-wrapper margin */
+}
+
+@media (max-width: 580px) {
+  .header-wrapper {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+  
+  .resume-toggle-box {
+    width: 100%;
+  }
+  
+  .resume-toggle-btn {
+    flex: 1;
+    text-align: center;
+  }
 }
 
 
@@ -1977,6 +2100,18 @@ textarea.form-input::-webkit-resizer {
     border-radius: 0 20px;
     padding: 0 20px;
     box-shadow: none;
+  }
+
+  .header-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .resume-toggle-box {
+    align-self: center;
+    margin-top: 35px; /* Push under the absolute navbar */
   }
 
   .navbar-list {
