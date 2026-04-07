@@ -68,8 +68,11 @@
 
           <li class="contact-item">
 
-            <div class="icon-box">
-              <ion-icon name="mail-outline"></ion-icon>
+            <div class="icon-box contact-iso-box">
+              <span></span>
+              <span></span>
+              <span></span>
+              <ion-icon name="mail-outline" class="contact-iso-icon"></ion-icon>
             </div>
 
             <div class="contact-info">
@@ -82,8 +85,11 @@
 
           <li class="contact-item">
 
-            <div class="icon-box">
-              <ion-icon name="phone-portrait-outline"></ion-icon>
+            <div class="icon-box contact-iso-box">
+              <span></span>
+              <span></span>
+              <span></span>
+              <ion-icon name="phone-portrait-outline" class="contact-iso-icon"></ion-icon>
             </div>
 
             <div class="contact-info">
@@ -96,8 +102,11 @@
 
           <li class="contact-item">
 
-            <div class="icon-box">
-              <ion-icon name="calendar-outline"></ion-icon>
+            <div class="icon-box contact-iso-box">
+              <span></span>
+              <span></span>
+              <span></span>
+              <ion-icon name="calendar-outline" class="contact-iso-icon"></ion-icon>
             </div>
 
             <div class="contact-info">
@@ -110,8 +119,11 @@
 
           <li class="contact-item">
 
-            <div class="icon-box">
-              <ion-icon name="location-outline"></ion-icon>
+            <div class="icon-box contact-iso-box">
+              <span></span>
+              <span></span>
+              <span></span>
+              <ion-icon name="location-outline" class="contact-iso-icon"></ion-icon>
             </div>
 
             <div class="contact-info">
@@ -126,36 +138,59 @@
 
         <div class="separator"></div>
 
-        <ul class="social-list">
+        <div class="social-card">
+          <ul class="social-list">
 
-          <li class="social-item">
-            <a href="https://www.facebook.com/profile.php?id=100023723677322&mibextid=ZbWKwL" class="social-link"
-              target="_blank" rel="noopener noreferrer">
-              <ion-icon name="logo-facebook"></ion-icon>
-            </a>
-          </li>
+            <li class="iso-pro">
+              <span></span>
+              <span></span>
+              <span></span>
+              <a href="https://www.facebook.com/profile.php?id=100023723677322&mibextid=ZbWKwL" target="_blank" rel="noopener noreferrer">
+                <div class="iso-icon">
+                  <ion-icon name="logo-facebook"></ion-icon>
+                </div>
+              </a>
+              <div class="text">Facebook</div>
+            </li>
 
+            <li class="iso-pro">
+              <span></span>
+              <span></span>
+              <span></span>
+              <a href="https://www.instagram.com/ash._.212/" target="_blank" rel="noopener noreferrer">
+                <div class="iso-icon">
+                  <ion-icon name="logo-instagram"></ion-icon>
+                </div>
+              </a>
+              <div class="text">Instagram</div>
+            </li>
 
-          <li class="social-item">
-            <a href="https://www.instagram.com/ash._.212/" class="social-link" target="_blank"
-              rel="noopener noreferrer">
-              <ion-icon name="logo-instagram"></ion-icon>
-            </a>
-          </li>
-          <li class="social-item">
-            <a href="https://github.com/Ashrokss" class="social-link" target="_blank" rel="noopener noreferrer">
-              <ion-icon name="logo-github"></ion-icon>
-            </a>
-          </li>
-          <li class="social-item">
-            <a href="https://www.linkedin.com/in/ashish-pal-b959b1254/" class="social-link" target="_blank"
-              rel="noopener noreferrer">
-              <ion-icon name="logo-linkedin"></ion-icon>
-            </a>
-          </li>
+            <li class="iso-pro">
+              <span></span>
+              <span></span>
+              <span></span>
+              <a href="https://github.com/Ashrokss" target="_blank" rel="noopener noreferrer">
+                <div class="iso-icon">
+                  <ion-icon name="logo-github"></ion-icon>
+                </div>
+              </a>
+              <div class="text">GitHub</div>
+            </li>
 
-        </ul>
+            <li class="iso-pro">
+              <span></span>
+              <span></span>
+              <span></span>
+              <a href="https://www.linkedin.com/in/ashish-pal-b959b1254/" target="_blank" rel="noopener noreferrer">
+                <div class="iso-icon">
+                  <ion-icon name="logo-linkedin"></ion-icon>
+                </div>
+              </a>
+              <div class="text">LinkedIn</div>
+            </li>
 
+          </ul>
+        </div>
       </div>
 
     </aside>
@@ -243,8 +278,8 @@
             <li class="service-item">
 
               <div class="service-icon-box">
-                <img src="./assets/images/icon-design.svg
-                " alt="design icon" width="40">
+                <img src="./assets/images/icon-design.svg" alt="design icon" width="40">
+                <h4 class="front-title">CI/CD Pipelines</h4>
               </div>
 
               <div class="service-content-box">
@@ -262,6 +297,7 @@
 
               <div class="service-icon-box">
                 <img src="./assets/images/icon-dev.svg" alt="Web development icon" width="40">
+                <h4 class="front-title">Terraform</h4>
               </div>
 
               <div class="service-content-box">
@@ -279,6 +315,7 @@
 
               <div class="service-icon-box">
                 <img src="./assets/images/icon-app.svg" alt="mobile app icon" width="40">
+                <h4 class="front-title">Mobile Video Editing</h4>
               </div>
 
               <div class="service-content-box">
@@ -296,6 +333,7 @@
 
               <div class="service-icon-box">
                 <img src="./assets/images/icon-photo.svg" alt="camera icon" width="40">
+                <h4 class="front-title">Photography</h4>
               </div>
 
               <div class="service-content-box">
@@ -609,7 +647,11 @@
 
         <div class="resume-sections" data-resume-section="actual">
           <div class="pdf-viewer-container">
-            <iframe src="./assets/resume/Ashish_Pal (Devops_Engineer).pdf#toolbar=0" class="pdf-iframe" loading="lazy" title="Ashish Pal's Professional Resume" name="Ashish Pal Resume"></iframe>
+            <iframe id="desktop-pdf" src="./assets/resume/Ashish_Pal (Devops_Engineer).pdf#toolbar=0" class="pdf-iframe" loading="lazy" title="Ashish Pal's Professional Resume" name="Ashish Pal Resume"></iframe>
+
+            <div id="pdf-mobile-render" class="pdf-mobile-canvas">
+               <!-- PDF.js will render the canvas here on mobile -->
+            </div>
 
             <div class="pdf-mobile-fallback">
               <!-- <p class="fallback-text">PDF rendering might not be supported on this browser/device.</p> -->
@@ -723,11 +765,19 @@
               <a href="https://github.com/Ashrokss/AI-Agents" target="_blank" rel="noopener noreferrer">
 
                 <figure class="project-img">
+                  <div class="image-loader-overlay">
+                    <div class="loadingspinner">
+                      <div id="square1"></div>
+                      <div id="square2"></div>
+                      <div id="square3"></div>
+                      <div id="square4"></div>
+                      <div id="square5"></div>
+                    </div>
+                  </div>
                   <div class="project-item-icon-box">
                     <ion-icon name="eye-outline"></ion-icon>
                   </div>
-
-                  <img src="./assets/images/project-genai-1.webp" alt="AI Agents" loading="lazy">
+                  <img src="./assets/images/project-genai-1.webp" alt="AI Agents" loading="lazy" onload="this.parentElement.classList.add('loaded')">
                 </figure>
 
                 <h3 class="project-title">AI Agents</h3>
@@ -741,11 +791,19 @@
               <a href="https://github.com/Ashrokss/Google-Calendar-Assistant" target="_blank" rel="noopener noreferrer">
 
                 <figure class="project-img">
+                  <div class="image-loader-overlay">
+                    <div class="loadingspinner">
+                      <div id="square1"></div>
+                      <div id="square2"></div>
+                      <div id="square3"></div>
+                      <div id="square4"></div>
+                      <div id="square5"></div>
+                    </div>
+                  </div>
                   <div class="project-item-icon-box">
                     <ion-icon name="eye-outline"></ion-icon>
                   </div>
-
-                  <img src="./assets/images/project-genai-2.webp" alt="Google Calendar Assistant" loading="lazy">
+                  <img src="./assets/images/project-genai-2.webp" alt="Google Calendar Assistant" loading="lazy" onload="this.parentElement.classList.add('loaded')">
                 </figure>
 
                 <h3 class="project-title">Google Calendar Assistant</h3>
@@ -759,11 +817,19 @@
               <a href="https://github.com/Ashrokss/Vision-Voice-Agent" target="_blank" rel="noopener noreferrer">
 
                 <figure class="project-img">
+                  <div class="image-loader-overlay">
+                    <div class="loadingspinner">
+                      <div id="square1"></div>
+                      <div id="square2"></div>
+                      <div id="square3"></div>
+                      <div id="square4"></div>
+                      <div id="square5"></div>
+                    </div>
+                  </div>
                   <div class="project-item-icon-box">
                     <ion-icon name="eye-outline"></ion-icon>
                   </div>
-
-                  <img src="./assets/images/project-genai-3.webp" alt="Vision Voice Agent" loading="lazy">
+                  <img src="./assets/images/project-genai-3.webp" alt="Vision Voice Agent" loading="lazy" onload="this.parentElement.classList.add('loaded')">
                 </figure>
 
                 <h3 class="project-title">Vision Voice Agent</h3>
@@ -777,11 +843,19 @@
               <a href="https://github.com/Ashrokss/Crewai-Research-Blogger" target="_blank" rel="noopener noreferrer">
 
                 <figure class="project-img">
+                  <div class="image-loader-overlay">
+                    <div class="loadingspinner">
+                      <div id="square1"></div>
+                      <div id="square2"></div>
+                      <div id="square3"></div>
+                      <div id="square4"></div>
+                      <div id="square5"></div>
+                    </div>
+                  </div>
                   <div class="project-item-icon-box">
                     <ion-icon name="eye-outline"></ion-icon>
                   </div>
-
-                  <img src="./assets/images/project-genai-4.webp" alt="CrewAI Research Blogger" loading="lazy">
+                  <img src="./assets/images/project-genai-4.webp" alt="CrewAI Research Blogger" loading="lazy" onload="this.parentElement.classList.add('loaded')">
                 </figure>
 
                 <h3 class="project-title">CrewAI Research Blogger</h3>
@@ -795,11 +869,19 @@
               <a href="https://github.com/Ashrokss/Excel--Project" target="_blank" rel="noopener noreferrer">
 
                 <figure class="project-img">
+                  <div class="image-loader-overlay">
+                    <div class="loadingspinner">
+                      <div id="square1"></div>
+                      <div id="square2"></div>
+                      <div id="square3"></div>
+                      <div id="square4"></div>
+                      <div id="square5"></div>
+                    </div>
+                  </div>
                   <div class="project-item-icon-box">
                     <ion-icon name="eye-outline"></ion-icon>
                   </div>
-
-                  <img src="./assets/images/project-1.webp" alt="Finance Store Analysis" loading="lazy">
+                  <img src="./assets/images/project-1.webp" alt="Finance Store Analysis" loading="lazy" onload="this.parentElement.classList.add('loaded')">
                 </figure>
 
                 <h3 class="project-title">Finance Store Analysis</h3>
@@ -813,11 +895,19 @@
               <a href="https://github.com/Ashrokss/Pizza_Sales--SQL" target="_blank" rel="noopener noreferrer">
 
                 <figure class="project-img">
+                  <div class="image-loader-overlay">
+                    <div class="loadingspinner">
+                      <div id="square1"></div>
+                      <div id="square2"></div>
+                      <div id="square3"></div>
+                      <div id="square4"></div>
+                      <div id="square5"></div>
+                    </div>
+                  </div>
                   <div class="project-item-icon-box">
                     <ion-icon name="eye-outline"></ion-icon>
                   </div>
-
-                  <img src="./assets/images/project-10.webp" alt="Pizza Sales Analysis using MySql" loading="lazy">
+                  <img src="./assets/images/project-10.webp" alt="Pizza Sales Analysis using MySql" loading="lazy" onload="this.parentElement.classList.add('loaded')">
                 </figure>
 
                 <h3 class="project-title">Pizza Sales Analysis using MySql</h3>
@@ -831,11 +921,19 @@
               <a href="https://github.com/Ashrokss/Terraform-Learning/tree/main/vnet-peering" target="_blank" rel="noopener noreferrer">
 
                 <figure class="project-img">
+                  <div class="image-loader-overlay">
+                    <div class="loadingspinner">
+                      <div id="square1"></div>
+                      <div id="square2"></div>
+                      <div id="square3"></div>
+                      <div id="square4"></div>
+                      <div id="square5"></div>
+                    </div>
+                  </div>
                   <div class="project-item-icon-box">
                     <ion-icon name="eye-outline"></ion-icon>
                   </div>
-
-                  <img src="./assets/images/project-cloud-1.webp" alt="Azure VNet Peering PoC" loading="lazy">
+                  <img src="./assets/images/project-cloud-1.webp" alt="Azure VNet Peering PoC" loading="lazy" onload="this.parentElement.classList.add('loaded')">
                 </figure>
 
                 <h3 class="project-title">Azure VNet Peering PoC</h3>
@@ -849,11 +947,19 @@
               <a href="https://github.com/Ashrokss/Terraform-Learning/tree/main/ADF-with-SHIR" target="_blank" rel="noopener noreferrer">
 
                 <figure class="project-img">
+                  <div class="image-loader-overlay">
+                    <div class="loadingspinner">
+                      <div id="square1"></div>
+                      <div id="square2"></div>
+                      <div id="square3"></div>
+                      <div id="square4"></div>
+                      <div id="square5"></div>
+                    </div>
+                  </div>
                   <div class="project-item-icon-box">
                     <ion-icon name="eye-outline"></ion-icon>
                   </div>
-
-                  <img src="./assets/images/adf_shir_thumbnail.webp" alt="ADF with SHIR" loading="lazy">
+                  <img src="./assets/images/adf_shir_thumbnail.webp" alt="ADF with SHIR" loading="lazy" onload="this.parentElement.classList.add('loaded')">
                 </figure>
 
                 <h3 class="project-title">ADF with SHIR</h3>
@@ -867,11 +973,19 @@
               <a href="https://docs.google.com/document/d/13HEK7vGZxBNMslq7UXuoOEtx9SnB9dhOUO5rcSM8uyA/edit?usp=sharing" target="_blank" rel="noopener noreferrer">
 
                 <figure class="project-img">
+                  <div class="image-loader-overlay">
+                    <div class="loadingspinner">
+                      <div id="square1"></div>
+                      <div id="square2"></div>
+                      <div id="square3"></div>
+                      <div id="square4"></div>
+                      <div id="square5"></div>
+                    </div>
+                  </div>
                   <div class="project-item-icon-box">
                     <ion-icon name="eye-outline"></ion-icon>
                   </div>
-
-                  <img src="./assets/images/gitlab_cicd_thumbnail.webp" alt="GitLab CI/CD Setup using Git Runner" loading="lazy">
+                  <img src="./assets/images/gitlab_cicd_thumbnail.webp" alt="GitLab CI/CD Setup using Git Runner" loading="lazy" onload="this.parentElement.classList.add('loaded')">
                 </figure>
 
                 <h3 class="project-title">GitLab CI/CD Setup using Git Runner</h3>
@@ -885,11 +999,19 @@
               <a href="https://docs.google.com/document/d/1EWqOndLa4Vz-Vwsjwsf0K0Pz0ON00gIV/edit" target="_blank" rel="noopener noreferrer">
 
                 <figure class="project-img">
+                  <div class="image-loader-overlay">
+                    <div class="loadingspinner">
+                      <div id="square1"></div>
+                      <div id="square2"></div>
+                      <div id="square3"></div>
+                      <div id="square4"></div>
+                      <div id="square5"></div>
+                    </div>
+                  </div>
                   <div class="project-item-icon-box">
                     <ion-icon name="eye-outline"></ion-icon>
                   </div>
-
-                  <img src="./assets/images/atlantis_gitlab_thumbnail.webp" alt="Atlantis Setup in GitLab" loading="lazy">
+                  <img src="./assets/images/atlantis_gitlab_thumbnail.webp" alt="Atlantis Setup in GitLab" loading="lazy" onload="this.parentElement.classList.add('loaded')">
                 </figure>
 
                 <h3 class="project-title">Atlantis Setup in GitLab</h3>
@@ -905,11 +1027,19 @@
                 rel="noopener noreferrer">
 
                 <figure class="project-img">
+                  <div class="image-loader-overlay">
+                    <div class="loadingspinner">
+                      <div id="square1"></div>
+                      <div id="square2"></div>
+                      <div id="square3"></div>
+                      <div id="square4"></div>
+                      <div id="square5"></div>
+                    </div>
+                  </div>
                   <div class="project-item-icon-box">
                     <ion-icon name="eye-outline"></ion-icon>
                   </div>
-
-                  <img src="./assets/images/project-3.webp" alt="Fake Review Detection System" loading="lazy">
+                  <img src="./assets/images/project-3.webp" alt="Fake Review Detection System" loading="lazy" onload="this.parentElement.classList.add('loaded')">
                 </figure>
 
                 <h3 class="project-title">Fake Review Detection System</h3>
@@ -924,11 +1054,19 @@
                 rel="noopener noreferrer">
 
                 <figure class="project-img">
+                  <div class="image-loader-overlay">
+                    <div class="loadingspinner">
+                      <div id="square1"></div>
+                      <div id="square2"></div>
+                      <div id="square3"></div>
+                      <div id="square4"></div>
+                      <div id="square5"></div>
+                    </div>
+                  </div>
                   <div class="project-item-icon-box">
                     <ion-icon name="eye-outline"></ion-icon>
                   </div>
-
-                  <img src="./assets/images/project-4.webp" alt="HR Analytics Dashboard" loading="lazy">
+                  <img src="./assets/images/project-4.webp" alt="HR Analytics Dashboard" loading="lazy" onload="this.parentElement.classList.add('loaded')">
                 </figure>
 
                 <h3 class="project-title">HR Analytics Dashboard</h3>
@@ -943,11 +1081,19 @@
                 rel="noopener noreferrer">
 
                 <figure class="project-img">
+                  <div class="image-loader-overlay">
+                    <div class="loadingspinner">
+                      <div id="square1"></div>
+                      <div id="square2"></div>
+                      <div id="square3"></div>
+                      <div id="square4"></div>
+                      <div id="square5"></div>
+                    </div>
+                  </div>
                   <div class="project-item-icon-box">
                     <ion-icon name="eye-outline"></ion-icon>
                   </div>
-
-                  <img src="./assets/images/project-8.webp" alt="Amazon Prime video Analysis" loading="lazy">
+                  <img src="./assets/images/project-8.webp" alt="Amazon Prime video Analysis" loading="lazy" onload="this.parentElement.classList.add('loaded')">
                 </figure>
 
                 <h3 class="project-title">Amazon Prime video Analysis</h3>
@@ -961,11 +1107,19 @@
               <a href="https://github.com/Ashrokss/Bank-Churn-Analysis" target="_blank" rel="noopener noreferrer">
 
                 <figure class="project-img">
+                  <div class="image-loader-overlay">
+                    <div class="loadingspinner">
+                      <div id="square1"></div>
+                      <div id="square2"></div>
+                      <div id="square3"></div>
+                      <div id="square4"></div>
+                      <div id="square5"></div>
+                    </div>
+                  </div>
                   <div class="project-item-icon-box">
                     <ion-icon name="eye-outline"></ion-icon>
                   </div>
-
-                  <img src="./assets/images/project-5.webp" alt="Bank Churn Analysis" loading="lazy">
+                  <img src="./assets/images/project-5.webp" alt="Bank Churn Analysis" loading="lazy" onload="this.parentElement.classList.add('loaded')">
                 </figure>
 
                 <h3 class="project-title">Bank Churn Analysis</h3>
@@ -980,11 +1134,19 @@
                 rel="noopener noreferrer">
 
                 <figure class="project-img">
+                  <div class="image-loader-overlay">
+                    <div class="loadingspinner">
+                      <div id="square1"></div>
+                      <div id="square2"></div>
+                      <div id="square3"></div>
+                      <div id="square4"></div>
+                      <div id="square5"></div>
+                    </div>
+                  </div>
                   <div class="project-item-icon-box">
                     <ion-icon name="eye-outline"></ion-icon>
                   </div>
-
-                  <img src="./assets/images/project-6.webp" alt="Loan Eligibility Prediction" loading="lazy">
+                  <img src="./assets/images/project-6.webp" alt="Loan Eligibility Prediction" loading="lazy" onload="this.parentElement.classList.add('loaded')">
                 </figure>
 
                 <h3 class="project-title">Loan Eligibility Prediction</h3>
@@ -998,11 +1160,19 @@
               <a href="https://github.com/Ashrokss/Salary-Prediction-Web-App" target="_blank" rel="noopener noreferrer">
 
                 <figure class="project-img">
+                  <div class="image-loader-overlay">
+                    <div class="loadingspinner">
+                      <div id="square1"></div>
+                      <div id="square2"></div>
+                      <div id="square3"></div>
+                      <div id="square4"></div>
+                      <div id="square5"></div>
+                    </div>
+                  </div>
                   <div class="project-item-icon-box">
                     <ion-icon name="eye-outline"></ion-icon>
                   </div>
-
-                  <img src="./assets/images/project-7.webp" alt="summary" loading="lazy">
+                  <img src="./assets/images/project-7.webp" alt="summary" loading="lazy" onload="this.parentElement.classList.add('loaded')">
                 </figure>
 
                 <h3 class="project-title">Salary Prediction</h3>
@@ -1017,11 +1187,19 @@
                 rel="noopener noreferrer">
 
                 <figure class="project-img">
+                  <div class="image-loader-overlay">
+                    <div class="loadingspinner">
+                      <div id="square1"></div>
+                      <div id="square2"></div>
+                      <div id="square3"></div>
+                      <div id="square4"></div>
+                      <div id="square5"></div>
+                    </div>
+                  </div>
                   <div class="project-item-icon-box">
                     <ion-icon name="eye-outline"></ion-icon>
                   </div>
-
-                  <img src="./assets/images/project-9.webp" alt="Youtube Sentiment Analysis" loading="lazy">
+                  <img src="./assets/images/project-9.webp" alt="Youtube Sentiment Analysis" loading="lazy" onload="this.parentElement.classList.add('loaded')">
                 </figure>
 
                 <h3 class="project-title">Youtube Sentiment Analysis</h3>
@@ -1079,8 +1257,17 @@
                 target="_blank" rel="noopener noreferrer">
 
                 <figure class="blog-banner-box">
+                  <div class="image-loader-overlay">
+                    <div class="loadingspinner">
+                      <div id="square1"></div>
+                      <div id="square2"></div>
+                      <div id="square3"></div>
+                      <div id="square4"></div>
+                      <div id="square5"></div>
+                    </div>
+                  </div>
                   <img src="./assets/images/blog-sentiment-analysis.webp" alt="Build a Sentiment Analysis Web App"
-                    loading="lazy">
+                    loading="lazy" onload="this.parentElement.classList.add('loaded')">
                 </figure>
 
                 <div class="blog-content">
@@ -1109,7 +1296,16 @@
                 target="_blank" rel="noopener noreferrer">
 
                 <figure class="blog-banner-box">
-                  <img src="./assets/images/blog-1.webp" alt="Predict Salaries with Machine Learning" loading="lazy">
+                  <div class="image-loader-overlay">
+                    <div class="loadingspinner">
+                      <div id="square1"></div>
+                      <div id="square2"></div>
+                      <div id="square3"></div>
+                      <div id="square4"></div>
+                      <div id="square5"></div>
+                    </div>
+                  </div>
+                  <img src="./assets/images/blog-1.webp" alt="Predict Salaries with Machine Learning" loading="lazy" onload="this.parentElement.classList.add('loaded')">
                 </figure>
 
                 <div class="blog-content">
@@ -1201,6 +1397,48 @@
   <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 
+  <script>
+    // Fallback: If images are already cached, their inline onload might not run or run too early.
+    document.querySelectorAll('.project-img img, .blog-banner-box img').forEach(img => {
+      if (img.complete) {
+        img.parentElement.classList.add('loaded');
+      }
+    });
+  </script>
+
+  <!-- PDF.js for Mobile Resume Rendering -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script>
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    
+    // Only fetch and render PDF if we are likely on a mobile screen to save data, 
+    // or we can render it unconditionally so it's ready if the user resizes. 
+    // Rendering it globally is safer and PDF.js is highly optimized.
+    const loadingTask = pdfjsLib.getDocument('./assets/resume/Ashish_Pal (Devops_Engineer).pdf');
+    loadingTask.promise.then(function(pdf) {
+      const container = document.getElementById('pdf-mobile-render');
+      container.innerHTML = ''; // clear loading state if any
+      
+      for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+        const canvas = document.createElement('canvas');
+        canvas.style.width = '100%';
+        canvas.style.height = 'auto';
+        canvas.style.marginBottom = '5px';
+        canvas.style.borderRadius = '5px';
+        container.appendChild(canvas);
+        
+        pdf.getPage(pageNum).then(function(page) {
+          // 1.5 scale is high-res enough for sharp mobile text
+          const viewport = page.getViewport({scale: 1.5});
+          canvas.height = viewport.height;
+          canvas.width = viewport.width;
+          page.render({canvasContext: canvas.getContext('2d'), viewport: viewport});
+        });
+      }
+    }).catch(function(error) {
+      console.error('Error rendering PDF:', error);
+    });
+  </script>
 </body>
 
 </html>

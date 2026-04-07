@@ -236,6 +236,54 @@ article {
   --ionicon-stroke-width: 35px;
 }
 
+/* Contact Icon Isometric Animation */
+.contact-iso-box {
+  cursor: pointer;
+  transition: 0.5s;
+}
+
+.contact-iso-icon {
+  transition: all 0.3s;
+  position: relative;
+  z-index: 2;
+}
+
+.contact-item:hover .contact-iso-icon {
+  transform: translate(3px, -3px);
+}
+
+.contact-iso-box span {
+  opacity: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  transition: all 0.3s;
+  background-color: var(--orange-yellow-crayola);
+  box-shadow: inset 0 0 10px rgba(255, 174, 0, 0.4);
+  z-index: -2; 
+}
+
+.contact-item:hover .contact-iso-box span {
+  opacity: 1;
+}
+
+.contact-item:hover .contact-iso-box span:nth-child(1) {
+  opacity: 0.2;
+}
+
+.contact-item:hover .contact-iso-box span:nth-child(2) {
+  opacity: 0.4;
+  transform: translate(3px, -3px);
+}
+
+.contact-item:hover .contact-iso-box span:nth-child(3) {
+  opacity: 0.6;
+  transform: translate(6px, -6px);
+}
+
 article {
   display: none;
 }
@@ -498,24 +546,110 @@ main {
   font-style: normal;
 }
 
-.social-list {
+/* Isometric Social Card (Uiverse.io by MijailVillegas) */
+.social-card {
+  max-width: fit-content;
+  border-radius: 15px;
   display: flex;
-  justify-content: flex-start;
+  flex-direction: row; 
   align-items: center;
-  gap: 15px;
+  justify-content: flex-start;
   padding-bottom: 4px;
-  padding-left: 7px;
 }
 
-.social-item .social-link {
-  color: var(--light-gray-70);
-  font-size: 18px;
+.social-card .social-list {
+  display: flex;
+  list-style: none;
+  gap: 1.25rem;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  flex-direction: row; 
 }
 
-
-.social-item .social-link:hover {
-  color: var(--light-gray);
+.social-card .social-list .iso-pro {
+  cursor: pointer;
+  position: relative;
+  transition: 0.5s;
 }
+
+.iso-icon {
+  transition: all 0.3s;
+  height: 45px; 
+  width: 45px;  
+  border-radius: 100%;
+  color: var(--orange-yellow-crayola); 
+  box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.1),
+    inset 0 0 5px rgba(255, 255, 255, 0.2), 0 5px 5px rgba(0, 0, 0, 0.164);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px; 
+}
+
+.iso-pro .text {
+  opacity: 0;
+  border-radius: 5px;
+  padding: 5px 10px;
+  transition: all 0.3s;
+  color: var(--smoky-black);
+  font-weight: 500;
+  font-size: 13px;
+  background-color: var(--orange-yellow-crayola);
+  position: absolute;
+  top: -30px; 
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+/* isometric projection */
+.iso-pro:hover a > .iso-icon {
+  transform: translate(10px, -10px);
+  border-radius: 100%;
+}
+
+.iso-pro:hover .text {
+  opacity: 1;
+  transform: translate(0px, -10px); 
+}
+
+.iso-pro span {
+  opacity: 0;
+  position: absolute;
+  border-radius: 50%;
+  transition: all 0.3s;
+  height: 45px;
+  width: 45px;
+}
+
+/* Distinctive hover glows for each icon */
+.iso-pro:nth-child(1) span { background-color: rgba(24, 119, 242, 0.8); } /* Facebook */
+.iso-pro:nth-child(2) span { background-color: rgba(225, 48, 108, 0.8); } /* Instagram */
+.iso-pro:nth-child(3) span { background-color: rgba(255, 255, 255, 0.8); } /* GitHub */
+.iso-pro:nth-child(4) span { background-color: rgba(0, 119, 181, 0.8); } /* LinkedIn */
+
+.iso-pro:hover span {
+  opacity: 1;
+}
+
+.iso-pro:hover span:nth-child(1) {
+  opacity: 0.2;
+}
+
+.iso-pro:hover span:nth-child(2) {
+  opacity: 0.4;
+  transform: translate(3px, -3px);
+}
+
+.iso-pro:hover span:nth-child(3) {
+  opacity: 0.6;
+  transform: translate(6px, -6px);
+}
+
 
 
 
@@ -949,6 +1083,24 @@ main {
   gap: 20px;
   text-align: center;
   background: var(--eerie-black-2);
+}
+
+.pdf-mobile-canvas {
+  display: none;
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+  background: var(--jet);
+}
+
+/* Swap the iframe with the canvas perfectly on mobile */
+@media (max-width: 768px) {
+  .pdf-iframe {
+    display: none;
+  }
+  .pdf-mobile-canvas {
+    display: block;
+  }
 }
 
 .fallback-text {
@@ -2319,5 +2471,235 @@ textarea.form-input::-webkit-resizer {
   .timeline-text {
     max-width: 700px;
   }
+}
 
+/* --- UIVERSE "selfish-owl-57" SERVICE CARD ANIMATION OVERRIDES --- */
+.service-list {
+  padding: 10px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.service-item {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  overflow: hidden !important;
+  perspective: 1000px !important;
+  transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+  min-height: 200px !important;
+  padding: 0 !important;
+  width: 100% !important;
+}
+
+.service-item:hover {
+  transform: scale(1.05) !important;
+  box-shadow: 0 8px 16px rgba(255, 174, 0, 0.15) !important;
+  z-index: 10 !important;
+}
+
+.service-icon-box {
+  transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+  margin: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  z-index: 2;
+  width: auto !important;
+}
+
+.service-item:hover .service-icon-box {
+  transform: scale(0) !important;
+}
+
+.service-icon-box img {
+  width: 60px !important;
+  height: 60px !important;
+  margin-bottom: 5px !important;
+}
+
+.service-icon-box .front-title {
+  color: var(--white-2);
+  font-size: var(--fs-4);
+  font-weight: 600;
+  text-align: center;
+}
+
+.service-content-box {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  padding: 20px !important;
+  box-sizing: border-box !important;
+  background: var(--bg-gradient-jet) !important;
+  border-radius: inherit !important;
+  transform: rotateX(-90deg) !important;
+  transform-origin: bottom !important;
+  transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: center !important;
+  align-items: center !important;
+  text-align: center !important;
+  z-index: 3 !important;
+}
+
+.service-item:hover .service-content-box {
+  transform: rotateX(0deg) !important;
+}
+
+.service-item-title {
+  color: var(--orange-yellow-crayola) !important;
+  font-size: var(--fs-4) !important;
+  margin-bottom: 10px !important;
+}
+
+.service-item-text {
+  color: var(--light-gray) !important;
+  font-size: var(--fs-6) !important;
+  line-height: 1.6 !important;
+}
+
+/* --- UIVERSE "slimy-tiger-93" PROJECT LOADER ANIMATION --- */
+.loadingspinner {
+  --square: 10px;
+  --offset: 15px;
+  --duration: 2.4s;
+  --delay: 0.2s;
+  --timing-function: ease-in-out;
+  --in-duration: 0.4s;
+  --in-delay: 0.1s;
+  --in-timing-function: ease-out;
+  width: calc( 3 * var(--offset) + var(--square));
+  height: calc( 2 * var(--offset) + var(--square));
+  padding: 0px;
+  margin: 0px auto;
+  position: relative;
+}
+
+.loadingspinner div {
+  display: inline-block;
+  background: var(--orange-yellow-crayola);
+  border: none;
+  border-radius: 2px;
+  width: var(--square);
+  height: var(--square);
+  position: absolute;
+  padding: 0px;
+  margin: 0px;
+  font-size: 6pt;
+  color: black;
+}
+
+.loadingspinner #square1 {
+  left: calc( 0 * var(--offset) );
+  top: calc( 0 * var(--offset) );
+  animation: square1 var(--duration) var(--delay) var(--timing-function) infinite,
+               squarefadein var(--in-duration) calc(1 * var(--in-delay)) var(--in-timing-function) both;
+}
+
+.loadingspinner #square2 {
+  left: calc( 0 * var(--offset) );
+  top: calc( 1 * var(--offset) );
+  animation: square2 var(--duration) var(--delay) var(--timing-function) infinite,
+              squarefadein var(--in-duration) calc(1 * var(--in-delay)) var(--in-timing-function) both;
+}
+
+.loadingspinner #square3 {
+  left: calc( 1 * var(--offset) );
+  top: calc( 1 * var(--offset) );
+  animation: square3 var(--duration) var(--delay) var(--timing-function) infinite,
+               squarefadein var(--in-duration) calc(2 * var(--in-delay)) var(--in-timing-function) both;
+}
+
+.loadingspinner #square4 {
+  left: calc( 2 * var(--offset) );
+  top: calc( 1 * var(--offset) );
+  animation: square4 var(--duration) var(--delay) var(--timing-function) infinite,
+               squarefadein var(--in-duration) calc(3 * var(--in-delay)) var(--in-timing-function) both;
+}
+
+.loadingspinner #square5 {
+  left: calc( 3 * var(--offset) );
+  top: calc( 1 * var(--offset) );
+  animation: square5 var(--duration) var(--delay) var(--timing-function) infinite,
+               squarefadein var(--in-duration) calc(4 * var(--in-delay)) var(--in-timing-function) both;
+}
+
+@keyframes square1 {
+  0% { left: calc( 0 * var(--offset) ); top: calc( 0 * var(--offset) ); }
+  8.333% { left: calc( 0 * var(--offset) ); top: calc( 1 * var(--offset) ); }
+  100% { left: calc( 0 * var(--offset) ); top: calc( 1 * var(--offset) ); }
+}
+
+@keyframes square2 {
+  0% { left: calc( 0 * var(--offset) ); top: calc( 1 * var(--offset) ); }
+  8.333% { left: calc( 0 * var(--offset) ); top: calc( 2 * var(--offset) ); }
+  16.67% { left: calc( 1 * var(--offset) ); top: calc( 2 * var(--offset) ); }
+  25.00% { left: calc( 1 * var(--offset) ); top: calc( 1 * var(--offset) ); }
+  83.33% { left: calc( 1 * var(--offset) ); top: calc( 1 * var(--offset) ); }
+  91.67% { left: calc( 1 * var(--offset) ); top: calc( 0 * var(--offset) ); }
+  100% { left: calc( 0 * var(--offset) ); top: calc( 0 * var(--offset) ); }
+}
+
+@keyframes square3 {
+  0%,100% { left: calc( 1 * var(--offset) ); top: calc( 1 * var(--offset) ); }
+  16.67% { left: calc( 1 * var(--offset) ); top: calc( 1 * var(--offset) ); }
+  25.00% { left: calc( 1 * var(--offset) ); top: calc( 0 * var(--offset) ); }
+  33.33% { left: calc( 2 * var(--offset) ); top: calc( 0 * var(--offset) ); }
+  41.67% { left: calc( 2 * var(--offset) ); top: calc( 1 * var(--offset) ); }
+  66.67% { left: calc( 2 * var(--offset) ); top: calc( 1 * var(--offset) ); }
+  75.00% { left: calc( 2 * var(--offset) ); top: calc( 2 * var(--offset) ); }
+  83.33% { left: calc( 1 * var(--offset) ); top: calc( 2 * var(--offset) ); }
+  91.67% { left: calc( 1 * var(--offset) ); top: calc( 1 * var(--offset) ); }
+}
+
+@keyframes square4 {
+  0% { left: calc( 2 * var(--offset) ); top: calc( 1 * var(--offset) ); }
+  33.33% { left: calc( 2 * var(--offset) ); top: calc( 1 * var(--offset) ); }
+  41.67% { left: calc( 2 * var(--offset) ); top: calc( 2 * var(--offset) ); }
+  50.00% { left: calc( 3 * var(--offset) ); top: calc( 2 * var(--offset) ); }
+  58.33% { left: calc( 3 * var(--offset) ); top: calc( 1 * var(--offset) ); }
+  100% { left: calc( 3 * var(--offset) ); top: calc( 1 * var(--offset) ); }
+}
+
+@keyframes square5 {
+  0% { left: calc( 3 * var(--offset) ); top: calc( 1 * var(--offset) ); }
+  50.00% { left: calc( 3 * var(--offset) ); top: calc( 1 * var(--offset) ); }
+  58.33% { left: calc( 3 * var(--offset) ); top: calc( 0 * var(--offset) ); }
+  66.67% { left: calc( 2 * var(--offset) ); top: calc( 0 * var(--offset) ); }
+  75.00% { left: calc( 2 * var(--offset) ); top: calc( 1 * var(--offset) ); }
+  100% { left: calc( 2 * var(--offset) ); top: calc( 1 * var(--offset) ); }
+}
+
+@keyframes squarefadein {
+  0% { transform: scale(0.75); opacity: 0.0; }
+  100% { transform: scale(1.0); opacity: 1.0; }
+}
+
+/* Image skeleton loader overlay styling (only visible while image is loading) */
+.image-loader-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--eerie-black-2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2; /* Below hover eye-icon but above image */
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+}
+
+.project-img.loaded .image-loader-overlay,
+.blog-banner-box.loaded .image-loader-overlay {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
 }
