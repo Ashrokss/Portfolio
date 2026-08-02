@@ -2818,6 +2818,36 @@ textarea.form-input::-webkit-resizer {
   animation: askCaret 0.8s step-end infinite;
 }
 
+.ask-msg--assistant p { margin: 0 0 12px; }
+.ask-msg--assistant p:last-child { margin-bottom: 0; }
+.ask-msg--assistant ul { margin: 0 0 12px 18px; }
+.ask-msg--assistant ul:last-child { margin-bottom: 0; }
+.ask-msg--assistant li { margin-bottom: 4px; }
+.ask-msg--assistant strong { color: var(--white-1); font-weight: var(--fw-600); }
+
+.ask-thinking {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 0;
+}
+
+.ask-thinking span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--orange-yellow-crayola);
+  animation: askThinking 1.2s ease-in-out infinite;
+}
+
+.ask-thinking span:nth-child(2) { animation-delay: 0.2s; }
+.ask-thinking span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes askThinking {
+  0%, 80%, 100% { transform: scale(0.6); opacity: 0.4; }
+  40% { transform: scale(1); opacity: 1; }
+}
+
 @keyframes askCaret {
   0%, 100% { opacity: 1; }
   50% { opacity: 0; }

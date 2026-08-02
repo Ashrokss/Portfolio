@@ -231,6 +231,36 @@ const askAppendMsg = function (role, text) {
   return msg;
 };
 
+// minimal, safe markdown -> HTML: escape first, then only add back the
+// handful of tags the system prompt is told to use (bold, paragraphs, lists)
+const askEscapeHtml = function (str) {
+  return str
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+};
+
+const askFormatMarkdown = function (raw) {
+  const withBold = askEscapeHtml(raw).replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
+
+  return withBold
+    .split(/\n{2,}/)
+    .map(function (block) {
+      const lines = block.split("\n").filter(function (l) { return l.trim() !== ""; });
+      const isList = lines.length > 0 && lines.every(function (l) { return /^[-*]\s+/.test(l.trim()); });
+
+      if (isList) {
+        const items = lines.map(function (l) {
+          return "<li>" + l.trim().replace(/^[-*]\s+/, "") + "</li>";
+        }).join("");
+        return "<ul>" + items + "</ul>";
+      }
+
+      return "<p>" + block.trim().replace(/\n/g, "<br>") + "</p>";
+    })
+    .join("");
+};
+
 askForm.addEventListener("submit", async function (e) {
   e.preventDefault();
 
@@ -243,8 +273,13 @@ askForm.addEventListener("submit", async function (e) {
   askInput.style.height = "auto";
   askSendBtn.setAttribute("disabled", "");
 
-  const assistantMsg = askAppendMsg("assistant", "");
-  assistantMsg.classList.add("streaming");
+  const assistantMsg = document.createElement("div");
+  assistantMsg.className = "ask-msg ask-msg--assistant thinking";
+  assistantMsg.innerHTML = '<span class="ask-thinking"><span></span><span></span><span></span></span>';
+  askThread.appendChild(assistantMsg);
+  askThread.scrollTop = askThread.scrollHeight;
+
+  let started = false;
 
   try {
     const res = await fetch("/.netlify/functions/chat", {
@@ -282,8 +317,13 @@ askForm.addEventListener("submit", async function (e) {
           const json = JSON.parse(payload);
           const delta = json.choices && json.choices[0] && json.choices[0].delta && json.choices[0].delta.content;
           if (delta) {
+            if (!started) {
+              started = true;
+              assistantMsg.classList.remove("thinking");
+              assistantMsg.classList.add("streaming");
+            }
             fullText += delta;
-            assistantMsg.textContent = fullText;
+            assistantMsg.innerHTML = askFormatMarkdown(fullText);
             askThread.scrollTop = askThread.scrollHeight;
           }
         } catch (parseErr) {
@@ -297,7 +337,7 @@ askForm.addEventListener("submit", async function (e) {
     askHistory = askHistory.slice(-20);
 
   } catch (err) {
-    assistantMsg.classList.remove("streaming");
+    assistantMsg.classList.remove("thinking", "streaming");
     assistantMsg.classList.add("ask-msg--error");
     assistantMsg.textContent = err.message || "Something went wrong. Try again shortly.";
     askHistory.pop(); // drop the failed turn so a retry isn't poisoned
