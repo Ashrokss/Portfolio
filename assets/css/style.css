@@ -2830,6 +2830,14 @@ textarea.form-input::-webkit-resizer {
 .ask-msg--assistant li { margin-bottom: 4px; }
 .ask-msg--assistant strong { color: var(--white-1); font-weight: var(--fw-600); }
 
+.ask-msg--assistant a {
+  color: var(--orange-yellow-crayola);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.ask-msg--assistant a:is(:hover, :focus-visible) { color: var(--vegas-gold); }
+
 .ask-kicker {
   display: flex;
   align-items: center;

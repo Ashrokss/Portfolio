@@ -232,18 +232,29 @@ const askAppendMsg = function (role, text) {
 };
 
 // minimal, safe markdown -> HTML: escape first, then only add back the
-// handful of tags the system prompt is told to use (bold, paragraphs, lists)
+// handful of tags the system prompt is told to use (bold, paragraphs, lists, links)
+// Quotes are escaped too (not just &/</>) because link URLs/text get spliced
+// into a href="..." attribute below — an unescaped " would break out of it.
 const askEscapeHtml = function (str) {
   return str
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
-    .replace(/>/g, "&gt;");
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
 };
 
 const askFormatMarkdown = function (raw) {
-  const withBold = askEscapeHtml(raw).replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
+  const escaped = askEscapeHtml(raw);
+  const withBold = escaped.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
+  // Only http(s) links — the escape above already neutralized quotes, so
+  // these captured groups can't break out of the href attribute they land in.
+  const withLinks = withBold.replace(
+    /\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g,
+    '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>'
+  );
 
-  return withBold
+  return withLinks
     .split(/\n{2,}/)
     .map(function (block) {
       const lines = block.split("\n").filter(function (l) { return l.trim() !== ""; });

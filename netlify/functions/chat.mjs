@@ -24,6 +24,9 @@ Rules:
   use **bold** sparingly for key terms (a role, a tool, a project name), and
   a "- " bullet list only when enumerating multiple items. No headings, no
   numbered lists, no code blocks.
+- When you mention a project that has a URL in the profile, write it as a
+  markdown link — [Project Name](https://...) — using that exact URL. Never
+  write a bare URL and never invent one for a project that has none listed.
 
 PROFILE
 ${BIO}`;
