@@ -741,12 +741,12 @@ main {
   margin-bottom: 20px;
 }
 
-/* LinkedIn's embed is a fixed 504x628 box (collapsed=1) — scale it as a
-   unit via the padding-aspect-ratio trick so it shrinks on narrow screens
-   instead of overflowing or getting clipped. The ratio box must be a
-   separate child: padding-top percentage resolves against the CONTAINING
-   BLOCK's width, so it has to sit inside this wrapper, not carry a
-   competing width constraint itself, or the percentage computes wrong. */
+/* LinkedIn's embed content does NOT scale height proportionally with
+   width (wider container -> text wraps into fewer lines, if anything it
+   needs LESS height, not more) — so a percentage/aspect-ratio box is the
+   wrong tool here and left a large empty gap under the card once it was
+   widened. A fixed height that comfortably fits the collapsed post at any
+   width is simpler and correct for how this particular embed behaves. */
 .achievement-embed {
   border-radius: 20px;
   overflow: hidden;
@@ -757,7 +757,7 @@ main {
 .achievement-embed-ratio {
   position: relative;
   width: 100%;
-  padding-top: 124.6%;
+  height: 680px;
 }
 
 .achievement-embed iframe {
