@@ -2772,6 +2772,11 @@ textarea.form-input::-webkit-resizer {
 .ask-header-title ion-icon { color: var(--orange-yellow-crayola); font-size: 20px; }
 
 .ask-close-btn {
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
   color: var(--light-gray);
   font-size: 22px;
   transition: var(--transition-1);
@@ -2860,7 +2865,7 @@ textarea.form-input::-webkit-resizer {
 }
 
 .ask-chip {
-  padding: 8px 14px;
+  padding: 12px 16px;
   border-radius: 50px;
   border: 1px solid var(--jet);
   background: var(--onyx);
@@ -2890,7 +2895,7 @@ textarea.form-input::-webkit-resizer {
   background: var(--onyx);
   color: var(--white-2);
   font-family: var(--ff-poppins);
-  font-size: var(--fs-6);
+  font-size: 16px;
   padding: 10px 14px;
   border-radius: 12px;
   border: 1px solid var(--jet);
@@ -2900,8 +2905,8 @@ textarea.form-input::-webkit-resizer {
 
 .ask-send-btn {
   flex-shrink: 0;
-  width: 38px;
-  height: 38px;
+  width: 44px;
+  height: 44px;
   display: grid;
   place-items: center;
   border-radius: 50%;
