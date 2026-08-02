@@ -733,6 +733,43 @@ main {
   margin-bottom: 20px;
 }
 
+.achievement {
+  margin-bottom: 35px;
+}
+
+.achievement-title {
+  margin-bottom: 20px;
+}
+
+/* LinkedIn's embed is a fixed 504x985 box — scale it as a unit via the
+   padding-aspect-ratio trick so it shrinks on narrow screens instead of
+   overflowing or getting clipped. The ratio box must be a separate child:
+   padding-top percentage resolves against the CONTAINING BLOCK's width, so
+   it has to sit inside the max-width-constrained wrapper, not carry the
+   max-width itself, or the percentage computes against the wider parent. */
+.achievement-embed {
+  max-width: 340px;
+  margin-inline: auto;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid var(--jet);
+  box-shadow: var(--shadow-1);
+}
+
+.achievement-embed-ratio {
+  position: relative;
+  width: 100%;
+  padding-top: 195.4%;
+}
+
+.achievement-embed iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
 .service-list {
   display: grid;
   grid-template-columns: 1fr;
