@@ -275,10 +275,13 @@ askForm.addEventListener("submit", async function (e) {
 
   const assistantMsg = document.createElement("div");
   assistantMsg.className = "ask-msg ask-msg--assistant thinking";
-  assistantMsg.innerHTML = '<span class="ask-thinking"><span></span><span></span><span></span></span>';
+  assistantMsg.innerHTML =
+    '<div class="ask-kicker">Ashish AI</div>' +
+    '<div class="ask-msg-content"><span class="ask-thinking"><span></span><span></span><span></span></span></div>';
   askThread.appendChild(assistantMsg);
   askThread.scrollTop = askThread.scrollHeight;
 
+  const assistantContent = assistantMsg.querySelector(".ask-msg-content");
   let started = false;
 
   try {
@@ -323,7 +326,7 @@ askForm.addEventListener("submit", async function (e) {
               assistantMsg.classList.add("streaming");
             }
             fullText += delta;
-            assistantMsg.innerHTML = askFormatMarkdown(fullText);
+            assistantContent.innerHTML = askFormatMarkdown(fullText);
             askThread.scrollTop = askThread.scrollHeight;
           }
         } catch (parseErr) {
@@ -339,7 +342,7 @@ askForm.addEventListener("submit", async function (e) {
   } catch (err) {
     assistantMsg.classList.remove("thinking", "streaming");
     assistantMsg.classList.add("ask-msg--error");
-    assistantMsg.textContent = err.message || "Something went wrong. Try again shortly.";
+    assistantContent.textContent = err.message || "Something went wrong. Try again shortly.";
     askHistory.pop(); // drop the failed turn so a retry isn't poisoned
   } finally {
     askSendBtn.removeAttribute("disabled");
