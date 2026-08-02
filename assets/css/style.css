@@ -2720,12 +2720,12 @@ textarea.form-input::-webkit-resizer {
   gap: 8px;
   padding: 12px 18px;
   border-radius: 50px;
-  background: var(--bg-gradient-yellow-1), var(--eerie-black-2);
+  background: radial-gradient(circle at 30% 20%, hsl(45, 100%, 78%), hsl(45, 90%, 58%) 75%);
   color: var(--smoky-black);
   font-family: var(--ff-poppins);
   font-size: var(--fs-7);
   font-weight: var(--fw-500);
-  box-shadow: var(--shadow-2);
+  box-shadow: 0 8px 24px hsla(45, 90%, 55%, 0.45);
   transition: var(--transition-1);
 }
 
