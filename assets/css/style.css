@@ -1037,9 +1037,9 @@ main {
 }
 
 .resume-toggle-btn.active {
-  background: var(--bg-gradient-yellow-1);
+  background: radial-gradient(circle at 30% 20%, hsl(45, 100%, 78%), hsl(45, 90%, 58%) 75%);
   color: var(--smoky-black);
-  box-shadow: var(--shadow-2);
+  box-shadow: 0 8px 24px hsla(45, 90%, 55%, 0.45);
 }
 
 .resume-toggle-btn:not(.active):hover {
