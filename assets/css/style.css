@@ -2927,8 +2927,8 @@ textarea.form-input::-webkit-resizer {
     width: 380px;
     height: min(70vh, 560px);
     border-radius: 16px;
-    border: 1px solid var(--jet);
-    box-shadow: var(--shadow-5);
+    border: 1px solid hsla(45, 100%, 72%, 0.35);
+    box-shadow: 0 0 0 1px hsla(45, 100%, 72%, 0.12), 0 20px 60px hsla(45, 90%, 55%, 0.18), var(--shadow-5);
   }
 
 }
