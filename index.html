@@ -1434,6 +1434,48 @@
   </main>
 
 
+  <!--
+    - #ASK AI
+  -->
+
+  <button class="ask-launcher" data-ask-open aria-label="Ask AI about Ashish">
+    <ion-icon name="sparkles-outline"></ion-icon>
+    <span>Ask about me</span>
+  </button>
+
+  <div class="ask-panel" data-ask-panel role="dialog" aria-modal="true" aria-label="Ask AI about Ashish">
+
+    <header class="ask-header">
+      <div class="ask-header-title">
+        <ion-icon name="sparkles-outline"></ion-icon>
+        <span>Ask about Ashish</span>
+      </div>
+      <button class="ask-close-btn" data-ask-close aria-label="Close">
+        <ion-icon name="close-outline"></ion-icon>
+      </button>
+    </header>
+
+    <div class="ask-thread has-scrollbar" data-ask-thread>
+      <div class="ask-msg ask-msg--assistant">
+        Hi, I'm an AI assistant with knowledge of Ashish's background, projects and skills.
+        Ask me anything about him.
+      </div>
+      <div class="ask-chips">
+        <button class="ask-chip" data-ask-chip>What does Ashish do?</button>
+        <button class="ask-chip" data-ask-chip>Walk me through his cloud projects</button>
+        <button class="ask-chip" data-ask-chip>What's his experience with Terraform?</button>
+        <button class="ask-chip" data-ask-chip>Is he open to opportunities?</button>
+      </div>
+    </div>
+
+    <form class="ask-composer" data-ask-form>
+      <textarea class="ask-input" data-ask-input rows="1" placeholder="Ask me anything about Ashish…"></textarea>
+      <button type="submit" class="ask-send-btn" data-ask-send aria-label="Send">
+        <ion-icon name="arrow-up"></ion-icon>
+      </button>
+    </form>
+
+  </div>
 
 
 

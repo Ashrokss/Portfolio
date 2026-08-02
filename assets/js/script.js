@@ -180,3 +180,128 @@ for (let i = 0; i < navigationLinks.length; i++) {
 
   });
 }
+
+
+
+// ask AI variables
+const askOpenBtn = document.querySelector("[data-ask-open]");
+const askPanel = document.querySelector("[data-ask-panel]");
+const askCloseBtn = document.querySelector("[data-ask-close]");
+const askThread = document.querySelector("[data-ask-thread]");
+const askForm = document.querySelector("[data-ask-form]");
+const askInput = document.querySelector("[data-ask-input]");
+const askSendBtn = document.querySelector("[data-ask-send]");
+const askChips = document.querySelectorAll("[data-ask-chip]");
+
+let askHistory = [];
+
+// open / close panel
+askOpenBtn.addEventListener("click", function () {
+  elementToggleFunc(askPanel);
+  if (askPanel.classList.contains("active")) askInput.focus();
+});
+askCloseBtn.addEventListener("click", function () { elementToggleFunc(askPanel); });
+
+// suggested prompt chips
+for (let i = 0; i < askChips.length; i++) {
+  askChips[i].addEventListener("click", function () {
+    askInput.value = this.textContent;
+    askForm.requestSubmit();
+  });
+}
+
+// textarea auto-grow, enter to send
+askInput.addEventListener("input", function () {
+  this.style.height = "auto";
+  this.style.height = this.scrollHeight + "px";
+});
+askInput.addEventListener("keydown", function (e) {
+  if (e.key === "Enter" && !e.shiftKey) {
+    e.preventDefault();
+    askForm.requestSubmit();
+  }
+});
+
+const askAppendMsg = function (role, text) {
+  const msg = document.createElement("div");
+  msg.className = "ask-msg ask-msg--" + role;
+  msg.textContent = text;
+  askThread.appendChild(msg);
+  askThread.scrollTop = askThread.scrollHeight;
+  return msg;
+};
+
+askForm.addEventListener("submit", async function (e) {
+  e.preventDefault();
+
+  const text = askInput.value.trim();
+  if (!text) return;
+
+  askHistory.push({ role: "user", content: text });
+  askAppendMsg("user", text);
+  askInput.value = "";
+  askInput.style.height = "auto";
+  askSendBtn.setAttribute("disabled", "");
+
+  const assistantMsg = askAppendMsg("assistant", "");
+  assistantMsg.classList.add("streaming");
+
+  try {
+    const res = await fetch("/.netlify/functions/chat", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ messages: askHistory }),
+    });
+
+    if (!res.ok || !res.body) {
+      const data = await res.json().catch(() => ({}));
+      throw new Error(data.error || "Something went wrong.");
+    }
+
+    const reader = res.body.getReader();
+    const decoder = new TextDecoder();
+    let buffer = "";
+    let fullText = "";
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+
+      buffer += decoder.decode(value, { stream: true });
+      const lines = buffer.split("\n");
+      buffer = lines.pop();
+
+      for (const line of lines) {
+        const trimmed = line.trim();
+        if (!trimmed.startsWith("data:")) continue;
+
+        const payload = trimmed.slice(5).trim();
+        if (payload === "[DONE]") continue;
+
+        try {
+          const json = JSON.parse(payload);
+          const delta = json.choices && json.choices[0] && json.choices[0].delta && json.choices[0].delta.content;
+          if (delta) {
+            fullText += delta;
+            assistantMsg.textContent = fullText;
+            askThread.scrollTop = askThread.scrollHeight;
+          }
+        } catch (parseErr) {
+          // ignore malformed SSE chunk
+        }
+      }
+    }
+
+    assistantMsg.classList.remove("streaming");
+    askHistory.push({ role: "assistant", content: fullText });
+    askHistory = askHistory.slice(-20);
+
+  } catch (err) {
+    assistantMsg.classList.remove("streaming");
+    assistantMsg.classList.add("ask-msg--error");
+    assistantMsg.textContent = err.message || "Something went wrong. Try again shortly.";
+    askHistory.pop(); // drop the failed turn so a retry isn't poisoned
+  } finally {
+    askSendBtn.removeAttribute("disabled");
+  }
+});

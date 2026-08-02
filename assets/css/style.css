@@ -2703,3 +2703,202 @@ textarea.form-input::-webkit-resizer {
   visibility: hidden;
   pointer-events: none;
 }
+
+
+
+/*-----------------------------------*\
+  #ASK AI
+\*-----------------------------------*/
+
+.ask-launcher {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 18px;
+  border-radius: 50px;
+  background: var(--bg-gradient-yellow-1), var(--eerie-black-2);
+  color: var(--smoky-black);
+  font-family: var(--ff-poppins);
+  font-size: var(--fs-7);
+  font-weight: var(--fw-500);
+  box-shadow: var(--shadow-2);
+  transition: var(--transition-1);
+}
+
+.ask-launcher:is(:hover, :focus-visible) { transform: translateY(-3px); }
+
+.ask-launcher ion-icon { font-size: 20px; }
+
+.ask-panel {
+  position: fixed;
+  z-index: 6;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--eerie-black-2);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(16px);
+  transition: var(--transition-1);
+}
+
+.ask-panel.active {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.ask-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--jet);
+}
+
+.ask-header-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--white-2);
+  font-size: var(--fs-5);
+  font-weight: var(--fw-500);
+}
+
+.ask-header-title ion-icon { color: var(--orange-yellow-crayola); font-size: 20px; }
+
+.ask-close-btn {
+  color: var(--light-gray);
+  font-size: 22px;
+  transition: var(--transition-1);
+}
+
+.ask-close-btn:is(:hover, :focus-visible) { color: var(--white-2); }
+
+.ask-thread {
+  flex: 1;
+  overflow-y: auto;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.ask-msg {
+  font-size: var(--fs-6);
+  line-height: 1.7;
+  color: var(--light-gray);
+}
+
+.ask-msg--assistant { color: var(--white-2); }
+
+.ask-msg--user {
+  align-self: flex-end;
+  max-width: 85%;
+  background: var(--onyx);
+  color: var(--white-2);
+  padding: 10px 14px;
+  border-radius: 14px 14px 2px 14px;
+}
+
+.ask-msg--error { color: var(--bittersweet-shimmer); }
+
+.ask-msg--assistant.streaming::after {
+  content: "";
+  display: inline-block;
+  width: 2px;
+  height: 1em;
+  margin-left: 2px;
+  vertical-align: text-bottom;
+  background: var(--orange-yellow-crayola);
+  animation: askCaret 0.8s step-end infinite;
+}
+
+@keyframes askCaret {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+.ask-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.ask-chip {
+  padding: 8px 14px;
+  border-radius: 50px;
+  border: 1px solid var(--jet);
+  background: var(--onyx);
+  color: var(--light-gray-70);
+  font-size: var(--fs-8);
+  text-align: left;
+  transition: var(--transition-1);
+}
+
+.ask-chip:is(:hover, :focus-visible) {
+  border-color: var(--orange-yellow-crayola);
+  color: var(--white-2);
+}
+
+.ask-composer {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+  padding: 14px 16px;
+  border-top: 1px solid var(--jet);
+}
+
+.ask-input {
+  flex: 1;
+  resize: none;
+  max-height: 120px;
+  background: var(--onyx);
+  color: var(--white-2);
+  font-family: var(--ff-poppins);
+  font-size: var(--fs-6);
+  padding: 10px 14px;
+  border-radius: 12px;
+  border: 1px solid var(--jet);
+}
+
+.ask-input:focus { border-color: var(--orange-yellow-crayola); }
+
+.ask-send-btn {
+  flex-shrink: 0;
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--orange-yellow-crayola);
+  color: var(--smoky-black);
+  font-size: 18px;
+  transition: var(--transition-1);
+}
+
+.ask-send-btn:is(:hover, :focus-visible) { background: var(--vegas-gold); }
+
+.ask-send-btn:disabled {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+@media (min-width: 580px) {
+
+  .ask-panel {
+    inset: auto;
+    bottom: 90px;
+    right: 20px;
+    width: 380px;
+    height: min(70vh, 560px);
+    border-radius: 16px;
+    border: 1px solid var(--jet);
+    box-shadow: var(--shadow-5);
+  }
+
+}
