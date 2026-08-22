@@ -86,6 +86,10 @@ GenAI / AI Agents:
   of unstructured PDFs and images.
 
 Cloud & DevOps:
+- [Enterprise AKS Platform](https://github.com/Ashrokss/Enterprise-Aks-Platform) —
+  enterprise-style Azure AKS platform built with modular Terraform, Azure DevOps
+  CI/CD pipelines, Key Vault secrets management, and multi-environment
+  (dev/staging) infrastructure.
 - [AKS Terraform GitOps](https://github.com/Ashrokss/AKS-Terraform-GitOps) —
   multi-environment (dev/test/prod) Azure Kubernetes Service infrastructure
   provisioned with modular Terraform, deployed via ArgoCD GitOps, secrets
