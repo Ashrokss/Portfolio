@@ -147,6 +147,7 @@ for (let i = 0; i < navigationLinks.length; i++) {
 const askOpenBtns = document.querySelectorAll("[data-ask-open]");
 const askPanel = document.querySelector("[data-ask-panel]");
 const askCloseBtn = document.querySelector("[data-ask-close]");
+const askMaximizeBtn = document.querySelector("[data-ask-maximize]");
 const askThread = document.querySelector("[data-ask-thread]");
 const askForm = document.querySelector("[data-ask-form]");
 const askInput = document.querySelector("[data-ask-input]");
@@ -163,6 +164,21 @@ for (let i = 0; i < askOpenBtns.length; i++) {
   });
 }
 askCloseBtn.addEventListener("click", function () { elementToggleFunc(askPanel); });
+
+// maximize / restore panel toggle
+if (askMaximizeBtn) {
+  askMaximizeBtn.addEventListener("click", function () {
+    askPanel.classList.toggle("maximized");
+    const icon = this.querySelector("ion-icon");
+    if (icon) {
+      if (askPanel.classList.contains("maximized")) {
+        icon.setAttribute("name", "contract-outline");
+      } else {
+        icon.setAttribute("name", "expand-outline");
+      }
+    }
+  });
+}
 
 // suggested prompt chips
 for (let i = 0; i < askChips.length; i++) {
