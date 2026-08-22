@@ -2896,7 +2896,12 @@ textarea.form-input::-webkit-resizer {
   font-weight: var(--fw-500);
 }
 
-.ask-header-title ion-icon { color: var(--orange-yellow-crayola); font-size: 20px; }
+.ask-header-mascot {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 6px hsla(0, 0%, 0%, 0.5));
+}
 
 .ask-close-btn {
   width: 36px;
@@ -2977,6 +2982,25 @@ textarea.form-input::-webkit-resizer {
 }
 
 .ask-kicker::before { content: "✦"; }
+
+/* opening greeting: mascot introduces itself, centred above the text */
+.ask-msg--intro {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 8px 0 4px;
+}
+
+.ask-panel-mascot {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 20px hsla(45, 100%, 60%, 0.3));
+  animation: mascot-float 3.4s ease-in-out infinite;
+}
+
+.ask-msg--intro .ask-msg-content { max-width: 34ch; }
 
 .ask-thinking {
   display: inline-flex;
