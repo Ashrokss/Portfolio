@@ -2752,48 +2752,113 @@ textarea.form-input::-webkit-resizer {
   z-index: 5;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 0;
+  align-items: flex-start;
+  pointer-events: none;
 }
 
+.ask-launcher-wrapper > * { pointer-events: auto; }
+
+/* mascot peeks over the pill's top-left edge so the two read as one object */
 .ask-mascot {
-  width: 72px;
-  height: 72px;
+  position: relative;
+  z-index: 1;
+  width: 76px;
+  height: 76px;
+  margin-left: 10px;
+  margin-bottom: -26px;
   object-fit: contain;
   cursor: pointer;
-  transition: transform 0.3s ease;
-  filter: drop-shadow(0 4px 12px hsla(0, 0%, 0%, 0.4));
-  animation: mascot-float 3s ease-in-out infinite;
+  transform-origin: bottom center;
+  transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  filter: drop-shadow(0 6px 10px hsla(0, 0%, 0%, 0.45));
+  animation: mascot-float 3.4s ease-in-out infinite;
 }
 
-.ask-mascot:hover {
-  transform: scale(1.15);
+.ask-launcher-wrapper:has(:hover, :focus-visible) .ask-mascot {
+  transform: translateY(-9px) scale(1.12) rotate(-5deg);
   animation: none;
 }
 
 @keyframes mascot-float {
-  0%, 100% { transform: translateY(0); }
-  50%      { transform: translateY(-6px); }
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50%      { transform: translateY(-7px) rotate(-3deg); }
 }
 
 .ask-launcher {
+  position: relative;
+  overflow: hidden;
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 12px 18px;
+  gap: 9px;
+  padding: 13px 22px 13px 20px;
+  border: 1px solid transparent;
   border-radius: 50px;
-  background: radial-gradient(circle at 30% 20%, hsl(45, 100%, 78%), hsl(45, 90%, 58%) 75%);
-  color: var(--smoky-black);
+  background:
+    linear-gradient(145deg, hsl(240, 2%, 17%), hsl(240, 3%, 9%)) padding-box,
+    var(--text-gradient-yellow) border-box;
   font-family: var(--ff-poppins);
   font-size: var(--fs-7);
   font-weight: var(--fw-500);
-  box-shadow: 0 8px 24px hsla(45, 90%, 55%, 0.45);
-  transition: var(--transition-1);
+  letter-spacing: 0.2px;
+  box-shadow:
+    0 6px 18px hsla(0, 0%, 0%, 0.5),
+    0 0 26px hsla(45, 100%, 60%, 0.16);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.ask-launcher:is(:hover, :focus-visible) { transform: translateY(-3px); }
+.ask-launcher span {
+  background: var(--text-gradient-yellow);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
 
-.ask-launcher ion-icon { font-size: 20px; }
+.ask-launcher ion-icon {
+  font-size: 19px;
+  color: var(--orange-yellow-crayola);
+  animation: ask-twinkle 2.6s ease-in-out infinite;
+}
+
+/* light sweeps across the pill on hover */
+.ask-launcher::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: -60%;
+  width: 45%;
+  background: linear-gradient(100deg, transparent, hsla(45, 100%, 82%, 0.22), transparent);
+  transform: skewX(-18deg);
+  transition: left 0.6s ease;
+}
+
+.ask-launcher:is(:hover, :focus-visible) {
+  transform: translateY(-3px);
+  box-shadow:
+    0 12px 26px hsla(0, 0%, 0%, 0.55),
+    0 0 40px hsla(45, 100%, 60%, 0.28);
+}
+
+.ask-launcher:is(:hover, :focus-visible)::after { left: 115%; }
+
+.ask-launcher:focus-visible {
+  outline: 2px solid var(--orange-yellow-crayola);
+  outline-offset: 3px;
+}
+
+@keyframes ask-twinkle {
+  0%, 100% { opacity: 1;    transform: scale(1) rotate(0deg); }
+  45%      { opacity: 0.5;  transform: scale(0.85) rotate(-14deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+
+  .ask-mascot,
+  .ask-launcher ion-icon { animation: none; }
+
+  .ask-launcher::after { transition: none; }
+
+}
 
 .ask-panel {
   position: fixed;
