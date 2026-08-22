@@ -183,8 +183,7 @@ for (let i = 0; i < navigationLinks.length; i++) {
 
 
 
-// ask AI variables
-const askOpenBtn = document.querySelector("[data-ask-open]");
+const askOpenBtns = document.querySelectorAll("[data-ask-open]");
 const askPanel = document.querySelector("[data-ask-panel]");
 const askCloseBtn = document.querySelector("[data-ask-close]");
 const askThread = document.querySelector("[data-ask-thread]");
@@ -196,10 +195,12 @@ const askChips = document.querySelectorAll("[data-ask-chip]");
 let askHistory = [];
 
 // open / close panel
-askOpenBtn.addEventListener("click", function () {
-  elementToggleFunc(askPanel);
-  if (askPanel.classList.contains("active")) askInput.focus();
-});
+for (let i = 0; i < askOpenBtns.length; i++) {
+  askOpenBtns[i].addEventListener("click", function () {
+    elementToggleFunc(askPanel);
+    if (askPanel.classList.contains("active")) askInput.focus();
+  });
+}
 askCloseBtn.addEventListener("click", function () { elementToggleFunc(askPanel); });
 
 // suggested prompt chips

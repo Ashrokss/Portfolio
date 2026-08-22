@@ -2745,11 +2745,38 @@ textarea.form-input::-webkit-resizer {
   #ASK AI
 \*-----------------------------------*/
 
-.ask-launcher {
+.ask-launcher-wrapper {
   position: fixed;
   bottom: 80px;
   right: 20px;
   z-index: 5;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+
+.ask-mascot {
+  width: 72px;
+  height: 72px;
+  object-fit: contain;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  filter: drop-shadow(0 4px 12px hsla(0, 0%, 0%, 0.4));
+  animation: mascot-float 3s ease-in-out infinite;
+}
+
+.ask-mascot:hover {
+  transform: scale(1.15);
+  animation: none;
+}
+
+@keyframes mascot-float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-6px); }
+}
+
+.ask-launcher {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -2983,7 +3010,7 @@ textarea.form-input::-webkit-resizer {
 
   .ask-panel {
     inset: auto;
-    bottom: 150px;
+    bottom: 200px;
     right: 20px;
     width: 380px;
     height: min(70vh, 560px);
@@ -2997,7 +3024,7 @@ textarea.form-input::-webkit-resizer {
 
 @media (min-width: 1024px) {
 
-  .ask-launcher {
+  .ask-launcher-wrapper {
     bottom: 20px;
   }
 
@@ -3006,3 +3033,4 @@ textarea.form-input::-webkit-resizer {
   }
 
 }
+
