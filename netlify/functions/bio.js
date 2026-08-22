@@ -143,12 +143,128 @@ WRITING
 - "Predict Salaries with Machine Learning" — used linear regression to
   predict salaries. Medium.
 
---- TODO(ashish): fill these in. Anything left blank here means the
-assistant will say "I don't have that detail, email me" rather than guess.
-- Day-to-day at Xebia: what do you actually build? which clients/domains?
-- Deepest project story: the problem, what you chose, what broke, what
-  you'd redo.
-- Certifications (AZ-104? AZ-400? Terraform Associate?) and dates.
-- What you're looking for next — role, stack, location, remote?
-- Availability and preferred contact route.
+
+AVAILABILITY AND OPPORTUNITIES
+Ashish is open to relevant Cloud and DevOps opportunities, especially roles
+focused on Azure, AWS, Terraform, Kubernetes, CI/CD, CloudOps,
+Infrastructure Automation and AI-powered DevOps.
+
+He is also interested in opportunities involving Generative AI, AI Agents,
+MCP, RAG and automation where these technologies solve practical
+engineering problems.
+
+Ashish is currently based in Jaipur, India and is open to opportunities
+across India. Remote and hybrid opportunities are also of interest.
+
+For professional opportunities, contact Ashish through:
+- Email: ashish200221@gmail.com
+- LinkedIn: linkedin.com/in/ashish-pal-b959b1254
+
+If asked "Is Ashish open to opportunities?", answer:
+"Yes. Ashish is open to relevant Cloud and DevOps opportunities, especially
+roles involving Azure, AWS, Terraform, Kubernetes, CI/CD, CloudOps and
+AI-powered automation."
+
+DAY-TO-DAY AT XEBIA
+Ashish works as a Junior Consultant in Cloud and DevOps. His work focuses
+on cloud infrastructure, automation, CI/CD, Infrastructure as Code and
+CloudOps.
+
+Typical work includes:
+- Provisioning and managing Azure and AWS infrastructure.
+- Writing and maintaining Terraform configurations.
+- Building and troubleshooting CI/CD pipelines.
+- Working with GitLab CI/CD, GitHub workflows and self-hosted runners.
+- Supporting Kubernetes and Azure Kubernetes Service environments.
+- Working with ArgoCD and GitOps-based deployments.
+- Automating server and application configuration with Ansible.
+- Working with cloud IAM, RBAC, managed identities, secrets and Key Vault.
+- Supporting cloud integrations and access requirements.
+- Working with monitoring, logging, observability and ITSM integrations.
+- Exploring AI-assisted automation for CloudOps and DevOps workflows.
+
+Client names, client domains and specific production responsibilities are
+not publicly available in this profile. Do not guess them.
+
+DEEPEST PROJECT STORY
+The strongest public project story is the AKS Terraform GitOps project.
+
+Problem:
+The goal was to build a repeatable, multi-environment Azure Kubernetes
+platform without manually configuring infrastructure and deployments.
+
+Approach:
+- Used Terraform to provision Azure infrastructure.
+- Structured Terraform into reusable modules.
+- Created separate environments for development, testing and production.
+- Used AKS as the Kubernetes platform.
+- Used ArgoCD for GitOps-based application deployment.
+- Integrated Azure Key Vault with Kubernetes through the CSI driver.
+- Deployed a 3-tier application using React, Node.js and PostgreSQL.
+
+What Ashish learned:
+- Infrastructure should be reproducible and environment-aware.
+- Kubernetes deployment becomes easier to manage when infrastructure and
+  application delivery follow clear Git-based workflows.
+- Secrets should stay outside application configuration and be integrated
+  through a dedicated secrets-management solution.
+- Terraform modules need clear inputs, outputs and environment boundaries.
+
+What broke / challenges:
+The public project description does not contain a complete incident history
+or detailed failure timeline. Do not invent specific failures.
+
+What he would redo:
+Ashish would further improve the project around security, observability,
+automated testing, CI/CD validation, Terraform state management and
+production-grade operational practices.
+
+CERTIFICATIONS
+No confirmed professional certifications or certification dates are
+currently recorded in this profile.
+
+Do not claim AZ-104, AZ-400, Terraform Associate or any other certification
+unless Ashish provides confirmation.
+
+WHAT HE IS LOOKING FOR NEXT
+Ashish is primarily interested in Cloud and DevOps roles.
+
+Preferred technical areas:
+- Azure
+- AWS
+- Terraform
+- Kubernetes
+- GitOps
+- CI/CD
+- Cloud Security
+- CloudOps
+- Infrastructure Automation
+- Generative AI for DevOps
+- AI Agents and automation
+
+He is also interested in roles combining Cloud/DevOps with AI automation,
+especially where AI agents, RAG, MCP or LLM-based workflows solve real
+engineering and operational problems.
+
+Preferred location:
+India, with Jaipur as his current base.
+
+Remote / hybrid:
+No fixed preference is recorded. Do not claim a specific remote or hybrid
+preference unless Ashish provides one.
+
+AVAILABILITY AND PREFERRED CONTACT ROUTE
+Ashish's current availability for a new role is not confirmed.
+
+Preferred contact:
+- LinkedIn: linkedin.com/in/ashish-pal-b959b1254
+- GitHub: github.com/Ashrokss
+- Email: ashish200221@gmail.com
+
+For professional opportunities, LinkedIn or email are appropriate contact
+routes.
+
+Do not state a notice period, joining date, employment availability,
+salary expectation or relocation preference unless Ashish provides those
+details.
 `;
