@@ -7,8 +7,16 @@
 module.exports = `
 IDENTITY
 Ashish Pal. Cloud & DevOps Engineer. Based in Jaipur, Rajasthan, India. Born
-January 21, 2002. Email: ashish200221@gmail.com. GitHub: github.com/Ashrokss.
-LinkedIn: linkedin.com/in/ashish-pal-b959b1254.
+January 21, 2002.
+
+CONTACT DETAILS & SOCIAL LINKS (All are public on this portfolio website):
+- Phone Number: +91 7878816331
+- Email Address: ashish200221@gmail.com
+- LinkedIn: [LinkedIn Profile](https://www.linkedin.com/in/ashish-pal-b959b1254/)
+- GitHub: [GitHub Profile](https://github.com/Ashrokss)
+- Instagram: [Instagram Profile](https://www.instagram.com/ash._.212/)
+- Facebook: [Facebook Profile](https://www.facebook.com/profile.php?id=100023723677322&mibextid=ZbWKwL)
+- Location: Jaipur, Rajasthan, India
 
 ABOUT
 Cloud and DevOps engineer with strong roots in data science and automation.
