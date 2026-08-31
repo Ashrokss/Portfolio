@@ -5,27 +5,50 @@
   dark site is completely unaffected when the attribute is absent.
 \*-----------------------------------*/
 
+/* .sidebar (and a few other elements) carry `transition: <duration>`
+   with no property named, which defaults to "all" — meant for their own
+   accordion/hover animations, but it also means switching [data-brutal]
+   crossfades every background/color/border change over that duration
+   instead of snapping. Mid-fade that reads as a muddy, wrong color
+   (e.g. sidebar background briefly rgb(209,203,188), neither theme's
+   real color) rather than a transition anyone asked for. brutal.js adds
+   this class for one frame around the attribute flip so the swap is
+   instant; normal hover/press transitions defined in this file are
+   unaffected since the class is gone by the time a user hovers anything. */
+.brutal-switching,
+.brutal-switching * {
+  transition: none !important;
+}
+
 /* the toggle itself lives in the navbar in both themes, so it needs a
    default (dark-theme) look unscoped — everything else in this file only
-   applies once [data-brutal] is set */
+   applies once [data-brutal] is set. Chunky border + hard shadow in BOTH
+   themes on purpose: this is the one control that should look like it's
+   about to do something drastic, foreshadowing the flip. */
 .brutal-toggle {
   display: inline-flex;
   align-items: center;
-  padding: 12px 14px;
+  padding: 12px 16px;
   font-size: var(--fs-8);
   font-weight: var(--fw-600);
   letter-spacing: 0.5px;
   text-transform: uppercase;
   color: var(--eerie-black-1);
   background: var(--orange-yellow-crayola);
-  border: none;
+  border: 3px solid var(--smoky-black);
+  box-shadow: 3px 3px 0 var(--smoky-black);
   cursor: pointer;
-  transition: var(--transition-1);
+  transition: background-color 0.2s ease, transform 0.1s ease, box-shadow 0.1s ease;
 }
 
 .brutal-toggle:hover,
 .brutal-toggle:focus-visible {
   background: var(--vegas-gold);
+}
+
+.brutal-toggle:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 var(--smoky-black);
 }
 
 /* Below the breakpoint where style.css moves .navbar from a bottom bar to
@@ -34,12 +57,20 @@
    second row, which then collides with the fixed Ask-AI launcher above
    it. Pulling the button out of the flex flow below that breakpoint
    avoids touching style.css's navbar layout at all. Its <li> collapses
-   to nothing once the button inside it stops taking flow space. */
+   to nothing once the button inside it stops taking flow space.
+   top-right is NOT free real estate here: .info_more-btn ("Show
+   Contacts") sits absolutely positioned at the sidebar's top-right too
+   (style.css:466, top:-15px/-30px depending on width), and this button's
+   own footprint got wider once it grew a real border for the "make it
+   stand out" pass — confirmed the two rects actually intersect before
+   picking bottom-left instead. Bottom-left clears both the full-width
+   bottom navbar below it and the Ask-AI launcher, which lives at
+   bottom:80px RIGHT (style.css:2748-2751) — opposite corner. */
 @media (max-width: 1023px) {
   .brutal-toggle {
     position: fixed;
-    top: 16px;
-    right: 16px;
+    bottom: 84px;
+    left: 16px;
     z-index: 10;
   }
 }
@@ -150,12 +181,33 @@
   sidebar
 \*-----------------------------------*/
 
-[data-brutal] .avatar-box img {
-  border: var(--brutal-border) solid var(--brutal-ink);
+/* Photo backgrounds vary (white walls, whatever's behind the shot) and
+   will never exactly match --brutal-bg, so match on color treatment
+   instead of pixels: grayscale the photo, then blend the brand yellow
+   over it. Guarantees the avatar reads as "this palette" regardless of
+   what's actually behind the subject in the source photo. */
+[data-brutal] .avatar-box {
+  position: relative;
+  background: var(--brutal-ink);
 }
 
-[data-brutal] .info_more-btn,
-[data-brutal] .brutal-toggle {
+[data-brutal] .avatar-box img {
+  border: var(--brutal-border) solid var(--brutal-ink);
+  filter: grayscale(1) contrast(1.1);
+  mix-blend-mode: luminosity;
+}
+
+[data-brutal] .avatar-box::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: var(--brutal-border) solid var(--brutal-ink);
+  background: var(--orange-yellow-crayola);
+  mix-blend-mode: multiply;
+  pointer-events: none;
+}
+
+[data-brutal] .info_more-btn {
   background: var(--brutal-bg);
   border: var(--brutal-border) solid var(--brutal-ink);
   box-shadow: 4px 4px 0 var(--brutal-ink);
@@ -163,10 +215,17 @@
   transition: none;
 }
 
-[data-brutal] .info_more-btn:hover,
-[data-brutal] .brutal-toggle:hover {
+[data-brutal] .info_more-btn:hover {
   transform: translate(2px, 2px);
   box-shadow: 2px 2px 0 var(--brutal-ink);
+}
+
+/* .brutal-toggle already has its border/shadow structure in the unscoped
+   rule above (it needs to look the same chunky shape in both themes) —
+   brutal mode only needs to repaint it cream instead of yellow. */
+[data-brutal] .brutal-toggle {
+  background: var(--brutal-bg);
+  color: var(--brutal-ink);
 }
 
 [data-brutal] .icon-box {
@@ -184,7 +243,7 @@
 }
 
 [data-brutal] .contact-iso-box span {
-  background-color: var(--brutal-pink) !important;
+  background-color: var(--orange-yellow-crayola) !important;
   box-shadow: none;
 }
 
@@ -212,8 +271,8 @@
 }
 
 [data-brutal] .navbar-link.active {
-  background: var(--brutal-pink);
-  color: var(--brutal-bg);
+  background: var(--orange-yellow-crayola);
+  color: var(--brutal-ink);
 }
 
 /* Gallery only exists in brutal mode — hidden by default regardless of theme */
@@ -252,8 +311,48 @@
   color: var(--brutal-bg);
 }
 
-[data-brutal] .timeline-item {
-  border-left: var(--brutal-border) solid var(--brutal-ink);
+/* recolor the existing dot/line timeline markers rather than laying a
+   competing border over them */
+[data-brutal] .timeline-item::before {
+  background: var(--brutal-ink);
+  width: 2px;
+}
+
+[data-brutal] .timeline-item::after {
+  background: var(--orange-yellow-crayola);
+  box-shadow: 0 0 0 4px var(--brutal-bg), 0 0 0 6px var(--brutal-ink);
+}
+
+[data-brutal] .timeline-list span {
+  color: var(--brutal-ink);
+  font-weight: var(--fw-600);
+}
+
+/* .content-card backs both the skills lists here and shares the same
+   inset ::before trick as .service-item / .blog-post-item > a above */
+[data-brutal] .content-card {
+  background: var(--brutal-bg);
+  border: var(--brutal-border) solid var(--brutal-ink);
+  box-shadow: var(--brutal-shadow) var(--brutal-shadow) 0 var(--brutal-ink);
+}
+
+[data-brutal] .content-card::before {
+  display: none;
+}
+
+[data-brutal] .skill-progress-bg {
+  background: var(--brutal-bg);
+  border: 2px solid var(--brutal-ink);
+  height: 10px;
+}
+
+[data-brutal] .skill-progress-fill {
+  background: var(--orange-yellow-crayola);
+}
+
+[data-brutal] .skill data {
+  color: var(--brutal-ink);
+  font-weight: var(--fw-600);
 }
 
 
@@ -284,7 +383,8 @@
 }
 
 [data-brutal] .project-item-icon-box {
-  background: var(--brutal-pink) !important;
+  background: var(--orange-yellow-crayola) !important;
+  color: var(--brutal-ink);
 }
 
 
@@ -348,6 +448,35 @@
   box-shadow: var(--brutal-shadow) var(--brutal-shadow) 0 var(--brutal-ink);
 }
 
+[data-brutal] .ask-header {
+  border-bottom: 2px solid var(--brutal-ink);
+}
+
+[data-brutal] .ask-header-title,
+[data-brutal] .ask-kicker {
+  color: var(--brutal-ink);
+}
+
+[data-brutal] .ask-control-btn,
+[data-brutal] .ask-close-btn {
+  color: var(--brutal-ink);
+}
+
+[data-brutal] .ask-control-btn:is(:hover, :focus-visible),
+[data-brutal] .ask-close-btn:is(:hover, :focus-visible) {
+  background: var(--orange-yellow-crayola);
+  color: var(--brutal-ink);
+}
+
+/* .ask-msg carries the text color style.css sets for the dark theme —
+   overriding it here (rather than each -content/-kicker child) covers
+   every descendant through normal inheritance, which is why nothing was
+   showing up: those children are plain <div>s, not the p/span/li/a this
+   file already recolors globally. */
+[data-brutal] .ask-msg {
+  color: var(--brutal-ink);
+}
+
 [data-brutal] .ask-msg--user {
   background: var(--orange-yellow-crayola);
   border: 2px solid var(--brutal-ink);
@@ -356,6 +485,50 @@
 
 [data-brutal] .ask-msg--assistant {
   border: 2px solid var(--brutal-ink);
+}
+
+[data-brutal] .ask-msg--assistant strong {
+  color: var(--brutal-ink);
+}
+
+[data-brutal] .ask-msg--assistant a {
+  color: var(--brutal-ink);
+  text-decoration-color: var(--orange-yellow-crayola);
+  text-decoration-thickness: 2px;
+}
+
+[data-brutal] .ask-chip {
+  background: var(--brutal-bg);
+  border: 2px solid var(--brutal-ink);
+  color: var(--brutal-ink);
+}
+
+[data-brutal] .ask-chip:is(:hover, :focus-visible) {
+  background: var(--orange-yellow-crayola);
+  border-color: var(--brutal-ink);
+  color: var(--brutal-ink);
+}
+
+[data-brutal] .ask-composer {
+  background: var(--brutal-bg);
+  border-top: 2px solid var(--brutal-ink);
+}
+
+[data-brutal] .ask-input {
+  background: var(--brutal-bg);
+  color: var(--brutal-ink);
+  border: 2px solid var(--brutal-ink);
+  box-shadow: none;
+}
+
+[data-brutal] .ask-input:focus {
+  border-color: var(--brutal-ink);
+  box-shadow: none;
+}
+
+[data-brutal] .ask-input::placeholder {
+  color: var(--brutal-ink);
+  opacity: 0.5;
 }
 
 
@@ -442,8 +615,8 @@
   width: 32px;
   height: 32px;
   border: 2px solid var(--brutal-ink);
-  background: var(--brutal-pink);
-  color: var(--brutal-bg);
+  background: var(--orange-yellow-crayola);
+  color: var(--brutal-ink);
   font-size: 20px;
   line-height: 1;
   cursor: pointer;
@@ -469,7 +642,7 @@
 
   [data-brutal] .gallery-card:hover,
   [data-brutal] .info_more-btn:hover,
-  [data-brutal] .brutal-toggle:hover,
+  .brutal-toggle:active,
   [data-brutal] .form-btn:hover:not([disabled]) {
     transform: none;
   }

@@ -15,7 +15,16 @@
     if (toggleBtn) toggleBtn.setAttribute('aria-pressed', String(on));
   };
 
+  const DEFAULT_AVATAR = './assets/images/my-avatar.webp';
+  const BRUTAL_AVATAR = './assets/images/brutal-avatar.jpg';
+  const avatarImg = document.querySelector('.avatar-box img');
+
+  const setAvatar = function (on) {
+    if (avatarImg) avatarImg.src = on ? BRUTAL_AVATAR : DEFAULT_AVATAR;
+  };
+
   setLabel(root.hasAttribute('data-brutal'));
+  setAvatar(root.hasAttribute('data-brutal'));
 
   // --- gallery -------------------------------------------------------
 
@@ -91,6 +100,13 @@
     toggleBtn.addEventListener('click', function () {
       const turningOn = !root.hasAttribute('data-brutal');
 
+      // .sidebar (and others) carry a blanket `transition: <duration>` for
+      // their own accordion/hover animations, which also crossfades every
+      // background/color the theme swap touches — mid-fade colors read as
+      // wrong, not just "animated". Freeze transitions for one paint so
+      // the swap is instant, then let normal hover/press ones resume.
+      root.classList.add('brutal-switching');
+
       if (turningOn) {
         root.setAttribute('data-brutal', '');
         renderGallery();
@@ -98,9 +114,16 @@
         root.removeAttribute('data-brutal');
         leaveGalleryIfActive();
       }
+      setAvatar(turningOn);
 
       try { localStorage.setItem(STORAGE_KEY, turningOn ? '1' : '0'); } catch (e) { /* storage unavailable, mode just won't persist */ }
       setLabel(turningOn);
+
+      requestAnimationFrame(function () {
+        requestAnimationFrame(function () {
+          root.classList.remove('brutal-switching');
+        });
+      });
     });
   }
 
