@@ -96,34 +96,59 @@
     if (aboutPage) aboutPage.classList.add('active');
   };
 
+  // the state change itself, kept separate so the view transition can wrap it
+  const applyMode = function (turningOn) {
+    if (turningOn) {
+      root.setAttribute('data-brutal', '');
+      renderGallery();
+    } else {
+      root.removeAttribute('data-brutal');
+      leaveGalleryIfActive();
+    }
+    setAvatar(turningOn);
+    setLabel(turningOn);
+    try { localStorage.setItem(STORAGE_KEY, turningOn ? '1' : '0'); } catch (e) { /* storage unavailable, mode just won't persist */ }
+  };
+
   if (toggleBtn) {
     toggleBtn.addEventListener('click', function () {
       const turningOn = !root.hasAttribute('data-brutal');
+      const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
       // .sidebar (and others) carry a blanket `transition: <duration>` for
       // their own accordion/hover animations, which also crossfades every
       // background/color the theme swap touches — mid-fade colors read as
-      // wrong, not just "animated". Freeze transitions for one paint so
-      // the swap is instant, then let normal hover/press ones resume.
+      // wrong, not just "animated". Freeze those for the duration of the
+      // swap; the diagonal wipe below is the intended animation instead.
       root.classList.add('brutal-switching');
 
-      if (turningOn) {
-        root.setAttribute('data-brutal', '');
-        renderGallery();
-      } else {
-        root.removeAttribute('data-brutal');
-        leaveGalleryIfActive();
-      }
-      setAvatar(turningOn);
-
-      try { localStorage.setItem(STORAGE_KEY, turningOn ? '1' : '0'); } catch (e) { /* storage unavailable, mode just won't persist */ }
-      setLabel(turningOn);
-
-      requestAnimationFrame(function () {
+      const done = function () {
         requestAnimationFrame(function () {
-          root.classList.remove('brutal-switching');
+          requestAnimationFrame(function () {
+            root.classList.remove('brutal-switching');
+            root.removeAttribute('data-sweep');
+          });
         });
+      };
+
+      // No View Transitions support (or the visitor asked for less motion):
+      // swap instantly. Same end state, just no wipe.
+      if (typeof document.startViewTransition !== 'function' || reducedMotion) {
+        applyMode(turningOn);
+        done();
+        return;
+      }
+
+      // Direction is read by the ::view-transition-new(root) keyframes in
+      // brutal.css so the wipe runs top-right -> bottom-left going in, and
+      // back the other way coming out.
+      root.setAttribute('data-sweep', turningOn ? 'in' : 'out');
+
+      const transition = document.startViewTransition(function () {
+        applyMode(turningOn);
       });
+
+      transition.finished.then(done, done);
     });
   }
 
