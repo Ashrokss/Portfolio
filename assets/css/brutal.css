@@ -1,0 +1,1175 @@
+/*-----------------------------------*\
+  #BRUTAL MODE (Neo-Brutalist Theme System)
+  Inspired by SpendLens design language:
+  - High-contrast off-cream canvas (#F4F3EE / #FAF8F5)
+  - Thick solid borders (3px #111215)
+  - Hard tactile drop shadows (5px 5px 0px #111215)
+  - Electric Yellow (#FACC15), Cobalt Blue (#3B82F6), Emerald Green (#10B981), Neon Pink (#FF3D8A) highlights
+  - Sharp Space Grotesk typography & bold sticker badge tags
+  - Interactive click / press mechanics (translate up-left on hover, sink down-right on active press)
+  
+  GALLERY TAB STYLES ARE FULLY PRESERVED AND UNALTERED.
+\*-----------------------------------*/
+
+/* Instant transition switch layer */
+.brutal-switching,
+.brutal-switching * {
+  transition: none !important;
+}
+
+/*-----------------------------------*\
+  THEME SWEEP (diagonal wipe on toggle)
+
+  Driven by document.startViewTransition() in brutal.js: the browser
+  snapshots the page before and after the swap, and we wipe the new
+  snapshot in over the old one along a 45° edge. Because it animates
+  snapshots rather than live properties, there's no muddy half-swapped
+  colour the way a plain crossfade of backgrounds would give.
+
+  Default view transitions cross-fade, so BOTH pseudo-elements need
+  overriding: old holds still underneath, new is masked in on top.
+\*-----------------------------------*/
+
+::view-transition-old(root) {
+  animation: none;
+}
+
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+/* A soft-edged 45° band, three times the viewport, slid across it. Masking
+   a position is trivially interpolatable — unlike clip-path polygons,
+   which need matching vertex counts between keyframes. */
+[data-sweep]::view-transition-new(root) {
+  mask-image: linear-gradient(
+    225deg,
+    #000 0%,
+    #000 33%,
+    rgba(0, 0, 0, 0.6) 42%,
+    transparent 50%,
+    transparent 100%
+  );
+  mask-size: 300% 300%;
+  mask-repeat: no-repeat;
+  animation: brutal-sweep-in 850ms cubic-bezier(0.65, 0, 0.35, 1) forwards;
+}
+
+/* turning it off reverses the direction, so the wipe reads as undoing */
+[data-sweep="out"]::view-transition-new(root) {
+  animation-name: brutal-sweep-out;
+}
+
+/* Verified against rendered pixels, not assumed: with this 225deg band at
+   300% size, `0% 100%` masks the layer out entirely and `100% 0%` reveals
+   it fully, with the leading edge travelling bottom-left <- top-right. So
+   revealing FROM the top-right means starting at 0% 100%. */
+@keyframes brutal-sweep-in {
+  from { mask-position: 0% 100%; }   /* nothing revealed yet */
+  to   { mask-position: 100% 0%; }   /* fully revealed, wipe ended bottom-left */
+}
+
+@keyframes brutal-sweep-out {
+  from { mask-position: 100% 0%; }
+  to   { mask-position: 0% 100%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none !important;
+  }
+}
+
+/* Chunky Toggle Button - unscoped so it stands out in both light & dark themes */
+.brutal-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 18px;
+  font-family: 'Space Grotesk', 'Archivo Black', sans-serif;
+  font-size: var(--fs-8);
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #111215;
+  background: #FACC15;
+  border: 3px solid #111215;
+  box-shadow: 4px 4px 0px #111215;
+  cursor: pointer;
+  transition: background-color 0.15s ease, transform 0.12s ease, box-shadow 0.12s ease;
+}
+
+.brutal-toggle:hover,
+.brutal-toggle:focus-visible {
+  background: #3B82F6;
+  color: #FFFFFF;
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px #111215;
+}
+
+.brutal-toggle:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0px #111215;
+}
+
+@media (max-width: 1023px) {
+  .brutal-toggle {
+    position: fixed;
+    bottom: 84px;
+    left: 16px;
+    z-index: 10;
+  }
+}
+
+/*-----------------------------------*\
+  [DATA-BRUTAL] ROOT SYSTEM
+\*-----------------------------------*/
+
+[data-brutal] {
+  --brutal-bg: #F4F3EE;
+  --brutal-card-bg: #FFFFFF;
+  --brutal-ink: #111215;
+  --brutal-yellow: #FACC15;
+  --brutal-blue: #3B82F6;
+  --brutal-green: #10B981;
+  --brutal-pink: #FF3D8A;
+  --brutal-border: 3px;
+  --brutal-shadow: 5px;
+  --brutal-font-head: 'Space Grotesk', 'Archivo Black', var(--ff-poppins);
+}
+
+/* Hard square corners & high-contrast reset for Neo-Brutalism */
+[data-brutal] * {
+  border-radius: 0 !important;
+  /* Stop animations outright — do NOT collapse animation-duration instead.
+     Every looping animation here (mascot-float, ask-twinkle, askThinking,
+     askCaret) keeps `infinite`, so a 0.01ms duration restarts the whole
+     keyframe cycle every frame and the element visibly vibrates rather
+     than settling. */
+  animation: none !important;
+}
+
+/* ...but the mascot keeps the same gentle float it has in normal mode —
+   it should read as alive, not frozen or glitching. */
+[data-brutal] .ask-mascot,
+[data-brutal] .ask-panel-mascot {
+  animation: mascot-float 3.4s ease-in-out infinite !important;
+}
+
+/* style.css swaps the float for a hover transform; that needs to win over
+   the re-enable above, or the running keyframes fight the hover transform. */
+[data-brutal] .ask-launcher-wrapper:has(:hover, :focus-visible) .ask-mascot {
+  animation: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-brutal] .ask-mascot,
+  [data-brutal] .ask-panel-mascot {
+    animation: none !important;
+  }
+}
+
+/* Exceptions that look better rounded in Neo-Brutalism (pill tags, status dots) */
+[data-brutal] .gallery-tag,
+[data-brutal] .project-category-tag,
+[data-brutal] .brutal-status-badge {
+  border-radius: 9999px !important;
+}
+
+[data-brutal] body {
+  background: var(--brutal-bg);
+  color: var(--brutal-ink);
+}
+
+[data-brutal] ::selection {
+  background: var(--brutal-yellow);
+  color: #111215;
+}
+
+/* Base Card Container Styling */
+[data-brutal] .sidebar,
+[data-brutal] article,
+[data-brutal] .service-item,
+[data-brutal] .timeline,
+[data-brutal] .project-item,
+[data-brutal] .blog-post-item > a,
+[data-brutal] .form-input,
+[data-brutal] .content-card {
+  background: var(--brutal-card-bg);
+  border: var(--brutal-border) solid var(--brutal-ink);
+  box-shadow: var(--brutal-shadow) var(--brutal-shadow) 0 var(--brutal-ink);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+/* Hide legacy gradient pseudoelements */
+[data-brutal] .service-item::before,
+[data-brutal] .blog-post-item > a::before,
+[data-brutal] .content-card::before,
+[data-brutal] .icon-box::before,
+[data-brutal] .form-btn::before {
+  display: none !important;
+}
+
+[data-brutal] .front-title {
+  color: var(--brutal-ink);
+}
+
+[data-brutal] body,
+[data-brutal] p,
+[data-brutal] .about-text,
+[data-brutal] .about-text p,
+[data-brutal] article p,
+[data-brutal] span,
+[data-brutal] li,
+[data-brutal] a,
+[data-brutal] address,
+[data-brutal] time,
+[data-brutal] label {
+  color: #0F172A !important;
+  font-weight: 600 !important;
+}
+
+/* Headings in Neo-Brutalism */
+[data-brutal] .h2,
+[data-brutal] .h3,
+[data-brutal] .h4,
+[data-brutal] .h5,
+[data-brutal] .name,
+[data-brutal] .title,
+[data-brutal] .article-title,
+[data-brutal] .service-item-title,
+[data-brutal] .timeline-item-title {
+  font-family: var(--brutal-font-head);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  color: var(--brutal-ink);
+}
+
+/* Article title underline accent */
+[data-brutal] .article-title {
+  position: relative;
+  display: inline-block;
+  padding-bottom: 8px;
+}
+
+[data-brutal] .article-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  background: var(--brutal-yellow);
+  border: 1.5px solid var(--brutal-ink);
+}
+
+[data-brutal] .separator {
+  height: var(--brutal-border);
+  background: var(--brutal-ink);
+  opacity: 1;
+}
+
+@media (min-width: 1024px) {
+  [data-brutal] article > header {
+    padding-top: 36px;
+  }
+}
+
+/*-----------------------------------*\
+  SIDEBAR
+\*-----------------------------------*/
+
+[data-brutal] .sidebar {
+  position: relative;
+  background: var(--brutal-card-bg);
+  border: var(--brutal-border) solid var(--brutal-ink);
+}
+
+[data-brutal] .avatar-box {
+  position: relative;
+  background: var(--brutal-ink);
+  border: var(--brutal-border) solid var(--brutal-ink);
+  box-shadow: 4px 4px 0 var(--brutal-ink);
+  animation: none !important;
+  transform: none !important;
+  transition: none !important;
+  overflow: hidden;
+}
+
+[data-brutal] .avatar-box img {
+  border: none;
+  filter: none !important;
+  mix-blend-mode: normal !important;
+  animation: none !important;
+  transform: none !important;
+  transition: none !important;
+}
+
+[data-brutal] .avatar-box::after {
+  display: none;
+}
+
+[data-brutal] .info-content .title,
+[data-brutal] .sidebar-info .title {
+  display: inline-block !important;
+  background: var(--brutal-yellow) !important;
+  color: var(--brutal-ink) !important;
+  padding: 4px 10px !important;
+  border: 2px solid var(--brutal-ink) !important;
+  box-shadow: 2.5px 2.5px 0 var(--brutal-ink) !important;
+  font-family: var(--brutal-font-head) !important;
+  font-weight: 800 !important;
+  font-size: 11px !important;
+  text-transform: uppercase !important;
+  border-radius: 0 !important;
+}
+
+[data-brutal] .info-content .title::before,
+[data-brutal] .sidebar-info .title::before {
+  display: none !important;
+}
+
+[data-brutal] .contact-info {
+  background: transparent !important;
+}
+
+[data-brutal] .contact-title {
+  color: #64748B !important;
+  background: transparent !important;
+  font-family: var(--brutal-font-head);
+  font-weight: 700;
+  font-size: 10px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-bottom: 2px;
+}
+
+[data-brutal] .contact-info :is(.contact-link, time, address) {
+  color: var(--brutal-ink) !important;
+  background: transparent !important;
+  font-weight: 600;
+}
+
+[data-brutal] .social-card .social-list .iso-pro .iso-icon {
+  background: var(--brutal-card-bg);
+  border: 2.5px solid var(--brutal-ink);
+  box-shadow: 2.5px 2.5px 0 var(--brutal-ink);
+  color: var(--brutal-ink) !important;
+  transition: transform 0.12s ease, background-color 0.15s ease, box-shadow 0.12s ease;
+}
+
+[data-brutal] .social-card .social-list .iso-pro:hover .iso-icon {
+  background: var(--brutal-yellow);
+  color: var(--brutal-ink) !important;
+  transform: translate(-2px, -2px);
+  box-shadow: 4.5px 4.5px 0 var(--brutal-ink);
+}
+
+[data-brutal] .info_more-btn {
+  background: var(--brutal-yellow) !important;
+  border: 2.5px solid var(--brutal-ink) !important;
+  box-shadow: 3.5px 3.5px 0 var(--brutal-ink) !important;
+  color: var(--brutal-ink) !important;
+  font-family: var(--brutal-font-head) !important;
+  font-weight: 800 !important;
+  text-transform: uppercase !important;
+  border-radius: 0 !important;
+  transition: transform 0.12s ease, box-shadow 0.12s ease, background-color 0.15s ease !important;
+}
+
+[data-brutal] .info_more-btn::before {
+  display: none !important;
+}
+
+[data-brutal] .info_more-btn span,
+[data-brutal] .info_more-btn ion-icon {
+  color: var(--brutal-ink) !important;
+  font-weight: 800 !important;
+}
+
+[data-brutal] .info_more-btn:hover {
+  background: #FEF08A !important;
+  color: var(--brutal-ink) !important;
+  transform: translate(-2px, -2px) !important;
+  box-shadow: 5.5px 5.5px 0 var(--brutal-ink) !important;
+}
+
+[data-brutal] .info_more-btn:active {
+  transform: translate(1px, 1px) !important;
+  box-shadow: 2px 2px 0 var(--brutal-ink) !important;
+}
+
+.brutal-toggle {
+  background: #FACC15 !important;
+  color: #111215 !important;
+  border: 2.5px solid #111215 !important;
+  box-shadow: 3.5px 3.5px 0 #111215 !important;
+  font-family: var(--ff-poppins), sans-serif !important;
+  font-weight: 800 !important;
+  text-transform: uppercase !important;
+  padding: 6px 12px !important;
+  cursor: pointer !important;
+  transition: transform 0.12s ease, box-shadow 0.12s ease, background-color 0.15s ease !important;
+}
+
+.brutal-toggle span {
+  color: #111215 !important;
+  font-weight: 800 !important;
+}
+
+.brutal-toggle:hover {
+  background: #FEF08A !important;
+  color: #111215 !important;
+  transform: translate(-1.5px, -1.5px) !important;
+  box-shadow: 5px 5px 0 #111215 !important;
+}
+
+[data-brutal] .brutal-toggle {
+  font-family: var(--brutal-font-head) !important;
+  border-radius: 0 !important;
+}
+
+[data-brutal] .icon-box {
+  background: var(--brutal-yellow);
+  border: 2.5px solid var(--brutal-ink);
+  box-shadow: 2px 2px 0 var(--brutal-ink);
+}
+
+[data-brutal] .icon-box ion-icon {
+  color: var(--brutal-ink);
+}
+
+[data-brutal] .iso-icon {
+  border: 2px solid var(--brutal-ink);
+  background: var(--brutal-card-bg);
+  box-shadow: 2.5px 2.5px 0 var(--brutal-ink);
+  transition: transform 0.12s ease, background-color 0.15s ease, box-shadow 0.12s ease;
+}
+
+[data-brutal] .iso-pro:hover .iso-icon {
+  background: var(--brutal-yellow);
+  transform: translate(-2px, -2px);
+  box-shadow: 4.5px 4.5px 0 var(--brutal-ink);
+}
+
+/*-----------------------------------*\
+  NAVBAR
+\*-----------------------------------*/
+
+[data-brutal] .navbar {
+  background: var(--brutal-card-bg);
+  backdrop-filter: none;
+  border: var(--brutal-border) solid var(--brutal-ink);
+  box-shadow: var(--brutal-shadow) var(--brutal-shadow) 0 var(--brutal-ink);
+  padding: 6px 12px;
+}
+
+[data-brutal] .navbar-link {
+  font-family: var(--brutal-font-head);
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--brutal-ink);
+  padding: 8px 14px;
+  border: 2px solid transparent;
+  transition: all 0.12s ease;
+}
+
+[data-brutal] .navbar-link:hover {
+  background: #FEF08A;
+  color: var(--brutal-ink);
+  border-color: var(--brutal-ink);
+  transform: translate(-1.5px, -1.5px);
+  box-shadow: 3px 3px 0 var(--brutal-ink);
+}
+
+[data-brutal] .navbar-link.active {
+  background: var(--brutal-yellow);
+  color: var(--brutal-ink);
+  border: 2px solid var(--brutal-ink);
+  box-shadow: 3px 3px 0 var(--brutal-ink);
+  font-weight: 800;
+}
+
+/* Gallery link visibility control */
+.gallery-nav-item {
+  display: none;
+}
+
+[data-brutal] .gallery-nav-item {
+  display: list-item;
+}
+
+/*-----------------------------------*\
+  ABOUT SECTION
+\*-----------------------------------*/
+
+[data-brutal] .about {
+  border-top: none;
+}
+
+[data-brutal] .service-item {
+  padding: 20px;
+  position: relative;
+  background: var(--brutal-card-bg);
+  border: var(--brutal-border) solid var(--brutal-ink) !important;
+}
+
+[data-brutal] .service-item:nth-child(1),
+[data-brutal] .service-item:nth-child(2),
+[data-brutal] .service-item:nth-child(3),
+[data-brutal] .service-item:nth-child(4) {
+  border-left: var(--brutal-border) solid var(--brutal-ink) !important;
+}
+
+[data-brutal] .service-item:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: 8px 8px 0 var(--brutal-ink);
+}
+
+[data-brutal] .service-icon-box {
+  background: var(--brutal-yellow);
+  border: 2.5px solid var(--brutal-ink);
+  box-shadow: 3px 3px 0 var(--brutal-ink);
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+[data-brutal] .service-icon-box img {
+  filter: brightness(0) !important;
+  display: block;
+  width: 40px;
+  height: 40px;
+}
+
+/* The flip card's back face (revealed on hover) kept style.css's dark
+   gradient, which it sets with !important — so it stayed near-black
+   (rgb(32,32,34)) while the body text picked up the ink color meant for
+   cream cards (rgb(15,23,42)). Dark navy on near-black is ~1.2:1 and
+   unreadable. Flip the whole face to the brutal palette instead of just
+   re-lightening the text, so it doesn't stay a dark island — which also
+   means the title can't stay yellow (invisible on white). */
+[data-brutal] .service-content-box {
+  background: var(--brutal-card-bg) !important;
+  border: 2.5px solid var(--brutal-ink);
+}
+
+[data-brutal] .service-item-title,
+[data-brutal] .service-item-text {
+  color: var(--brutal-ink) !important;
+}
+
+/*-----------------------------------*\
+  RESUME SECTION
+\*-----------------------------------*/
+
+[data-brutal] .resume {
+  border-top: none;
+}
+
+[data-brutal] .resume-toggle-box {
+  background: var(--brutal-bg);
+  border: 2.5px solid var(--brutal-ink);
+  padding: 4px;
+  display: inline-flex;
+  gap: 4px;
+}
+
+[data-brutal] .resume-toggle-btn {
+  font-family: var(--brutal-font-head);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 11px;
+  padding: 8px 14px;
+  border: 2px solid var(--brutal-ink);
+  color: var(--brutal-ink);
+  background: var(--brutal-card-bg);
+  box-shadow: 2px 2px 0 var(--brutal-ink);
+  cursor: pointer;
+  transition: all 0.12s ease;
+}
+
+[data-brutal] .resume-toggle-btn:hover {
+  background: #FEF08A;
+  transform: translate(-1.5px, -1.5px);
+  box-shadow: 3.5px 3.5px 0 var(--brutal-ink);
+}
+
+[data-brutal] .resume-toggle-btn.active {
+  background: var(--brutal-yellow);
+  color: var(--brutal-ink);
+  box-shadow: 3.5px 3.5px 0 var(--brutal-ink);
+  font-weight: 800;
+}
+
+[data-brutal] .timeline-item::before {
+  background: var(--brutal-ink);
+  width: 3px;
+}
+
+[data-brutal] .timeline-item::after {
+  background: var(--brutal-yellow);
+  border: 2.5px solid var(--brutal-ink);
+  box-shadow: 2px 2px 0 var(--brutal-ink);
+  width: 14px;
+  height: 14px;
+  top: 4px;
+}
+
+[data-brutal] .timeline-list span {
+  display: inline-block;
+  background: var(--brutal-yellow);
+  color: var(--brutal-ink);
+  border: 1.5px solid var(--brutal-ink);
+  box-shadow: 2px 2px 0 var(--brutal-ink);
+  font-family: var(--brutal-font-head);
+  font-weight: 800;
+  font-size: 11px;
+  padding: 2px 8px;
+  margin-bottom: 6px;
+}
+
+[data-brutal] .skill-progress-bg {
+  background: var(--brutal-card-bg);
+  border: 2.5px solid var(--brutal-ink);
+  box-shadow: 2px 2px 0 var(--brutal-ink);
+  height: 14px;
+}
+
+[data-brutal] .skill-progress-fill {
+  background: var(--brutal-yellow);
+  border-right: 2px solid var(--brutal-ink);
+}
+
+[data-brutal] .skill data {
+  background: var(--brutal-ink);
+  color: #FFFFFF;
+  font-family: var(--brutal-font-head);
+  font-weight: 800;
+  font-size: 10px;
+  padding: 1px 6px;
+  letter-spacing: 0.5px;
+}
+
+/*-----------------------------------*\
+  PROJECTS SECTION
+\*-----------------------------------*/
+
+[data-brutal] .projects,
+[data-brutal] section.projects,
+[data-brutal] article.projects {
+  border-top: none !important;
+  border-top-color: transparent !important;
+}
+
+[data-brutal] .filter-list button,
+[data-brutal] .filter-select {
+  font-family: var(--brutal-font-head);
+  font-weight: 700;
+  text-transform: uppercase;
+  border: 2.5px solid var(--brutal-ink);
+  color: var(--brutal-ink);
+  background: var(--brutal-card-bg);
+  box-shadow: 3px 3px 0 var(--brutal-ink);
+  padding: 8px 16px;
+  transition: all 0.12s ease;
+}
+
+[data-brutal] .filter-list button:hover,
+[data-brutal] .filter-select:hover {
+  background: #FEF08A;
+  transform: translate(-2px, -2px);
+  box-shadow: 5px 5px 0 var(--brutal-ink);
+}
+
+[data-brutal] .filter-list button.active {
+  background: var(--brutal-yellow);
+  box-shadow: 4px 4px 0 var(--brutal-ink);
+  font-weight: 800;
+  transform: translate(-2px, -2px);
+}
+
+[data-brutal] .select-list {
+  border: 2.5px solid var(--brutal-ink);
+  background: var(--brutal-card-bg);
+  box-shadow: 4px 4px 0 var(--brutal-ink);
+}
+
+[data-brutal] .select-item button {
+  font-family: var(--brutal-font-head);
+  font-weight: 700;
+  background: var(--brutal-card-bg);
+  color: var(--brutal-ink);
+}
+
+[data-brutal] .select-item button:hover {
+  background: var(--brutal-yellow);
+}
+
+[data-brutal] .project-item > a {
+  display: block;
+  background: var(--brutal-card-bg);
+  border: var(--brutal-border) solid var(--brutal-ink);
+  box-shadow: var(--brutal-shadow) var(--brutal-shadow) 0 var(--brutal-ink);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+[data-brutal] .project-item > a:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: 8px 8px 0 var(--brutal-ink);
+}
+
+[data-brutal] .project-img {
+  border-bottom: 3px solid var(--brutal-ink);
+}
+
+[data-brutal] .project-title {
+  font-family: var(--brutal-font-head);
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--brutal-ink);
+}
+
+[data-brutal] .project-category {
+  display: inline-block;
+  background: var(--brutal-yellow);
+  color: var(--brutal-ink);
+  border: 1.5px solid var(--brutal-ink);
+  box-shadow: 2px 2px 0 var(--brutal-ink);
+  font-family: var(--brutal-font-head);
+  font-weight: 800;
+  font-size: 10px;
+  padding: 2px 8px;
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+
+/*-----------------------------------*\
+  BLOG SECTION
+\*-----------------------------------*/
+
+[data-brutal] .blog {
+  border-top: none;
+}
+
+[data-brutal] .blog-post-item > a {
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+[data-brutal] .blog-post-item > a:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: 8px 8px 0 var(--brutal-ink);
+}
+
+[data-brutal] .blog-category {
+  background: var(--brutal-yellow);
+  border: 2px solid var(--brutal-ink);
+  box-shadow: 2px 2px 0 var(--brutal-ink);
+  color: var(--brutal-ink);
+  font-family: var(--brutal-font-head);
+  font-weight: 800;
+  text-transform: uppercase;
+  font-size: 10px;
+  padding: 2px 8px;
+}
+
+/*-----------------------------------*\
+  CONTACT SECTION
+\*-----------------------------------*/
+
+[data-brutal] .contact {
+  border-top: none;
+}
+
+[data-brutal] .form-input {
+  color: var(--brutal-ink);
+  background: var(--brutal-card-bg);
+  border: 2.5px solid var(--brutal-ink);
+  box-shadow: 3px 3px 0 var(--brutal-ink);
+  font-family: var(--ff-poppins);
+  font-weight: 500;
+  transition: all 0.15s ease;
+}
+
+[data-brutal] .form-input::placeholder {
+  color: var(--brutal-ink);
+  opacity: 0.6;
+  font-weight: 500;
+}
+
+[data-brutal] .form-input:focus {
+  background: #FFFBEB;
+  border-color: var(--brutal-ink);
+  box-shadow: 4.5px 4.5px 0 var(--brutal-ink);
+  outline: none;
+}
+
+[data-brutal] .form-btn {
+  background: var(--brutal-yellow);
+  border: var(--brutal-border) solid var(--brutal-ink);
+  color: var(--brutal-ink);
+  box-shadow: 4.5px 4.5px 0 var(--brutal-ink);
+  font-family: var(--brutal-font-head);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 12px 24px;
+  transition: transform 0.12s ease, box-shadow 0.12s ease, background-color 0.15s ease;
+}
+
+[data-brutal] .form-btn:hover:not([disabled]) {
+  background: var(--brutal-blue);
+  color: #FFFFFF;
+  transform: translate(-3px, -3px);
+  box-shadow: 7.5px 7.5px 0 var(--brutal-ink);
+}
+
+[data-brutal] .form-btn:active:not([disabled]) {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 var(--brutal-ink);
+}
+
+/*-----------------------------------*\
+  ASK AI PANEL (SpendLens Neo-Brutalist Drawer Style)
+\*-----------------------------------*/
+
+[data-brutal] .ask-launcher {
+  background: var(--brutal-yellow);
+  color: var(--brutal-ink);
+  border: var(--brutal-border) solid var(--brutal-ink);
+  box-shadow: 5px 5px 0 var(--brutal-ink);
+  font-family: var(--brutal-font-head);
+  font-weight: 800;
+  text-transform: uppercase;
+  transition: transform 0.12s ease, box-shadow 0.12s ease, background-color 0.15s ease;
+}
+
+[data-brutal] .ask-launcher span {
+  background: none !important;
+  -webkit-background-clip: unset !important;
+  background-clip: unset !important;
+  -webkit-text-fill-color: #111215 !important;
+  color: #111215 !important;
+  font-weight: 800 !important;
+}
+
+[data-brutal] .ask-launcher ion-icon {
+  color: #111215 !important;
+  animation: none !important;
+}
+
+[data-brutal] .ask-launcher:hover {
+  background: var(--brutal-blue);
+  color: #FFFFFF;
+  transform: translate(-3px, -3px);
+  box-shadow: 8px 8px 0 var(--brutal-ink);
+}
+
+[data-brutal] .ask-launcher:hover span,
+[data-brutal] .ask-launcher:hover ion-icon {
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+}
+
+[data-brutal] .ask-launcher:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 var(--brutal-ink);
+}
+
+[data-brutal] .ask-panel {
+  background: #FAF8F5;
+  backdrop-filter: none;
+  border: var(--brutal-border) solid var(--brutal-ink);
+  box-shadow: 8px 8px 0 var(--brutal-ink);
+}
+
+[data-brutal] .ask-header {
+  background: var(--brutal-yellow);
+  border-bottom: 3px solid var(--brutal-ink);
+  padding: 14px 18px;
+}
+
+[data-brutal] .ask-header-title {
+  color: var(--brutal-ink);
+  font-family: var(--brutal-font-head);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+}
+
+[data-brutal] .ask-kicker {
+  color: var(--brutal-ink);
+  font-weight: 700;
+}
+
+[data-brutal] .ask-control-btn,
+[data-brutal] .ask-close-btn {
+  color: var(--brutal-ink);
+  border: 2px solid var(--brutal-ink);
+  background: var(--brutal-card-bg);
+  box-shadow: 2px 2px 0 var(--brutal-ink);
+  transition: all 0.12s ease;
+}
+
+[data-brutal] .ask-control-btn:is(:hover, :focus-visible),
+[data-brutal] .ask-close-btn:is(:hover, :focus-visible) {
+  background: var(--brutal-ink);
+  color: var(--brutal-yellow);
+  transform: translate(-1.5px, -1.5px);
+  box-shadow: 3.5px 3.5px 0 var(--brutal-ink);
+}
+
+[data-brutal] .ask-msg {
+  color: var(--brutal-ink);
+}
+
+[data-brutal] .ask-msg--user {
+  background: var(--brutal-yellow);
+  border: 2px solid var(--brutal-ink);
+  box-shadow: 3px 3px 0 var(--brutal-ink);
+  color: var(--brutal-ink);
+  font-weight: 600;
+}
+
+[data-brutal] .ask-msg--assistant {
+  background: var(--brutal-card-bg);
+  border: 2px solid var(--brutal-ink);
+  box-shadow: 3px 3px 0 var(--brutal-ink);
+  color: var(--brutal-ink);
+}
+
+[data-brutal] .ask-msg--assistant strong {
+  color: var(--brutal-ink);
+  font-family: var(--brutal-font-head);
+}
+
+[data-brutal] .ask-msg--assistant a {
+  color: var(--brutal-ink);
+  text-decoration-color: var(--brutal-yellow);
+  text-decoration-thickness: 3px;
+  font-weight: 700;
+}
+
+[data-brutal] .ask-chip {
+  background: var(--brutal-card-bg);
+  border: 2px solid var(--brutal-ink);
+  box-shadow: 2px 2px 0 var(--brutal-ink);
+  color: var(--brutal-ink);
+  font-family: var(--brutal-font-head);
+  font-weight: 700;
+  transition: all 0.12s ease;
+}
+
+[data-brutal] .ask-chip:is(:hover, :focus-visible) {
+  background: var(--brutal-yellow);
+  border-color: var(--brutal-ink);
+  color: var(--brutal-ink);
+  transform: translate(-1.5px, -1.5px);
+  box-shadow: 3.5px 3.5px 0 var(--brutal-ink);
+}
+
+[data-brutal] .ask-composer {
+  background: #FAF8F5;
+  border-top: 2.5px solid var(--brutal-ink);
+}
+
+[data-brutal] .ask-input {
+  background: var(--brutal-card-bg);
+  color: var(--brutal-ink);
+  border: 2.5px solid var(--brutal-ink);
+  box-shadow: 3px 3px 0 var(--brutal-ink);
+  font-weight: 500;
+  transition: all 0.15s ease;
+}
+
+[data-brutal] .ask-input:focus {
+  background: #FFFBEB;
+  border-color: var(--brutal-ink);
+  box-shadow: 4px 4px 0 var(--brutal-ink);
+  outline: none;
+}
+
+[data-brutal] .ask-input::placeholder {
+  color: var(--brutal-ink);
+  opacity: 0.6;
+}
+
+/*-----------------------------------*\
+  GALLERY (PRESERVED & UNALTERED)
+\*-----------------------------------*/
+
+[data-brutal] .gallery-grid {
+  columns: 3 220px;
+  column-gap: 24px;
+}
+
+[data-brutal] .gallery-card {
+  display: inline-block;
+  width: 100%;
+  margin: 0 0 24px;
+  padding: 10px 10px 14px;
+  break-inside: avoid;
+  transform: rotate(var(--tilt, 0deg));
+  transition: transform 0.15s ease;
+  cursor: pointer;
+}
+
+[data-brutal] .gallery-card:hover {
+  transform: rotate(0deg) translate(-2px, -2px);
+  box-shadow: 10px 10px 0 var(--brutal-ink);
+}
+
+[data-brutal] .gallery-card img {
+  display: block;
+  width: 100%;
+  border: 2px solid var(--brutal-ink);
+}
+
+[data-brutal] .gallery-card figcaption {
+  margin-top: 8px;
+  font-family: 'Archivo Black', var(--ff-poppins);
+  font-size: var(--fs-8);
+  text-transform: uppercase;
+}
+
+[data-brutal] .gallery-tag {
+  display: inline-block;
+  background: var(--brutal-pink);
+  color: var(--brutal-bg);
+  padding: 2px 6px;
+  margin-right: 6px;
+  font-size: 10px;
+}
+
+[data-brutal] .gallery-lightbox {
+  border: var(--brutal-border) solid var(--brutal-ink);
+  background: var(--brutal-bg);
+  box-shadow: var(--brutal-shadow) var(--brutal-shadow) 0 var(--brutal-ink);
+  max-width: min(90vw, 640px);
+  max-height: 85vh;
+  padding: 16px;
+}
+
+[data-brutal] .gallery-lightbox::backdrop {
+  background: hsla(0, 0%, 0%, 0.6);
+}
+
+[data-brutal] .gallery-lightbox img {
+  display: block;
+  max-width: 100%;
+  max-height: 65vh;
+  margin: 0 auto;
+  border: 2px solid var(--brutal-ink);
+}
+
+[data-brutal] .gallery-lightbox p {
+  margin-top: 12px;
+  font-family: 'Archivo Black', var(--ff-poppins);
+  text-transform: uppercase;
+  text-align: center;
+}
+
+[data-brutal] .gallery-lightbox-close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 32px;
+  height: 32px;
+  border: 2px solid var(--brutal-ink);
+  background: var(--brutal-yellow);
+  color: var(--brutal-ink);
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+@media (max-width: 580px) {
+  [data-brutal] .gallery-grid {
+    columns: 1;
+  }
+
+  [data-brutal] .sidebar-info {
+    position: relative;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 15px !important;
+    padding: 16px 50px 16px 16px !important;
+  }
+
+  [data-brutal] .avatar-box {
+    width: 80px !important;
+    height: 80px !important;
+    min-width: 80px !important;
+    border-radius: 0 !important;
+    margin: 0 !important;
+  }
+
+  [data-brutal] .avatar-box img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+  }
+
+  [data-brutal] .info-content {
+    text-align: left !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+  }
+
+  [data-brutal] .info-content .name {
+    font-size: 18px !important;
+    margin-bottom: 6px !important;
+    text-align: left !important;
+  }
+
+  [data-brutal] .info-content .title,
+  [data-brutal] .sidebar-info .title {
+    margin: 0 !important;
+    font-size: 9.5px !important;
+    padding: 3px 8px !important;
+    white-space: nowrap !important;
+    display: inline-block !important;
+  }
+
+  [data-brutal] .info_more-btn {
+    position: absolute !important;
+    top: 16px !important;
+    right: 12px !important;
+    padding: 8px 10px !important;
+  }
+
+  [data-brutal] .ask-launcher-wrapper {
+    bottom: 65px !important;
+    right: 10px !important;
+    transform: scale(0.85);
+    transform-origin: bottom right;
+  }
+}
+
+/*-----------------------------------*\
+  REDUCED MOTION OVERRIDES
+\*-----------------------------------*/
+
+@media (prefers-reduced-motion: reduce) {
+  [data-brutal] .gallery-card {
+    transform: none;
+    transition: none;
+  }
+
+  [data-brutal] .gallery-card:hover,
+  [data-brutal] .info_more-btn:hover,
+  .brutal-toggle:active,
+  [data-brutal] .form-btn:hover:not([disabled]),
+  [data-brutal] .service-item:hover,
+  [data-brutal] .project-item > a:hover,
+  [data-brutal] .blog-post-item > a:hover {
+    transform: none;
+  }
+}
