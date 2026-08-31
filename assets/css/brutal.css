@@ -1,0 +1,476 @@
+/*-----------------------------------*\
+  #BRUTAL MODE
+  Additive theme layer. Nothing here touches style.css — every rule is
+  scoped under [data-brutal] (set on <html> by brutal.js) so the default
+  dark site is completely unaffected when the attribute is absent.
+\*-----------------------------------*/
+
+/* the toggle itself lives in the navbar in both themes, so it needs a
+   default (dark-theme) look unscoped — everything else in this file only
+   applies once [data-brutal] is set */
+.brutal-toggle {
+  display: inline-flex;
+  align-items: center;
+  padding: 12px 14px;
+  font-size: var(--fs-8);
+  font-weight: var(--fw-600);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--eerie-black-1);
+  background: var(--orange-yellow-crayola);
+  border: none;
+  cursor: pointer;
+  transition: var(--transition-1);
+}
+
+.brutal-toggle:hover,
+.brutal-toggle:focus-visible {
+  background: var(--vegas-gold);
+}
+
+/* Below the breakpoint where style.css moves .navbar from a bottom bar to
+   an absolute top-right pill (1024px, style.css:2280), the bottom navbar
+   is already tight for 5 items — adding this pushes it to wrap onto a
+   second row, which then collides with the fixed Ask-AI launcher above
+   it. Pulling the button out of the flex flow below that breakpoint
+   avoids touching style.css's navbar layout at all. Its <li> collapses
+   to nothing once the button inside it stops taking flow space. */
+@media (max-width: 1023px) {
+  .brutal-toggle {
+    position: fixed;
+    top: 16px;
+    right: 16px;
+    z-index: 10;
+  }
+}
+
+[data-brutal] {
+  --brutal-bg: #FAF3E0;
+  --brutal-ink: #111111;
+  --brutal-pink: #FF3D8A;
+  --brutal-border: 3px;
+  --brutal-shadow: 6px;
+}
+
+/* ponytail: blanket !important beats editing 69 hardcoded border-radius
+   values scattered through style.css. Square-everything IS the brutalist
+   look here, not a shortcut around it — a future element that genuinely
+   needs a radius in brutal mode gets its own override below. */
+[data-brutal] * {
+  border-radius: 0 !important;
+  animation: none !important;
+}
+
+[data-brutal] body {
+  background: var(--brutal-bg);
+  color: var(--brutal-ink);
+}
+
+[data-brutal] ::selection {
+  background: var(--brutal-pink);
+  color: var(--brutal-bg);
+}
+
+/* kill every gradient/glass background site-wide, then re-paint deliberately */
+[data-brutal] .sidebar,
+[data-brutal] article,
+[data-brutal] .service-item,
+[data-brutal] .timeline,
+[data-brutal] .project-item,
+[data-brutal] .blog-post-item > a,
+[data-brutal] .form-input,
+[data-brutal] .gallery-card {
+  background: var(--brutal-bg);
+  border: var(--brutal-border) solid var(--brutal-ink);
+  box-shadow: var(--brutal-shadow) var(--brutal-shadow) 0 var(--brutal-ink);
+}
+
+/* .service-item and .blog-post-item > a fake their border via an inset
+   ::before painted at z-index:-1 — it sits *on top of* the background
+   override above (a positioned element's own background always paints
+   below its negative-z-index children), so left alone they'd stay dark
+   islands in an otherwise cream page. Same trick as .icon-box below. */
+[data-brutal] .service-item::before,
+[data-brutal] .blog-post-item > a::before {
+  display: none;
+}
+
+[data-brutal] .front-title {
+  color: var(--brutal-ink);
+}
+
+[data-brutal] p,
+[data-brutal] span,
+[data-brutal] li,
+[data-brutal] a,
+[data-brutal] address,
+[data-brutal] time,
+[data-brutal] label {
+  color: var(--brutal-ink);
+}
+
+[data-brutal] .h2,
+[data-brutal] .h3,
+[data-brutal] .h4,
+[data-brutal] .h5,
+[data-brutal] .name,
+[data-brutal] .title {
+  font-family: 'Archivo Black', var(--ff-poppins);
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  color: var(--brutal-ink);
+}
+
+[data-brutal] .separator {
+  height: var(--brutal-border);
+  background: var(--brutal-ink);
+}
+
+/* At >=1024px style.css puts the navbar in the same row as the article
+   header (absolute, top:0 right:0 — style.css:2280), sized on the
+   assumption that titles stay short and narrow (Poppins, capitalize).
+   Archivo Black + full uppercase is wide enough that titles like
+   "About Me" or "Contact" reach into the navbar's box and disappear
+   behind it (navbar paints on top, z-index:5 vs the article's z-index:1).
+   Shrinking the font is a losing game against arbitrary title length —
+   style.css already solves this exact problem for the resume toggle row
+   by pushing it below the navbar (see the "push under absolute navbar"
+   comment on .resume-toggle-box); do the same for every article header
+   instead of fighting text width. Below 1024px the navbar is a plain
+   bottom bar, so no collision there. */
+@media (min-width: 1024px) {
+  [data-brutal] article > header {
+    padding-top: 36px;
+  }
+}
+
+
+
+/*-----------------------------------*\
+  sidebar
+\*-----------------------------------*/
+
+[data-brutal] .avatar-box img {
+  border: var(--brutal-border) solid var(--brutal-ink);
+}
+
+[data-brutal] .info_more-btn,
+[data-brutal] .brutal-toggle {
+  background: var(--brutal-bg);
+  border: var(--brutal-border) solid var(--brutal-ink);
+  box-shadow: 4px 4px 0 var(--brutal-ink);
+  color: var(--brutal-ink);
+  transition: none;
+}
+
+[data-brutal] .info_more-btn:hover,
+[data-brutal] .brutal-toggle:hover {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 var(--brutal-ink);
+}
+
+[data-brutal] .icon-box {
+  background: var(--orange-yellow-crayola);
+  border: 2px solid var(--brutal-ink);
+  box-shadow: none;
+}
+
+[data-brutal] .icon-box::before {
+  display: none;
+}
+
+[data-brutal] .icon-box ion-icon {
+  color: var(--brutal-ink);
+}
+
+[data-brutal] .contact-iso-box span {
+  background-color: var(--brutal-pink) !important;
+  box-shadow: none;
+}
+
+[data-brutal] .iso-icon {
+  border: 2px solid var(--brutal-ink);
+  background: var(--brutal-bg);
+}
+
+
+
+/*-----------------------------------*\
+  navbar
+\*-----------------------------------*/
+
+[data-brutal] .navbar {
+  background: var(--brutal-bg);
+  backdrop-filter: none;
+  border: var(--brutal-border) solid var(--brutal-ink);
+  box-shadow: none;
+}
+
+[data-brutal] .navbar-link {
+  color: var(--brutal-ink);
+  font-weight: var(--fw-600);
+}
+
+[data-brutal] .navbar-link.active {
+  background: var(--brutal-pink);
+  color: var(--brutal-bg);
+}
+
+/* Gallery only exists in brutal mode — hidden by default regardless of theme */
+.gallery-nav-item {
+  display: none;
+}
+
+[data-brutal] .gallery-nav-item {
+  display: list-item;
+}
+
+
+
+/*-----------------------------------*\
+  about
+\*-----------------------------------*/
+
+[data-brutal] .service-item {
+  padding: 15px;
+}
+
+
+
+/*-----------------------------------*\
+  resume
+\*-----------------------------------*/
+
+[data-brutal] .resume-toggle-btn {
+  border: 2px solid var(--brutal-ink);
+  color: var(--brutal-ink);
+  background: var(--brutal-bg);
+}
+
+[data-brutal] .resume-toggle-btn.active {
+  background: var(--brutal-ink);
+  color: var(--brutal-bg);
+}
+
+[data-brutal] .timeline-item {
+  border-left: var(--brutal-border) solid var(--brutal-ink);
+}
+
+
+
+/*-----------------------------------*\
+  projects
+\*-----------------------------------*/
+
+[data-brutal] .filter-list button,
+[data-brutal] .filter-select {
+  border: 2px solid var(--brutal-ink);
+  color: var(--brutal-ink);
+  background: var(--brutal-bg);
+}
+
+[data-brutal] .filter-list button.active {
+  background: var(--orange-yellow-crayola);
+}
+
+[data-brutal] .select-list {
+  border: 2px solid var(--brutal-ink);
+  background: var(--brutal-bg);
+}
+
+[data-brutal] .select-item button {
+  background: var(--brutal-bg);
+  color: var(--brutal-ink);
+}
+
+[data-brutal] .project-item-icon-box {
+  background: var(--brutal-pink) !important;
+}
+
+
+
+/*-----------------------------------*\
+  blog
+\*-----------------------------------*/
+
+[data-brutal] .blog-category {
+  background: var(--orange-yellow-crayola);
+  border: 2px solid var(--brutal-ink);
+  color: var(--brutal-ink);
+}
+
+
+
+/*-----------------------------------*\
+  contact
+\*-----------------------------------*/
+
+[data-brutal] .form-input {
+  color: var(--brutal-ink);
+  box-shadow: none;
+}
+
+[data-brutal] .form-input::placeholder {
+  color: var(--brutal-ink);
+  opacity: 0.5;
+}
+
+[data-brutal] .form-btn {
+  background: var(--orange-yellow-crayola);
+  border: var(--brutal-border) solid var(--brutal-ink);
+  color: var(--brutal-ink);
+  box-shadow: 4px 4px 0 var(--brutal-ink);
+}
+
+/* same inset ::before trick as .service-item / .blog-post-item > a above —
+   it paints on top of the background set here and would otherwise leave
+   the button looking like the old dark theme. */
+[data-brutal] .form-btn::before {
+  display: none;
+}
+
+[data-brutal] .form-btn:hover:not([disabled]) {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 var(--brutal-ink);
+}
+
+
+
+/*-----------------------------------*\
+  ask ai panel
+\*-----------------------------------*/
+
+[data-brutal] .ask-panel,
+[data-brutal] .ask-launcher {
+  background: var(--brutal-bg);
+  backdrop-filter: none;
+  border: var(--brutal-border) solid var(--brutal-ink);
+  box-shadow: var(--brutal-shadow) var(--brutal-shadow) 0 var(--brutal-ink);
+}
+
+[data-brutal] .ask-msg--user {
+  background: var(--orange-yellow-crayola);
+  border: 2px solid var(--brutal-ink);
+  color: var(--brutal-ink);
+}
+
+[data-brutal] .ask-msg--assistant {
+  border: 2px solid var(--brutal-ink);
+}
+
+
+
+/*-----------------------------------*\
+  gallery
+\*-----------------------------------*/
+
+[data-brutal] .gallery-grid {
+  columns: 3 220px;
+  column-gap: 24px;
+}
+
+[data-brutal] .gallery-card {
+  display: inline-block;
+  width: 100%;
+  margin: 0 0 24px;
+  padding: 10px 10px 14px;
+  break-inside: avoid;
+  transform: rotate(var(--tilt, 0deg));
+  transition: transform 0.15s ease;
+  cursor: pointer;
+}
+
+[data-brutal] .gallery-card:hover {
+  transform: rotate(0deg) translate(-2px, -2px);
+  box-shadow: 10px 10px 0 var(--brutal-ink);
+}
+
+[data-brutal] .gallery-card img {
+  display: block;
+  width: 100%;
+  border: 2px solid var(--brutal-ink);
+}
+
+[data-brutal] .gallery-card figcaption {
+  margin-top: 8px;
+  font-family: 'Archivo Black', var(--ff-poppins);
+  font-size: var(--fs-8);
+  text-transform: uppercase;
+}
+
+[data-brutal] .gallery-tag {
+  display: inline-block;
+  background: var(--brutal-pink);
+  color: var(--brutal-bg);
+  padding: 2px 6px;
+  margin-right: 6px;
+  font-size: 10px;
+}
+
+[data-brutal] .gallery-lightbox {
+  border: var(--brutal-border) solid var(--brutal-ink);
+  background: var(--brutal-bg);
+  box-shadow: var(--brutal-shadow) var(--brutal-shadow) 0 var(--brutal-ink);
+  max-width: min(90vw, 640px);
+  max-height: 85vh;
+  padding: 16px;
+}
+
+[data-brutal] .gallery-lightbox::backdrop {
+  background: hsla(0, 0%, 0%, 0.6);
+}
+
+[data-brutal] .gallery-lightbox img {
+  display: block;
+  max-width: 100%;
+  max-height: 65vh;
+  margin: 0 auto;
+  border: 2px solid var(--brutal-ink);
+}
+
+[data-brutal] .gallery-lightbox p {
+  margin-top: 12px;
+  font-family: 'Archivo Black', var(--ff-poppins);
+  text-transform: uppercase;
+  text-align: center;
+}
+
+[data-brutal] .gallery-lightbox-close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 32px;
+  height: 32px;
+  border: 2px solid var(--brutal-ink);
+  background: var(--brutal-pink);
+  color: var(--brutal-bg);
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+@media (max-width: 580px) {
+  [data-brutal] .gallery-grid {
+    columns: 1;
+  }
+}
+
+
+
+/*-----------------------------------*\
+  reduced motion — no tilt, no press animation
+\*-----------------------------------*/
+
+@media (prefers-reduced-motion: reduce) {
+  [data-brutal] .gallery-card {
+    transform: none;
+    transition: none;
+  }
+
+  [data-brutal] .gallery-card:hover,
+  [data-brutal] .info_more-btn:hover,
+  [data-brutal] .brutal-toggle:hover,
+  [data-brutal] .form-btn:hover:not([disabled]) {
+    transform: none;
+  }
+}
