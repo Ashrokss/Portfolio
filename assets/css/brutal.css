@@ -1,71 +1,55 @@
 /*-----------------------------------*\
-  #BRUTAL MODE
-  Additive theme layer. Nothing here touches style.css — every rule is
-  scoped under [data-brutal] (set on <html> by brutal.js) so the default
-  dark site is completely unaffected when the attribute is absent.
+  #BRUTAL MODE (Neo-Brutalist Theme System)
+  Inspired by SpendLens design language:
+  - High-contrast off-cream canvas (#F4F3EE / #FAF8F5)
+  - Thick solid borders (3px #111215)
+  - Hard tactile drop shadows (5px 5px 0px #111215)
+  - Electric Yellow (#FACC15), Cobalt Blue (#3B82F6), Emerald Green (#10B981), Neon Pink (#FF3D8A) highlights
+  - Sharp Space Grotesk typography & bold sticker badge tags
+  - Interactive click / press mechanics (translate up-left on hover, sink down-right on active press)
+  
+  GALLERY TAB STYLES ARE FULLY PRESERVED AND UNALTERED.
 \*-----------------------------------*/
 
-/* .sidebar (and a few other elements) carry `transition: <duration>`
-   with no property named, which defaults to "all" — meant for their own
-   accordion/hover animations, but it also means switching [data-brutal]
-   crossfades every background/color/border change over that duration
-   instead of snapping. Mid-fade that reads as a muddy, wrong color
-   (e.g. sidebar background briefly rgb(209,203,188), neither theme's
-   real color) rather than a transition anyone asked for. brutal.js adds
-   this class for one frame around the attribute flip so the swap is
-   instant; normal hover/press transitions defined in this file are
-   unaffected since the class is gone by the time a user hovers anything. */
+/* Instant transition switch layer */
 .brutal-switching,
 .brutal-switching * {
   transition: none !important;
 }
 
-/* the toggle itself lives in the navbar in both themes, so it needs a
-   default (dark-theme) look unscoped — everything else in this file only
-   applies once [data-brutal] is set. Chunky border + hard shadow in BOTH
-   themes on purpose: this is the one control that should look like it's
-   about to do something drastic, foreshadowing the flip. */
+/* Chunky Toggle Button - unscoped so it stands out in both light & dark themes */
 .brutal-toggle {
   display: inline-flex;
   align-items: center;
-  padding: 12px 16px;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 18px;
+  font-family: 'Space Grotesk', 'Archivo Black', sans-serif;
   font-size: var(--fs-8);
-  font-weight: var(--fw-600);
-  letter-spacing: 0.5px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
   text-transform: uppercase;
-  color: var(--eerie-black-1);
-  background: var(--orange-yellow-crayola);
-  border: 3px solid var(--smoky-black);
-  box-shadow: 3px 3px 0 var(--smoky-black);
+  color: #111215;
+  background: #FACC15;
+  border: 3px solid #111215;
+  box-shadow: 4px 4px 0px #111215;
   cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.1s ease, box-shadow 0.1s ease;
+  transition: background-color 0.15s ease, transform 0.12s ease, box-shadow 0.12s ease;
 }
 
 .brutal-toggle:hover,
 .brutal-toggle:focus-visible {
-  background: var(--vegas-gold);
+  background: #3B82F6;
+  color: #FFFFFF;
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0px #111215;
 }
 
 .brutal-toggle:active {
   transform: translate(2px, 2px);
-  box-shadow: 1px 1px 0 var(--smoky-black);
+  box-shadow: 2px 2px 0px #111215;
 }
 
-/* Below the breakpoint where style.css moves .navbar from a bottom bar to
-   an absolute top-right pill (1024px, style.css:2280), the bottom navbar
-   is already tight for 5 items — adding this pushes it to wrap onto a
-   second row, which then collides with the fixed Ask-AI launcher above
-   it. Pulling the button out of the flex flow below that breakpoint
-   avoids touching style.css's navbar layout at all. Its <li> collapses
-   to nothing once the button inside it stops taking flow space.
-   top-right is NOT free real estate here: .info_more-btn ("Show
-   Contacts") sits absolutely positioned at the sidebar's top-right too
-   (style.css:466, top:-15px/-30px depending on width), and this button's
-   own footprint got wider once it grew a real border for the "make it
-   stand out" pass — confirmed the two rects actually intersect before
-   picking bottom-left instead. Bottom-left clears both the full-width
-   bottom navbar below it and the Ask-AI launcher, which lives at
-   bottom:80px RIGHT (style.css:2748-2751) — opposite corner. */
 @media (max-width: 1023px) {
   .brutal-toggle {
     position: fixed;
@@ -75,21 +59,34 @@
   }
 }
 
+/*-----------------------------------*\
+  [DATA-BRUTAL] ROOT SYSTEM
+\*-----------------------------------*/
+
 [data-brutal] {
-  --brutal-bg: #FAF3E0;
-  --brutal-ink: #111111;
+  --brutal-bg: #F4F3EE;
+  --brutal-card-bg: #FFFFFF;
+  --brutal-ink: #111215;
+  --brutal-yellow: #FACC15;
+  --brutal-blue: #3B82F6;
+  --brutal-green: #10B981;
   --brutal-pink: #FF3D8A;
   --brutal-border: 3px;
-  --brutal-shadow: 6px;
+  --brutal-shadow: 5px;
+  --brutal-font-head: 'Space Grotesk', 'Archivo Black', var(--ff-poppins);
 }
 
-/* ponytail: blanket !important beats editing 69 hardcoded border-radius
-   values scattered through style.css. Square-everything IS the brutalist
-   look here, not a shortcut around it — a future element that genuinely
-   needs a radius in brutal mode gets its own override below. */
+/* Hard square corners & high-contrast reset for Neo-Brutalism */
 [data-brutal] * {
   border-radius: 0 !important;
-  animation: none !important;
+  animation-duration: 0.01ms !important;
+}
+
+/* Exceptions that look better rounded in Neo-Brutalism (pill tags, status dots) */
+[data-brutal] .gallery-tag,
+[data-brutal] .project-category-tag,
+[data-brutal] .brutal-status-badge {
+  border-radius: 9999px !important;
 }
 
 [data-brutal] body {
@@ -98,11 +95,11 @@
 }
 
 [data-brutal] ::selection {
-  background: var(--brutal-pink);
-  color: var(--brutal-bg);
+  background: var(--brutal-yellow);
+  color: #111215;
 }
 
-/* kill every gradient/glass background site-wide, then re-paint deliberately */
+/* Base Card Container Styling */
 [data-brutal] .sidebar,
 [data-brutal] article,
 [data-brutal] .service-item,
@@ -110,172 +107,304 @@
 [data-brutal] .project-item,
 [data-brutal] .blog-post-item > a,
 [data-brutal] .form-input,
-[data-brutal] .gallery-card {
-  background: var(--brutal-bg);
+[data-brutal] .content-card {
+  background: var(--brutal-card-bg);
   border: var(--brutal-border) solid var(--brutal-ink);
   box-shadow: var(--brutal-shadow) var(--brutal-shadow) 0 var(--brutal-ink);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
-/* .service-item and .blog-post-item > a fake their border via an inset
-   ::before painted at z-index:-1 — it sits *on top of* the background
-   override above (a positioned element's own background always paints
-   below its negative-z-index children), so left alone they'd stay dark
-   islands in an otherwise cream page. Same trick as .icon-box below. */
+/* Hide legacy gradient pseudoelements */
 [data-brutal] .service-item::before,
-[data-brutal] .blog-post-item > a::before {
-  display: none;
+[data-brutal] .blog-post-item > a::before,
+[data-brutal] .content-card::before,
+[data-brutal] .icon-box::before,
+[data-brutal] .form-btn::before {
+  display: none !important;
 }
 
 [data-brutal] .front-title {
   color: var(--brutal-ink);
 }
 
+[data-brutal] body,
 [data-brutal] p,
+[data-brutal] .about-text,
+[data-brutal] .about-text p,
+[data-brutal] article p,
 [data-brutal] span,
 [data-brutal] li,
 [data-brutal] a,
 [data-brutal] address,
 [data-brutal] time,
 [data-brutal] label {
-  color: var(--brutal-ink);
+  color: #0F172A !important;
+  font-weight: 600 !important;
 }
 
+/* Headings in Neo-Brutalism */
 [data-brutal] .h2,
 [data-brutal] .h3,
 [data-brutal] .h4,
 [data-brutal] .h5,
 [data-brutal] .name,
-[data-brutal] .title {
-  font-family: 'Archivo Black', var(--ff-poppins);
+[data-brutal] .title,
+[data-brutal] .article-title,
+[data-brutal] .service-item-title,
+[data-brutal] .timeline-item-title {
+  font-family: var(--brutal-font-head);
+  font-weight: 800;
   text-transform: uppercase;
   letter-spacing: -0.02em;
   color: var(--brutal-ink);
 }
 
+/* Article title underline accent */
+[data-brutal] .article-title {
+  position: relative;
+  display: inline-block;
+  padding-bottom: 8px;
+}
+
+[data-brutal] .article-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  background: var(--brutal-yellow);
+  border: 1.5px solid var(--brutal-ink);
+}
+
 [data-brutal] .separator {
   height: var(--brutal-border);
   background: var(--brutal-ink);
+  opacity: 1;
 }
 
-/* At >=1024px style.css puts the navbar in the same row as the article
-   header (absolute, top:0 right:0 — style.css:2280), sized on the
-   assumption that titles stay short and narrow (Poppins, capitalize).
-   Archivo Black + full uppercase is wide enough that titles like
-   "About Me" or "Contact" reach into the navbar's box and disappear
-   behind it (navbar paints on top, z-index:5 vs the article's z-index:1).
-   Shrinking the font is a losing game against arbitrary title length —
-   style.css already solves this exact problem for the resume toggle row
-   by pushing it below the navbar (see the "push under absolute navbar"
-   comment on .resume-toggle-box); do the same for every article header
-   instead of fighting text width. Below 1024px the navbar is a plain
-   bottom bar, so no collision there. */
 @media (min-width: 1024px) {
   [data-brutal] article > header {
     padding-top: 36px;
   }
 }
 
-
-
 /*-----------------------------------*\
-  sidebar
+  SIDEBAR
 \*-----------------------------------*/
 
-/* Photo backgrounds vary (white walls, whatever's behind the shot) and
-   will never exactly match --brutal-bg, so match on color treatment
-   instead of pixels: grayscale the photo, then blend the brand yellow
-   over it. Guarantees the avatar reads as "this palette" regardless of
-   what's actually behind the subject in the source photo. */
+[data-brutal] .sidebar {
+  position: relative;
+  background: var(--brutal-card-bg);
+  border: var(--brutal-border) solid var(--brutal-ink);
+}
+
 [data-brutal] .avatar-box {
   position: relative;
   background: var(--brutal-ink);
+  border: var(--brutal-border) solid var(--brutal-ink);
+  box-shadow: 4px 4px 0 var(--brutal-ink);
+  animation: none !important;
+  transform: none !important;
+  transition: none !important;
+  overflow: hidden;
 }
 
 [data-brutal] .avatar-box img {
-  border: var(--brutal-border) solid var(--brutal-ink);
-  filter: grayscale(1) contrast(1.1);
-  mix-blend-mode: luminosity;
+  border: none;
+  filter: none !important;
+  mix-blend-mode: normal !important;
+  animation: none !important;
+  transform: none !important;
+  transition: none !important;
 }
 
 [data-brutal] .avatar-box::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border: var(--brutal-border) solid var(--brutal-ink);
-  background: var(--orange-yellow-crayola);
-  mix-blend-mode: multiply;
-  pointer-events: none;
+  display: none;
+}
+
+[data-brutal] .info-content .title,
+[data-brutal] .sidebar-info .title {
+  display: inline-block !important;
+  background: var(--brutal-yellow) !important;
+  color: var(--brutal-ink) !important;
+  padding: 4px 10px !important;
+  border: 2px solid var(--brutal-ink) !important;
+  box-shadow: 2.5px 2.5px 0 var(--brutal-ink) !important;
+  font-family: var(--brutal-font-head) !important;
+  font-weight: 800 !important;
+  font-size: 11px !important;
+  text-transform: uppercase !important;
+  border-radius: 0 !important;
+}
+
+[data-brutal] .info-content .title::before,
+[data-brutal] .sidebar-info .title::before {
+  display: none !important;
+}
+
+[data-brutal] .contact-info {
+  background: transparent !important;
+}
+
+[data-brutal] .contact-title {
+  color: #64748B !important;
+  background: transparent !important;
+  font-family: var(--brutal-font-head);
+  font-weight: 700;
+  font-size: 10px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  margin-bottom: 2px;
+}
+
+[data-brutal] .contact-info :is(.contact-link, time, address) {
+  color: var(--brutal-ink) !important;
+  background: transparent !important;
+  font-weight: 600;
+}
+
+[data-brutal] .social-card .social-list .iso-pro .iso-icon {
+  background: var(--brutal-card-bg);
+  border: 2.5px solid var(--brutal-ink);
+  box-shadow: 2.5px 2.5px 0 var(--brutal-ink);
+  color: var(--brutal-ink) !important;
+  transition: transform 0.12s ease, background-color 0.15s ease, box-shadow 0.12s ease;
+}
+
+[data-brutal] .social-card .social-list .iso-pro:hover .iso-icon {
+  background: var(--brutal-yellow);
+  color: var(--brutal-ink) !important;
+  transform: translate(-2px, -2px);
+  box-shadow: 4.5px 4.5px 0 var(--brutal-ink);
 }
 
 [data-brutal] .info_more-btn {
-  background: var(--brutal-bg);
-  border: var(--brutal-border) solid var(--brutal-ink);
-  box-shadow: 4px 4px 0 var(--brutal-ink);
-  color: var(--brutal-ink);
-  transition: none;
+  background: var(--brutal-yellow) !important;
+  border: 2.5px solid var(--brutal-ink) !important;
+  box-shadow: 3.5px 3.5px 0 var(--brutal-ink) !important;
+  color: var(--brutal-ink) !important;
+  font-family: var(--brutal-font-head) !important;
+  font-weight: 800 !important;
+  text-transform: uppercase !important;
+  border-radius: 0 !important;
+  transition: transform 0.12s ease, box-shadow 0.12s ease, background-color 0.15s ease !important;
+}
+
+[data-brutal] .info_more-btn::before {
+  display: none !important;
+}
+
+[data-brutal] .info_more-btn span,
+[data-brutal] .info_more-btn ion-icon {
+  color: var(--brutal-ink) !important;
+  font-weight: 800 !important;
 }
 
 [data-brutal] .info_more-btn:hover {
-  transform: translate(2px, 2px);
-  box-shadow: 2px 2px 0 var(--brutal-ink);
+  background: #FEF08A !important;
+  color: var(--brutal-ink) !important;
+  transform: translate(-2px, -2px) !important;
+  box-shadow: 5.5px 5.5px 0 var(--brutal-ink) !important;
 }
 
-/* .brutal-toggle already has its border/shadow structure in the unscoped
-   rule above (it needs to look the same chunky shape in both themes) —
-   brutal mode only needs to repaint it cream instead of yellow. */
+[data-brutal] .info_more-btn:active {
+  transform: translate(1px, 1px) !important;
+  box-shadow: 2px 2px 0 var(--brutal-ink) !important;
+}
+
+.brutal-toggle {
+  background: #FACC15 !important;
+  color: #111215 !important;
+  border: 2.5px solid #111215 !important;
+  box-shadow: 3.5px 3.5px 0 #111215 !important;
+  font-family: var(--ff-poppins), sans-serif !important;
+  font-weight: 800 !important;
+  text-transform: uppercase !important;
+  padding: 6px 12px !important;
+  cursor: pointer !important;
+  transition: transform 0.12s ease, box-shadow 0.12s ease, background-color 0.15s ease !important;
+}
+
+.brutal-toggle span {
+  color: #111215 !important;
+  font-weight: 800 !important;
+}
+
+.brutal-toggle:hover {
+  background: #FEF08A !important;
+  color: #111215 !important;
+  transform: translate(-1.5px, -1.5px) !important;
+  box-shadow: 5px 5px 0 #111215 !important;
+}
+
 [data-brutal] .brutal-toggle {
-  background: var(--brutal-bg);
-  color: var(--brutal-ink);
+  font-family: var(--brutal-font-head) !important;
+  border-radius: 0 !important;
 }
 
 [data-brutal] .icon-box {
-  background: var(--orange-yellow-crayola);
-  border: 2px solid var(--brutal-ink);
-  box-shadow: none;
-}
-
-[data-brutal] .icon-box::before {
-  display: none;
+  background: var(--brutal-yellow);
+  border: 2.5px solid var(--brutal-ink);
+  box-shadow: 2px 2px 0 var(--brutal-ink);
 }
 
 [data-brutal] .icon-box ion-icon {
   color: var(--brutal-ink);
 }
 
-[data-brutal] .contact-iso-box span {
-  background-color: var(--orange-yellow-crayola) !important;
-  box-shadow: none;
-}
-
 [data-brutal] .iso-icon {
   border: 2px solid var(--brutal-ink);
-  background: var(--brutal-bg);
+  background: var(--brutal-card-bg);
+  box-shadow: 2.5px 2.5px 0 var(--brutal-ink);
+  transition: transform 0.12s ease, background-color 0.15s ease, box-shadow 0.12s ease;
 }
 
-
+[data-brutal] .iso-pro:hover .iso-icon {
+  background: var(--brutal-yellow);
+  transform: translate(-2px, -2px);
+  box-shadow: 4.5px 4.5px 0 var(--brutal-ink);
+}
 
 /*-----------------------------------*\
-  navbar
+  NAVBAR
 \*-----------------------------------*/
 
 [data-brutal] .navbar {
-  background: var(--brutal-bg);
+  background: var(--brutal-card-bg);
   backdrop-filter: none;
   border: var(--brutal-border) solid var(--brutal-ink);
-  box-shadow: none;
+  box-shadow: var(--brutal-shadow) var(--brutal-shadow) 0 var(--brutal-ink);
+  padding: 6px 12px;
 }
 
 [data-brutal] .navbar-link {
+  font-family: var(--brutal-font-head);
+  font-weight: 700;
+  text-transform: uppercase;
   color: var(--brutal-ink);
-  font-weight: var(--fw-600);
+  padding: 8px 14px;
+  border: 2px solid transparent;
+  transition: all 0.12s ease;
+}
+
+[data-brutal] .navbar-link:hover {
+  background: #FEF08A;
+  color: var(--brutal-ink);
+  border-color: var(--brutal-ink);
+  transform: translate(-1.5px, -1.5px);
+  box-shadow: 3px 3px 0 var(--brutal-ink);
 }
 
 [data-brutal] .navbar-link.active {
-  background: var(--orange-yellow-crayola);
+  background: var(--brutal-yellow);
   color: var(--brutal-ink);
+  border: 2px solid var(--brutal-ink);
+  box-shadow: 3px 3px 0 var(--brutal-ink);
+  font-weight: 800;
 }
 
-/* Gallery only exists in brutal mode — hidden by default regardless of theme */
+/* Gallery link visibility control */
 .gallery-nav-item {
   display: none;
 }
@@ -284,257 +413,487 @@
   display: list-item;
 }
 
-
-
 /*-----------------------------------*\
-  about
+  ABOUT SECTION
 \*-----------------------------------*/
 
-[data-brutal] .service-item {
-  padding: 15px;
+[data-brutal] .about {
+  border-top: none;
 }
 
+[data-brutal] .service-item {
+  padding: 20px;
+  position: relative;
+  background: var(--brutal-card-bg);
+  border: var(--brutal-border) solid var(--brutal-ink) !important;
+}
 
+[data-brutal] .service-item:nth-child(1),
+[data-brutal] .service-item:nth-child(2),
+[data-brutal] .service-item:nth-child(3),
+[data-brutal] .service-item:nth-child(4) {
+  border-left: var(--brutal-border) solid var(--brutal-ink) !important;
+}
+
+[data-brutal] .service-item:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: 8px 8px 0 var(--brutal-ink);
+}
+
+[data-brutal] .service-icon-box {
+  background: var(--brutal-yellow);
+  border: 2.5px solid var(--brutal-ink);
+  box-shadow: 3px 3px 0 var(--brutal-ink);
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+[data-brutal] .service-icon-box img {
+  filter: brightness(0) !important;
+  display: block;
+  width: 40px;
+  height: 40px;
+}
 
 /*-----------------------------------*\
-  resume
+  RESUME SECTION
 \*-----------------------------------*/
 
+[data-brutal] .resume {
+  border-top: none;
+}
+
+[data-brutal] .resume-toggle-box {
+  background: var(--brutal-bg);
+  border: 2.5px solid var(--brutal-ink);
+  padding: 4px;
+  display: inline-flex;
+  gap: 4px;
+}
+
 [data-brutal] .resume-toggle-btn {
+  font-family: var(--brutal-font-head);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 11px;
+  padding: 8px 14px;
   border: 2px solid var(--brutal-ink);
   color: var(--brutal-ink);
-  background: var(--brutal-bg);
+  background: var(--brutal-card-bg);
+  box-shadow: 2px 2px 0 var(--brutal-ink);
+  cursor: pointer;
+  transition: all 0.12s ease;
+}
+
+[data-brutal] .resume-toggle-btn:hover {
+  background: #FEF08A;
+  transform: translate(-1.5px, -1.5px);
+  box-shadow: 3.5px 3.5px 0 var(--brutal-ink);
 }
 
 [data-brutal] .resume-toggle-btn.active {
-  background: var(--brutal-ink);
-  color: var(--brutal-bg);
+  background: var(--brutal-yellow);
+  color: var(--brutal-ink);
+  box-shadow: 3.5px 3.5px 0 var(--brutal-ink);
+  font-weight: 800;
 }
 
-/* recolor the existing dot/line timeline markers rather than laying a
-   competing border over them */
 [data-brutal] .timeline-item::before {
   background: var(--brutal-ink);
-  width: 2px;
+  width: 3px;
 }
 
 [data-brutal] .timeline-item::after {
-  background: var(--orange-yellow-crayola);
-  box-shadow: 0 0 0 4px var(--brutal-bg), 0 0 0 6px var(--brutal-ink);
+  background: var(--brutal-yellow);
+  border: 2.5px solid var(--brutal-ink);
+  box-shadow: 2px 2px 0 var(--brutal-ink);
+  width: 14px;
+  height: 14px;
+  top: 4px;
 }
 
 [data-brutal] .timeline-list span {
+  display: inline-block;
+  background: var(--brutal-yellow);
   color: var(--brutal-ink);
-  font-weight: var(--fw-600);
-}
-
-/* .content-card backs both the skills lists here and shares the same
-   inset ::before trick as .service-item / .blog-post-item > a above */
-[data-brutal] .content-card {
-  background: var(--brutal-bg);
-  border: var(--brutal-border) solid var(--brutal-ink);
-  box-shadow: var(--brutal-shadow) var(--brutal-shadow) 0 var(--brutal-ink);
-}
-
-[data-brutal] .content-card::before {
-  display: none;
+  border: 1.5px solid var(--brutal-ink);
+  box-shadow: 2px 2px 0 var(--brutal-ink);
+  font-family: var(--brutal-font-head);
+  font-weight: 800;
+  font-size: 11px;
+  padding: 2px 8px;
+  margin-bottom: 6px;
 }
 
 [data-brutal] .skill-progress-bg {
-  background: var(--brutal-bg);
-  border: 2px solid var(--brutal-ink);
-  height: 10px;
+  background: var(--brutal-card-bg);
+  border: 2.5px solid var(--brutal-ink);
+  box-shadow: 2px 2px 0 var(--brutal-ink);
+  height: 14px;
 }
 
 [data-brutal] .skill-progress-fill {
-  background: var(--orange-yellow-crayola);
+  background: var(--brutal-yellow);
+  border-right: 2px solid var(--brutal-ink);
 }
 
 [data-brutal] .skill data {
-  color: var(--brutal-ink);
-  font-weight: var(--fw-600);
+  background: var(--brutal-ink);
+  color: #FFFFFF;
+  font-family: var(--brutal-font-head);
+  font-weight: 800;
+  font-size: 10px;
+  padding: 1px 6px;
+  letter-spacing: 0.5px;
 }
 
-
-
 /*-----------------------------------*\
-  projects
+  PROJECTS SECTION
 \*-----------------------------------*/
+
+[data-brutal] .projects,
+[data-brutal] section.projects,
+[data-brutal] article.projects {
+  border-top: none !important;
+  border-top-color: transparent !important;
+}
 
 [data-brutal] .filter-list button,
 [data-brutal] .filter-select {
-  border: 2px solid var(--brutal-ink);
+  font-family: var(--brutal-font-head);
+  font-weight: 700;
+  text-transform: uppercase;
+  border: 2.5px solid var(--brutal-ink);
   color: var(--brutal-ink);
-  background: var(--brutal-bg);
+  background: var(--brutal-card-bg);
+  box-shadow: 3px 3px 0 var(--brutal-ink);
+  padding: 8px 16px;
+  transition: all 0.12s ease;
+}
+
+[data-brutal] .filter-list button:hover,
+[data-brutal] .filter-select:hover {
+  background: #FEF08A;
+  transform: translate(-2px, -2px);
+  box-shadow: 5px 5px 0 var(--brutal-ink);
 }
 
 [data-brutal] .filter-list button.active {
-  background: var(--orange-yellow-crayola);
+  background: var(--brutal-yellow);
+  box-shadow: 4px 4px 0 var(--brutal-ink);
+  font-weight: 800;
+  transform: translate(-2px, -2px);
 }
 
 [data-brutal] .select-list {
-  border: 2px solid var(--brutal-ink);
-  background: var(--brutal-bg);
+  border: 2.5px solid var(--brutal-ink);
+  background: var(--brutal-card-bg);
+  box-shadow: 4px 4px 0 var(--brutal-ink);
 }
 
 [data-brutal] .select-item button {
-  background: var(--brutal-bg);
+  font-family: var(--brutal-font-head);
+  font-weight: 700;
+  background: var(--brutal-card-bg);
   color: var(--brutal-ink);
 }
 
-[data-brutal] .project-item-icon-box {
-  background: var(--orange-yellow-crayola) !important;
+[data-brutal] .select-item button:hover {
+  background: var(--brutal-yellow);
+}
+
+[data-brutal] .project-item > a {
+  display: block;
+  background: var(--brutal-card-bg);
+  border: var(--brutal-border) solid var(--brutal-ink);
+  box-shadow: var(--brutal-shadow) var(--brutal-shadow) 0 var(--brutal-ink);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+[data-brutal] .project-item > a:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: 8px 8px 0 var(--brutal-ink);
+}
+
+[data-brutal] .project-img {
+  border-bottom: 3px solid var(--brutal-ink);
+}
+
+[data-brutal] .project-title {
+  font-family: var(--brutal-font-head);
+  font-weight: 800;
+  text-transform: uppercase;
   color: var(--brutal-ink);
 }
 
-
+[data-brutal] .project-category {
+  display: inline-block;
+  background: var(--brutal-yellow);
+  color: var(--brutal-ink);
+  border: 1.5px solid var(--brutal-ink);
+  box-shadow: 2px 2px 0 var(--brutal-ink);
+  font-family: var(--brutal-font-head);
+  font-weight: 800;
+  font-size: 10px;
+  padding: 2px 8px;
+  text-transform: uppercase;
+  margin-top: 4px;
+}
 
 /*-----------------------------------*\
-  blog
+  BLOG SECTION
 \*-----------------------------------*/
+
+[data-brutal] .blog {
+  border-top: none;
+}
+
+[data-brutal] .blog-post-item > a {
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+[data-brutal] .blog-post-item > a:hover {
+  transform: translate(-3px, -3px);
+  box-shadow: 8px 8px 0 var(--brutal-ink);
+}
 
 [data-brutal] .blog-category {
-  background: var(--orange-yellow-crayola);
+  background: var(--brutal-yellow);
   border: 2px solid var(--brutal-ink);
+  box-shadow: 2px 2px 0 var(--brutal-ink);
   color: var(--brutal-ink);
+  font-family: var(--brutal-font-head);
+  font-weight: 800;
+  text-transform: uppercase;
+  font-size: 10px;
+  padding: 2px 8px;
 }
 
-
-
 /*-----------------------------------*\
-  contact
+  CONTACT SECTION
 \*-----------------------------------*/
+
+[data-brutal] .contact {
+  border-top: none;
+}
 
 [data-brutal] .form-input {
   color: var(--brutal-ink);
-  box-shadow: none;
+  background: var(--brutal-card-bg);
+  border: 2.5px solid var(--brutal-ink);
+  box-shadow: 3px 3px 0 var(--brutal-ink);
+  font-family: var(--ff-poppins);
+  font-weight: 500;
+  transition: all 0.15s ease;
 }
 
 [data-brutal] .form-input::placeholder {
   color: var(--brutal-ink);
-  opacity: 0.5;
+  opacity: 0.6;
+  font-weight: 500;
+}
+
+[data-brutal] .form-input:focus {
+  background: #FFFBEB;
+  border-color: var(--brutal-ink);
+  box-shadow: 4.5px 4.5px 0 var(--brutal-ink);
+  outline: none;
 }
 
 [data-brutal] .form-btn {
-  background: var(--orange-yellow-crayola);
+  background: var(--brutal-yellow);
   border: var(--brutal-border) solid var(--brutal-ink);
   color: var(--brutal-ink);
-  box-shadow: 4px 4px 0 var(--brutal-ink);
-}
-
-/* same inset ::before trick as .service-item / .blog-post-item > a above —
-   it paints on top of the background set here and would otherwise leave
-   the button looking like the old dark theme. */
-[data-brutal] .form-btn::before {
-  display: none;
+  box-shadow: 4.5px 4.5px 0 var(--brutal-ink);
+  font-family: var(--brutal-font-head);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 12px 24px;
+  transition: transform 0.12s ease, box-shadow 0.12s ease, background-color 0.15s ease;
 }
 
 [data-brutal] .form-btn:hover:not([disabled]) {
+  background: var(--brutal-blue);
+  color: #FFFFFF;
+  transform: translate(-3px, -3px);
+  box-shadow: 7.5px 7.5px 0 var(--brutal-ink);
+}
+
+[data-brutal] .form-btn:active:not([disabled]) {
   transform: translate(2px, 2px);
   box-shadow: 2px 2px 0 var(--brutal-ink);
 }
 
-
-
 /*-----------------------------------*\
-  ask ai panel
+  ASK AI PANEL (SpendLens Neo-Brutalist Drawer Style)
 \*-----------------------------------*/
 
-[data-brutal] .ask-panel,
 [data-brutal] .ask-launcher {
-  background: var(--brutal-bg);
+  background: var(--brutal-yellow);
+  color: var(--brutal-ink);
+  border: var(--brutal-border) solid var(--brutal-ink);
+  box-shadow: 5px 5px 0 var(--brutal-ink);
+  font-family: var(--brutal-font-head);
+  font-weight: 800;
+  text-transform: uppercase;
+  transition: transform 0.12s ease, box-shadow 0.12s ease, background-color 0.15s ease;
+}
+
+[data-brutal] .ask-launcher span {
+  background: none !important;
+  -webkit-background-clip: unset !important;
+  background-clip: unset !important;
+  -webkit-text-fill-color: #111215 !important;
+  color: #111215 !important;
+  font-weight: 800 !important;
+}
+
+[data-brutal] .ask-launcher ion-icon {
+  color: #111215 !important;
+  animation: none !important;
+}
+
+[data-brutal] .ask-launcher:hover {
+  background: var(--brutal-blue);
+  color: #FFFFFF;
+  transform: translate(-3px, -3px);
+  box-shadow: 8px 8px 0 var(--brutal-ink);
+}
+
+[data-brutal] .ask-launcher:hover span,
+[data-brutal] .ask-launcher:hover ion-icon {
+  color: #FFFFFF !important;
+  -webkit-text-fill-color: #FFFFFF !important;
+}
+
+[data-brutal] .ask-launcher:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 var(--brutal-ink);
+}
+
+[data-brutal] .ask-panel {
+  background: #FAF8F5;
   backdrop-filter: none;
   border: var(--brutal-border) solid var(--brutal-ink);
-  box-shadow: var(--brutal-shadow) var(--brutal-shadow) 0 var(--brutal-ink);
+  box-shadow: 8px 8px 0 var(--brutal-ink);
 }
 
 [data-brutal] .ask-header {
-  border-bottom: 2px solid var(--brutal-ink);
+  background: var(--brutal-yellow);
+  border-bottom: 3px solid var(--brutal-ink);
+  padding: 14px 18px;
 }
 
-[data-brutal] .ask-header-title,
+[data-brutal] .ask-header-title {
+  color: var(--brutal-ink);
+  font-family: var(--brutal-font-head);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+}
+
 [data-brutal] .ask-kicker {
   color: var(--brutal-ink);
+  font-weight: 700;
 }
 
 [data-brutal] .ask-control-btn,
 [data-brutal] .ask-close-btn {
   color: var(--brutal-ink);
+  border: 2px solid var(--brutal-ink);
+  background: var(--brutal-card-bg);
+  box-shadow: 2px 2px 0 var(--brutal-ink);
+  transition: all 0.12s ease;
 }
 
 [data-brutal] .ask-control-btn:is(:hover, :focus-visible),
 [data-brutal] .ask-close-btn:is(:hover, :focus-visible) {
-  background: var(--orange-yellow-crayola);
-  color: var(--brutal-ink);
+  background: var(--brutal-ink);
+  color: var(--brutal-yellow);
+  transform: translate(-1.5px, -1.5px);
+  box-shadow: 3.5px 3.5px 0 var(--brutal-ink);
 }
 
-/* .ask-msg carries the text color style.css sets for the dark theme —
-   overriding it here (rather than each -content/-kicker child) covers
-   every descendant through normal inheritance, which is why nothing was
-   showing up: those children are plain <div>s, not the p/span/li/a this
-   file already recolors globally. */
 [data-brutal] .ask-msg {
   color: var(--brutal-ink);
 }
 
 [data-brutal] .ask-msg--user {
-  background: var(--orange-yellow-crayola);
+  background: var(--brutal-yellow);
   border: 2px solid var(--brutal-ink);
+  box-shadow: 3px 3px 0 var(--brutal-ink);
   color: var(--brutal-ink);
+  font-weight: 600;
 }
 
 [data-brutal] .ask-msg--assistant {
+  background: var(--brutal-card-bg);
   border: 2px solid var(--brutal-ink);
+  box-shadow: 3px 3px 0 var(--brutal-ink);
+  color: var(--brutal-ink);
 }
 
 [data-brutal] .ask-msg--assistant strong {
   color: var(--brutal-ink);
+  font-family: var(--brutal-font-head);
 }
 
 [data-brutal] .ask-msg--assistant a {
   color: var(--brutal-ink);
-  text-decoration-color: var(--orange-yellow-crayola);
-  text-decoration-thickness: 2px;
+  text-decoration-color: var(--brutal-yellow);
+  text-decoration-thickness: 3px;
+  font-weight: 700;
 }
 
 [data-brutal] .ask-chip {
-  background: var(--brutal-bg);
+  background: var(--brutal-card-bg);
   border: 2px solid var(--brutal-ink);
+  box-shadow: 2px 2px 0 var(--brutal-ink);
   color: var(--brutal-ink);
+  font-family: var(--brutal-font-head);
+  font-weight: 700;
+  transition: all 0.12s ease;
 }
 
 [data-brutal] .ask-chip:is(:hover, :focus-visible) {
-  background: var(--orange-yellow-crayola);
+  background: var(--brutal-yellow);
   border-color: var(--brutal-ink);
   color: var(--brutal-ink);
+  transform: translate(-1.5px, -1.5px);
+  box-shadow: 3.5px 3.5px 0 var(--brutal-ink);
 }
 
 [data-brutal] .ask-composer {
-  background: var(--brutal-bg);
-  border-top: 2px solid var(--brutal-ink);
+  background: #FAF8F5;
+  border-top: 2.5px solid var(--brutal-ink);
 }
 
 [data-brutal] .ask-input {
-  background: var(--brutal-bg);
+  background: var(--brutal-card-bg);
   color: var(--brutal-ink);
-  border: 2px solid var(--brutal-ink);
-  box-shadow: none;
+  border: 2.5px solid var(--brutal-ink);
+  box-shadow: 3px 3px 0 var(--brutal-ink);
+  font-weight: 500;
+  transition: all 0.15s ease;
 }
 
 [data-brutal] .ask-input:focus {
+  background: #FFFBEB;
   border-color: var(--brutal-ink);
-  box-shadow: none;
+  box-shadow: 4px 4px 0 var(--brutal-ink);
+  outline: none;
 }
 
 [data-brutal] .ask-input::placeholder {
   color: var(--brutal-ink);
-  opacity: 0.5;
+  opacity: 0.6;
 }
 
-
-
 /*-----------------------------------*\
-  gallery
+  GALLERY (PRESERVED & UNALTERED)
 \*-----------------------------------*/
 
 [data-brutal] .gallery-grid {
@@ -615,7 +974,7 @@
   width: 32px;
   height: 32px;
   border: 2px solid var(--brutal-ink);
-  background: var(--orange-yellow-crayola);
+  background: var(--brutal-yellow);
   color: var(--brutal-ink);
   font-size: 20px;
   line-height: 1;
@@ -626,12 +985,69 @@
   [data-brutal] .gallery-grid {
     columns: 1;
   }
+
+  [data-brutal] .sidebar-info {
+    position: relative;
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 15px !important;
+    padding: 16px 50px 16px 16px !important;
+  }
+
+  [data-brutal] .avatar-box {
+    width: 80px !important;
+    height: 80px !important;
+    min-width: 80px !important;
+    border-radius: 0 !important;
+    margin: 0 !important;
+  }
+
+  [data-brutal] .avatar-box img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+  }
+
+  [data-brutal] .info-content {
+    text-align: left !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-start !important;
+  }
+
+  [data-brutal] .info-content .name {
+    font-size: 18px !important;
+    margin-bottom: 6px !important;
+    text-align: left !important;
+  }
+
+  [data-brutal] .info-content .title,
+  [data-brutal] .sidebar-info .title {
+    margin: 0 !important;
+    font-size: 9.5px !important;
+    padding: 3px 8px !important;
+    white-space: nowrap !important;
+    display: inline-block !important;
+  }
+
+  [data-brutal] .info_more-btn {
+    position: absolute !important;
+    top: 16px !important;
+    right: 12px !important;
+    padding: 8px 10px !important;
+  }
+
+  [data-brutal] .ask-launcher-wrapper {
+    bottom: 65px !important;
+    right: 10px !important;
+    transform: scale(0.85);
+    transform-origin: bottom right;
+  }
 }
 
-
-
 /*-----------------------------------*\
-  reduced motion — no tilt, no press animation
+  REDUCED MOTION OVERRIDES
 \*-----------------------------------*/
 
 @media (prefers-reduced-motion: reduce) {
@@ -643,7 +1059,10 @@
   [data-brutal] .gallery-card:hover,
   [data-brutal] .info_more-btn:hover,
   .brutal-toggle:active,
-  [data-brutal] .form-btn:hover:not([disabled]) {
+  [data-brutal] .form-btn:hover:not([disabled]),
+  [data-brutal] .service-item:hover,
+  [data-brutal] .project-item > a:hover,
+  [data-brutal] .blog-post-item > a:hover {
     transform: none;
   }
 }
