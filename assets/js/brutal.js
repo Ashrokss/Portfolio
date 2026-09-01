@@ -11,8 +11,15 @@
   const toggleLabel = document.querySelector('[data-brutal-label]');
 
   const setLabel = function (on) {
-    if (toggleLabel) toggleLabel.textContent = on ? 'Normal Mode' : 'Brutal Mode';
-    if (toggleBtn) toggleBtn.setAttribute('aria-pressed', String(on));
+    if (toggleLabel) {
+      toggleLabel.innerHTML = on 
+        ? '<ion-icon name="sunny"></ion-icon>' 
+        : '<ion-icon name="moon"></ion-icon>';
+    }
+    if (toggleBtn) {
+      toggleBtn.setAttribute('aria-pressed', String(on));
+      toggleBtn.setAttribute('title', on ? 'Switch to Normal Mode' : 'Switch to Brutal Mode');
+    }
   };
 
   const DEFAULT_AVATAR = './assets/images/my-avatar.webp';
