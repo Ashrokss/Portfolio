@@ -494,8 +494,8 @@
 
 @media (min-width: 1024px) {
   [data-brutal] .navbar {
-    top: -3px !important;
-    right: -3px !important;
+    top: 0 !important;
+    right: 0 !important;
     border: var(--brutal-border) solid var(--brutal-ink) !important;
     box-shadow: none !important;
     border-radius: 0 !important;
@@ -537,13 +537,7 @@
   display: list-item;
 }
 
-/*-----------------------------------*\
-  ABOUT SECTION
-\*-----------------------------------*/
-
-[data-brutal] .about {
-  border-top: none;
-}
+/* ABOUT SECTION */
 
 [data-brutal] .service-item {
   padding: 20px;
@@ -598,13 +592,7 @@
   color: var(--brutal-ink) !important;
 }
 
-/*-----------------------------------*\
-  RESUME SECTION
-\*-----------------------------------*/
-
-[data-brutal] .resume {
-  border-top: none;
-}
+/* RESUME SECTION */
 
 [data-brutal] .resume-toggle-box {
   background: var(--brutal-bg);
@@ -690,16 +678,7 @@
   letter-spacing: 0.5px;
 }
 
-/*-----------------------------------*\
-  PROJECTS SECTION
-\*-----------------------------------*/
-
-[data-brutal] .projects,
-[data-brutal] section.projects,
-[data-brutal] article.projects {
-  border-top: none !important;
-  border-top-color: transparent !important;
-}
+/* PROJECTS SECTION */
 
 [data-brutal] .filter-list button,
 [data-brutal] .filter-select {
@@ -783,13 +762,7 @@
   margin-top: 4px;
 }
 
-/*-----------------------------------*\
-  BLOG SECTION
-\*-----------------------------------*/
-
-[data-brutal] .blog {
-  border-top: none;
-}
+/* BLOG SECTION */
 
 [data-brutal] .blog-post-item > a {
   transition: transform 0.15s ease, box-shadow 0.15s ease;
@@ -812,13 +785,7 @@
   padding: 2px 8px;
 }
 
-/*-----------------------------------*\
-  CONTACT SECTION
-\*-----------------------------------*/
-
-[data-brutal] .contact {
-  border-top: none;
-}
+/* CONTACT SECTION */
 
 [data-brutal] .form-input {
   color: var(--brutal-ink);
