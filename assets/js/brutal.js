@@ -34,6 +34,10 @@
     { src: './assets/images/gallery/image-3.jpg', caption: 'Good food, good mood', tag: 'Food' },
     { src: './assets/images/gallery/image-4.jpg', caption: 'The one that started it', tag: 'Gear' },
     { src: './assets/images/gallery/image-5.jpg', caption: 'Made with care', tag: 'Food' },
+    { src: './assets/images/gallery/image-6.jpg', caption: 'Golden hour at the heritage grounds', tag: 'Places' },
+    { src: './assets/images/gallery/image-7.jpg', caption: 'Late night architecture & city lights', tag: 'Night' },
+    { src: './assets/images/gallery/image-8.jpg', caption: 'Iced latte & matcha breaks', tag: 'Food' },
+    { src: './assets/images/gallery/image-9.jpg', caption: 'Quiet reading corner & good books', tag: 'Self' },
   ];
 
   const galleryGrid = document.querySelector('[data-gallery-grid]');

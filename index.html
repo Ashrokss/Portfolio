@@ -294,6 +294,10 @@
             <button class="navbar-link " data-nav-link>Contact</button>
           </li>
 
+          <li class="navbar-item">
+            <button class="navbar-link " data-nav-link>Terminal</button>
+          </li>
+
           <li class="navbar-item gallery-nav-item">
             <button class="navbar-link " data-nav-link>Gallery</button>
           </li>
@@ -1483,6 +1487,62 @@
 
 
       <!--
+        - #TERMINAL
+      -->
+
+      <article class="terminal" data-page="terminal">
+
+        <header>
+          <h2 class="h2 article-title">Terminal</h2>
+        </header>
+
+        <section class="terminal-container">
+          <div class="terminal-intro-text">
+            <p>Interactive Cloud & DevOps Web Shell — Inspect profile stats, run boot sequences, or launch matrix mode.</p>
+          </div>
+
+          <div class="terminal-window">
+            <div class="terminal-window-bar">
+              <div class="terminal-dots">
+                <span class="dot dot--red"></span>
+                <span class="dot dot--yellow"></span>
+                <span class="dot dot--green"></span>
+              </div>
+              <div class="terminal-window-title">
+                <ion-icon name="terminal-outline"></ion-icon>
+                <span>ash@github: ~ (Interactive Web Shell)</span>
+              </div>
+              <div class="terminal-window-actions">
+                <a href="https://ashrokss.github.io/" target="_blank" rel="noopener noreferrer" class="terminal-action-btn" title="Open standalone terminal in new tab">
+                  <ion-icon name="open-outline"></ion-icon>
+                  <span>Open Standalone ↗</span>
+                </a>
+              </div>
+            </div>
+
+            <div class="terminal-iframe-wrapper">
+              <iframe src="https://ashrokss.github.io/" class="terminal-iframe" title="Ashish Terminal Shell" loading="lazy"></iframe>
+            </div>
+          </div>
+
+          <div class="terminal-chips-hint">
+            <span class="hint-label">Available commands in terminal:</span>
+            <span class="terminal-cmd-tag">whoami</span>
+            <span class="terminal-cmd-tag">projects</span>
+            <span class="terminal-cmd-tag">contributions</span>
+            <span class="terminal-cmd-tag">matrix</span>
+            <span class="terminal-cmd-tag">help</span>
+            <span class="terminal-cmd-tag">clear</span>
+          </div>
+
+        </section>
+
+      </article>
+
+
+
+
+      <!--
         - #GALLERY (brutal mode only)
       -->
 
@@ -1524,7 +1584,7 @@
     <header class="ask-header">
       <div class="ask-header-title">
         <img src="./assets/images/bloub.gif" alt="" class="ask-header-mascot">
-        <span>Ask about Ashish</span>
+        <span>ASHISH AI CHAT</span>
       </div>
       <div class="ask-header-controls">
         <button class="ask-control-btn" data-ask-maximize aria-label="Maximize window" title="Toggle full size">
@@ -1536,20 +1596,27 @@
       </div>
     </header>
 
+    <div class="ask-status-bar">
+      <span class="status-dot"></span>
+      <span>Ask anything about Ashish's background, cloud projects, or skills.</span>
+    </div>
+
+    <div class="ask-chips-bar">
+      <button class="ask-chip" data-ask-chip>💡 What does Ashish do?</button>
+      <button class="ask-chip" data-ask-chip>☁️ Walk me through cloud projects</button>
+      <button class="ask-chip" data-ask-chip>🛠️ Experience with Terraform?</button>
+      <button class="ask-chip" data-ask-chip>💼 Open to opportunities?</button>
+    </div>
+
     <div class="ask-thread has-scrollbar" data-ask-thread>
       <div class="ask-msg ask-msg--assistant ask-msg--intro">
-        <img src="./assets/images/bloub.gif" alt="" class="ask-panel-mascot">
-        <div class="ask-kicker">Ashish AI</div>
-        <div class="ask-msg-content">
-          Hi, I'm an AI assistant with knowledge of Ashish's background, projects and skills.
-          Ask me anything about him.
+        <div class="ask-kicker">✦ ASHISH AI</div>
+        <div class="ask-msg-content ask-intro-card">
+          <img src="./assets/images/bloub.gif" alt="" class="ask-panel-mascot">
+          <div class="ask-intro-text">
+            Hello! I'm Ashish's AI assistant. Ask me anything about his experience, projects, skills, contact info, or background!
+          </div>
         </div>
-      </div>
-      <div class="ask-chips">
-        <button class="ask-chip" data-ask-chip>What does Ashish do?</button>
-        <button class="ask-chip" data-ask-chip>Walk me through his cloud projects</button>
-        <button class="ask-chip" data-ask-chip>What's his experience with Terraform?</button>
-        <button class="ask-chip" data-ask-chip>Is he open to opportunities?</button>
       </div>
     </div>
 
