@@ -672,11 +672,21 @@ main {
   left: 0;
   width: 100%;
   background: hsla(240, 1%, 17%, 0.75);
-  backdrop-filter: blur(10px);
   border: 1px solid var(--jet);
   border-radius: 12px 12px 0 0;
   box-shadow: var(--shadow-2);
   z-index: 5;
+}
+
+.navbar::before {
+  content: \"\";
+  position: absolute;
+  inset: 0;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: inherit;
+  z-index: -1;
+  pointer-events: none;
 }
 
 .navbar-list {
@@ -742,19 +752,19 @@ main {
 @media (max-width: 1023px) {
   .brutal-toggle {
     position: fixed !important;
-    top: 12px !important;
-    right: 12px !important;
+    top: 15px !important;
+    right: 15px !important;
     bottom: auto !important;
     left: auto !important;
-    z-index: 1000 !important;
+    z-index: 9999 !important;
     width: 38px !important;
     height: 38px !important;
     box-sizing: border-box !important;
   }
 
   .info_more-btn {
-    top: 12px !important;
-    right: 58px !important;
+    top: 15px !important;
+    right: 60px !important;
     height: 38px !important;
     border-radius: 8px !important;
     padding: 0 12px !important;
@@ -2539,6 +2549,7 @@ textarea.form-input::-webkit-resizer {
   }
 
   .brutal-toggle {
+    display: inline-flex !important;
     position: relative !important;
     top: auto !important;
     right: auto !important;

@@ -261,7 +261,13 @@ const askFormatMarkdown = function (raw) {
         return "<ul>" + items + "</ul>";
       }
 
-      return "<p>" + block.trim().replace(/\n/g, "<br>") + "</p>";
+      const cleanText = lines
+        .map(function (l) { return l.trim(); })
+        .join(" ")
+        .replace(/\s+([.,!?;:])/g, "$1")
+        .trim();
+
+      return "<p>" + cleanText + "</p>";
     })
     .join("");
 };

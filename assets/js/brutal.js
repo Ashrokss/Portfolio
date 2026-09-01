@@ -7,19 +7,19 @@
   const root = document.documentElement;
   const STORAGE_KEY = 'brutal';
 
-  const toggleBtn = document.querySelector('[data-brutal-toggle]');
-  const toggleLabel = document.querySelector('[data-brutal-label]');
+  const toggleBtns = document.querySelectorAll('[data-brutal-toggle]');
+  const toggleLabels = document.querySelectorAll('[data-brutal-label]');
 
   const setLabel = function (on) {
-    if (toggleLabel) {
-      toggleLabel.innerHTML = on 
+    toggleLabels.forEach(function (label) {
+      label.innerHTML = on 
         ? '<ion-icon name="moon"></ion-icon>' 
         : '<ion-icon name="sunny"></ion-icon>';
-    }
-    if (toggleBtn) {
-      toggleBtn.setAttribute('aria-pressed', String(on));
-      toggleBtn.setAttribute('title', on ? 'Switch to Normal Mode' : 'Switch to Brutal Mode');
-    }
+    });
+    toggleBtns.forEach(function (btn) {
+      btn.setAttribute('aria-pressed', String(on));
+      btn.setAttribute('title', on ? 'Switch to Normal Mode' : 'Switch to Brutal Mode');
+    });
   };
 
   const DEFAULT_AVATAR = './assets/images/my-avatar.png';
@@ -121,8 +121,8 @@
     try { localStorage.setItem(STORAGE_KEY, turningOn ? '1' : '0'); } catch (e) { /* storage unavailable, mode just won't persist */ }
   };
 
-  if (toggleBtn) {
-    toggleBtn.addEventListener('click', function () {
+  toggleBtns.forEach(function (btn) {
+    btn.addEventListener('click', function () {
       const turningOn = !root.hasAttribute('data-brutal');
       const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -161,7 +161,7 @@
 
       transition.finished.then(done, done);
     });
-  }
+  });
 
   if (root.hasAttribute('data-brutal')) renderGallery();
 })();
