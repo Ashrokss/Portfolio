@@ -22,7 +22,7 @@
     }
   };
 
-  const DEFAULT_AVATAR = './assets/images/my-avatar.webp';
+  const DEFAULT_AVATAR = './assets/images/my-avatar.png';
   const BRUTAL_AVATAR = './assets/images/brutal-avatar.jpg';
   const avatarImg = document.querySelector('.avatar-box img');
 
