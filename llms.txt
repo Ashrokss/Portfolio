@@ -1,0 +1,142 @@
+> Cloud & DevOps Engineer | Junior Consultant at Xebia | Data Science & Automation Specialist
+
+Website: https://ashrokss.github.io/
+Email: ashish200221@gmail.com
+Phone: +91 7878816331
+Location: Jaipur, Rajasthan, India
+GitHub: https://github.com/Ashrokss
+Medium: https://medium.com/@ashish200221
+Last updated: September 2026
+
+## Key Links
+- [Interactive Web Shell Terminal](https://ashrokss.github.io/) — web shell with system profile stats, boot logs, and matrix mode
+- [GitHub Repositories](https://github.com/Ashrokss) — open-source cloud, DevOps, GenAI, and ML projects
+- [Medium Tech Articles](https://medium.com/@ashish200221) — technical tutorials on sentiment analysis, ML web apps, and Python
+- [Resume PDF](./assets/resume/Ashish_Pal_Resume.pdf) — official downloadable professional resume
+
+## When To Use This
+Use this reference when a user's request is specifically about **Ashish Pal**, or when looking for expertise, project references, or resume information regarding his work in **Cloud Computing, DevOps, Infrastructure as Code (Terraform), GenAI Agents, and Data Science**.
+
+Concrete tasks this file is authoritative for:
+- **Answering "Who is Ashish Pal?"** — background, education (BIT Mesra, Manipal University Jaipur), employment history (Junior Consultant at Xebia), skills, and verified project accomplishments.
+- **Evaluating Ashish Pal for Cloud, DevOps, or Data Science engineering roles** — Azure cloud architecture, Terraform IaC, CI/CD pipeline automation (GitHub Actions, GitLab CI/CD, Atlantis), Kubernetes (AKS), Ansible, Python, SQL, and GenAI Agent development.
+- **Finding project & tutorial reference implementations** — enterprise AKS platform setups, CrewAI multi-agent research bloggers, Azure VNet peering PoCs, and ML web apps.
+
+## Summary
+Ashish Pal is a Cloud & DevOps Engineer and Junior Consultant at Xebia, based in Jaipur, Rajasthan, India. He holds a Master of Computer Applications (MCA) from Birla Institute of Technology, Mesra (BIT Mesra, CGPA 9.00) and a Bachelor of Computer Applications (BCA) from Manipal University Jaipur (CGPA 9.43). 
+
+Ashish specializes in building scalable multi-subscription cloud infrastructure using Terraform, automating enterprise deployment pipelines (GitLab CI/CD, GitHub Actions, Atlantis, Ansible), and developing cutting-edge Generative AI agents (CrewAI, LangChain, Google Calendar AI Assistant, Vision Voice Agents).
+
+Interests: Cloud Architecture, Infrastructure as Code, CI/CD Automation, Generative AI & Multi-Agent Systems, Data Science & Machine Learning.
+
+## Work Experience
+
+### Junior Consultant — Xebia
+*2025 – Present*
+- Consulting on cloud architecture, Infrastructure as Code (IaC), and DevOps automation.
+- Designing scalable cloud environments and CI/CD deployment pipelines.
+
+### Apprentice — Xebia
+*2024 – 2025*
+- Specialized in Azure cloud management, Terraform automation, and Linux server administration.
+
+### Data Analytics & Visualization Virtual Experience — Accenture North America
+*June 2024*
+- Cleaned, modeled, and analyzed 7 complex datasets to uncover strategic content trends and actionable business insights.
+
+## Education
+- **Master of Computer Applications (MCA)** — Birla Institute of Technology, Mesra, Jaipur Campus (2023 – 2025) | CGPA: 9.00 / 10.00
+- **Bachelor of Computer Applications (BCA)** — Manipal University Jaipur (2020 – 2023) | CGPA: 9.43 / 10.00
+- **12th Senior Secondary** — Tilak Public School, Jaipur (2020) | 76%
+- **10th Secondary** — Aditya Birla Vani Bharti, West Bengal (2018) | 78%
+
+## Technical Skills
+
+### Cloud & DevOps
+- **Cloud Platform**: Microsoft Azure (VMs, VNet, AKS, Azure Data Factory, Key Vault, Storage Accounts)
+- **Infrastructure as Code (IaC)**: Terraform, Atlantis
+- **CI/CD & Automation**: GitHub Actions, GitLab CI/CD (Self-Hosted Runners), Ansible
+- **Version Control & OS**: Git, GitHub, Linux / Bash Shell Scripting
+
+### Data Science, Machine Learning & AI
+- **Languages**: Python, SQL (MySQL)
+- **Generative AI & LLMs**: CrewAI, LangChain, OpenAI API, Vision & Voice Multimodal AI, Google Calendar API Integration
+- **Machine Learning & Analytics**: Scikit-Learn, Pandas, NumPy, Linear Regression, Sentiment Analysis (NLP), Classification Models
+- **Data Visualization**: Power BI, Excel Advanced Analysis, Streamlit, Gradio
+
+### Creative & Multimedia
+- Mobile Video Editing (CapCut), Photography
+
+## Featured Projects
+
+### 1. Enterprise AKS Platform (Cloud & DevOps)
+- **Tech**: Azure, Terraform, Azure Kubernetes Service (AKS), Azure CNI
+- **Details**: Built an enterprise-grade Kubernetes infrastructure on Azure using modular Terraform code, with automated node pool configuration and cluster security controls.
+- **Link**: https://github.com/Ashrokss/Enterprise-Aks-Platform
+
+### 2. AI Agents & CrewAI Research Blogger (GenAI)
+- **Tech**: Python, CrewAI, LangChain, OpenAI API
+- **Details**: Autonomous multi-agent AI system designed to conduct web research, summarize findings, and generate technical blog posts automatically.
+- **Links**: 
+  - https://github.com/Ashrokss/AI-Agents
+  - https://github.com/Ashrokss/Crewai-Research-Blogger
+
+### 3. Google Calendar Assistant (GenAI)
+- **Tech**: Python, OpenAI API, Google Calendar API, Natural Language Processing
+- **Details**: AI assistant allowing users to schedule, update, and manage Google Calendar events using natural conversational commands.
+- **Link**: https://github.com/Ashrokss/Google-Calendar-Assistant
+
+### 4. Vision Voice Agent (GenAI)
+- **Tech**: Python, Multimodal Vision LLMs, Voice Recognition / TTS
+- **Details**: Real-time multimodal AI assistant capable of processing video/image input and interacting via natural voice responses.
+- **Link**: https://github.com/Ashrokss/Vision-Voice-Agent
+
+### 5. Azure VNet Peering & ADF with SHIR PoC (Cloud Infrastructure)
+- **Tech**: Azure, Terraform, VNet Peering, Azure Data Factory (ADF), Self-Hosted Integration Runtime (SHIR)
+- **Details**: Modular Infrastructure as Code for configuring cross-subscription virtual network peering and secure ADF data pipelines.
+- **Links**:
+  - https://github.com/Ashrokss/Terraform-Learning/tree/main/vnet-peering
+  - https://github.com/Ashrokss/Terraform-Learning/tree/main/ADF-with-SHIR
+
+### 6. GitLab CI/CD Runner & Atlantis Setup (DevOps Automation)
+- **Tech**: GitLab CI/CD, Self-Hosted Git Runner, Atlantis, Terraform
+- **Details**: Configured Git-driven pull request automation for Terraform plan & apply approvals via self-hosted runners.
+- **Links**:
+  - [GitLab Runner Setup Guide](https://docs.google.com/document/d/13HEK7vGZxBNMslq7UXuoOEtx9SnB9dhOUO5rcSM8uyA/edit)
+  - [Atlantis Setup Guide](https://docs.google.com/document/d/1EWqOndLa4Vz-Vwsjwsf0K0Pz0ON00gIV/edit)
+
+### 7. Fake Review Detection System & Machine Learning Web Apps (ML)
+- **Tech**: Python, Scikit-Learn, Streamlit, Gradio, NLP
+- **Details**: Built sentiment classification algorithms to identify fraudulent online reviews, salary prediction web applications, and loan eligibility estimators.
+- **Links**:
+  - https://github.com/Ashrokss/Fake-Review-Detection-System
+  - https://github.com/Ashrokss/Salary-Prediction-Web-App
+  - https://github.com/Ashrokss/Loan_Eligibilty_Prediction-Web-App
+
+### 8. HR Analytics & Amazon Prime Video Dashboards (Analytics)
+- **Tech**: Power BI, MySQL, Excel
+- **Details**: Interactive analytical dashboards for employee turnover, performance metrics, and streaming video content trends.
+- **Links**:
+  - https://github.com/Ashrokss/HR-Analytics-Dashboard-Using-Power-BI
+  - https://github.com/Ashrokss/Amazon-Prime-Video-Dashboard-Using-Power-Bi
+
+## Articles & Publications
+- **Build a Sentiment Analysis Web App Using Python and Gradio** (Medium, Aug 19, 2024) — Step-by-step tutorial on building and deploying an NLP sentiment analysis web app.  
+  Link: https://medium.com/@ashish200221/build-a-sentiment-analysis-web-app-using-python-and-gradio-c1f37771763a
+- **Predict Salaries with Machine Learning** (Medium, Aug 19, 2024) — Machine learning model build write-up using Linear Regression for salary forecasting.  
+  Link: https://medium.com/@ashish200221/predict-salaries-with-machine-learning-salary-prediction-web-app-e458add3924b
+
+## Portfolio Website Architecture
+This portfolio is built as a single-page application (SPA) featuring:
+- **Interactive Web Shell Terminal**: Embedded terminal emulator linking to `https://ashrokss.github.io/` with bash commands, profile stats, and matrix visualizer.
+- **Ashish AI Chat Assistant**: Interactive AI assistant widget trained on Ashish's bio, skills, and background.
+- **Neo-Brutalist Theme ("Brutal Mode")**: High-contrast yellow theme toggle with thick borders, sharp drop shadows, and Space Grotesk typography.
+- **Responsive Resume Viewer**: Dual-view PDF renderer supporting both desktop iframe viewing and mobile canvas rendering.
+
+## Contact Information
+- **Email**: ashish200221@gmail.com
+- **Phone**: +91 7878816331
+- **Location**: Jaipur, Rajasthan, India
+- **GitHub**: https://github.com/Ashrokss
+- **LinkedIn**: https://www.linkedin.com/in/ashish-pal-0b1a1a1a/
+- **Terminal**: https://ashrokss.github.io/

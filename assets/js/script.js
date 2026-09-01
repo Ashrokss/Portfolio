@@ -157,13 +157,23 @@ const askChips = document.querySelectorAll("[data-ask-chip]");
 let askHistory = [];
 
 // open / close panel
+const askLauncherWrapper = document.querySelector(".ask-launcher-wrapper");
+
 for (let i = 0; i < askOpenBtns.length; i++) {
   askOpenBtns[i].addEventListener("click", function () {
     elementToggleFunc(askPanel);
+    if (askLauncherWrapper) {
+      askLauncherWrapper.style.display = askPanel.classList.contains("active") ? "none" : "flex";
+    }
     if (askPanel.classList.contains("active")) askInput.focus();
   });
 }
-askCloseBtn.addEventListener("click", function () { elementToggleFunc(askPanel); });
+askCloseBtn.addEventListener("click", function () {
+  elementToggleFunc(askPanel);
+  if (askLauncherWrapper) {
+    askLauncherWrapper.style.display = "flex";
+  }
+});
 
 // maximize / restore panel toggle
 if (askMaximizeBtn) {
@@ -203,7 +213,13 @@ askInput.addEventListener("keydown", function (e) {
 const askAppendMsg = function (role, text) {
   const msg = document.createElement("div");
   msg.className = "ask-msg ask-msg--" + role;
-  msg.textContent = text;
+  if (role === "user") {
+    msg.innerHTML =
+      '<div class="ask-kicker ask-kicker--user">YOU</div>' +
+      '<div class="ask-msg-bubble">' + askEscapeHtml(text) + '</div>';
+  } else {
+    msg.textContent = text;
+  }
   askThread.appendChild(msg);
   askThread.scrollTop = askThread.scrollHeight;
   return msg;
@@ -265,7 +281,7 @@ askForm.addEventListener("submit", async function (e) {
   const assistantMsg = document.createElement("div");
   assistantMsg.className = "ask-msg ask-msg--assistant thinking";
   assistantMsg.innerHTML =
-    '<div class="ask-kicker">Ashish AI</div>' +
+    '<div class="ask-kicker">✦ ASHISH AI</div>' +
     '<div class="ask-msg-content"><span class="ask-thinking"><span></span><span></span><span></span></span></div>';
   askThread.appendChild(assistantMsg);
   askThread.scrollTop = askThread.scrollHeight;
@@ -331,7 +347,7 @@ askForm.addEventListener("submit", async function (e) {
   } catch (err) {
     assistantMsg.classList.remove("thinking", "streaming");
     assistantMsg.classList.add("ask-msg--error");
-    assistantContent.textContent = err.message || "Something went wrong. Try again shortly.";
+    assistantContent.innerHTML = '<div class="ask-error-text"><ion-icon name="alert-circle-outline"></ion-icon> ' + askEscapeHtml(err.message || "Something went wrong. Try again shortly.") + '</div>';
     askHistory.pop(); // drop the failed turn so a retry isn't poisoned
   } finally {
     askSendBtn.removeAttribute("disabled");
