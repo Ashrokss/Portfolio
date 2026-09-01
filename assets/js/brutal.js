@@ -13,8 +13,8 @@
   const setLabel = function (on) {
     if (toggleLabel) {
       toggleLabel.innerHTML = on 
-        ? '<ion-icon name="sunny"></ion-icon>' 
-        : '<ion-icon name="moon"></ion-icon>';
+        ? '<ion-icon name="moon"></ion-icon>' 
+        : '<ion-icon name="sunny"></ion-icon>';
     }
     if (toggleBtn) {
       toggleBtn.setAttribute('aria-pressed', String(on));
