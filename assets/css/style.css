@@ -2738,14 +2738,14 @@ textarea.form-input::-webkit-resizer {
   }
 
   .contact-info :is(.contact-link) {
-    white-space: normal;
-    overflow: visible;
-    text-overflow: clip;
-    word-break: normal;
-    overflow-wrap: break-word;
+    font-size: 11.5px !important;
+    white-space: nowrap !important;
+    overflow: visible !important;
+    word-break: normal !important;
+    letter-spacing: -0.01em;
   }
 
-  .contact-info :is(.contact-link, time, address) {
+  .contact-info :is(time, address) {
     font-size: 13px;
     font-weight: var(--fw-300);
     line-height: 1.4;
