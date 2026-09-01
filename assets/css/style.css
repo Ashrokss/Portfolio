@@ -702,7 +702,7 @@ main {
 }
 
 .brutal-toggle {
-  background: #FFFFFF !important;
+  background: #FFDB70 !important;
   color: #111215 !important;
   border: 2.5px solid #111215 !important;
   box-shadow: 3px 3px 0 #111215 !important;
@@ -723,11 +723,11 @@ main {
   align-items: center !important;
   justify-content: center !important;
   font-size: 20px !important;
-  color: #F59E0B !important;
+  color: #111215 !important;
 }
 
 .brutal-toggle:hover {
-  background: #FEF08A !important;
+  background: #FACC15 !important;
   transform: translate(-1.5px, -1.5px) !important;
   box-shadow: 4.5px 4.5px 0 #111215 !important;
 }
