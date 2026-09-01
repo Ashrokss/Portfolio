@@ -528,6 +528,7 @@ main {
 .contact-info {
   max-width: calc(100% - 46px);
   width: calc(100% - 46px);
+  min-width: 0;
   overflow: visible;
 }
 
@@ -540,10 +541,11 @@ main {
 
 .contact-info :is(.contact-link, time, address) {
   color: var(--white-2);
-  font-size: clamp(12px, 3.2vw, 14px);
+  font-size: 13px;
+  line-height: 1.4;
   white-space: normal;
-  word-break: break-all;
-  overflow-wrap: anywhere;
+  word-break: normal;
+  overflow-wrap: break-word;
 }
 
 .contact-info address {
@@ -2736,14 +2738,17 @@ textarea.form-input::-webkit-resizer {
   }
 
   .contact-info :is(.contact-link) {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
+    word-break: normal;
+    overflow-wrap: break-word;
   }
 
   .contact-info :is(.contact-link, time, address) {
-    --fs-7: 14px;
+    font-size: 13px;
     font-weight: var(--fw-300);
+    line-height: 1.4;
   }
 
   .separator:last-of-type {
