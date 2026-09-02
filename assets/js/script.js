@@ -359,3 +359,318 @@ askForm.addEventListener("submit", async function (e) {
     askSendBtn.removeAttribute("disabled");
   }
 });
+
+
+/*-----------------------------------*\
+  #INTERACTIVE SKILLS CANVAS
+\*-----------------------------------*/
+(function initSkillsCanvas() {
+  const canvas = document.getElementById('skills-canvas');
+  if (!canvas) return;
+  const wrap = canvas.parentElement;
+  const ctx = canvas.getContext('2d');
+
+  // Motion constants. Entrance is easeOutBack with a scale overshoot; the
+  // cursor drags icons along as a comet tail; letting go springs them home
+  // to rest points that drift slightly so the field never looks frozen.
+  const TRAIL_MAX = 160;   // cursor points kept
+  const TRAIL_GAP = 7;     // trail points between consecutive icons
+  const FOLLOW = 0.14;     // lerp toward assigned trail point
+  const SPRING = 0.08;
+  const DAMP = 0.82;
+  const DRIFT_MS = 2000;
+  const DRIFT_PX = 10;
+  const ENTER_STAGGER = 75;
+  const ENTER_MS = 500;
+  const REENGAGE_PX = 6;   // movement needed to resume following after a reset
+
+  const easeOutBack = (t) => 1 + 2.70158 * Math.pow(t - 1, 3) + 1.70158 * Math.pow(t - 1, 2);
+  const lerp = (a, b, t) => a + (b - a) * t;
+  const rand = (a, b) => a + Math.random() * (b - a);
+
+  const ICON_DIR = './assets/images/skills/';
+  const SKILLS = [
+    { name: 'Azure', icon: 'azure' },
+    { name: 'Terraform', icon: 'terraform' },
+    { name: 'Git', icon: 'git' },
+    { name: 'Linux', icon: 'linux' },
+    { name: 'Docker', icon: 'docker' },
+    { name: 'AWS', icon: 'aws' },
+    { name: 'Kubernetes', icon: 'kubernetes' },
+    { name: 'CI/CD', icon: 'cicd' },
+    { name: 'SQL', icon: 'sql' },
+    { name: 'Python', icon: 'python' },
+    { name: 'Machine Learning', icon: 'ml' },
+    { name: 'Power BI', icon: 'powerbi' },
+    { name: 'Excel', icon: 'excel' },
+    { name: 'GenAI', icon: 'genai' },
+    { name: 'Data Science', icon: 'datascience' }
+  ];
+
+  // Rest positions as fractions of the usable half-extent, so the scatter
+  // keeps its shape at any container size.
+  const WIDE = [
+    [-0.77, 0.00], [1.00, 0.33], [0.92, -0.17], [-0.92, -0.50], [-0.92, 0.83],
+    [0.15, -0.83], [-0.62, -1.00], [0.77, 0.67], [-0.46, 0.00], [0.46, 0.00],
+    [0.38, 1.00], [0.85, -1.00], [-0.38, 0.83], [-0.05, 0.45], [0.05, -0.42]
+  ];
+  const NARROW = [
+    [-0.67, 0.32], [1.00, 0.29], [0.80, -0.39], [-0.80, -0.72], [0.00, 0.86],
+    [0.07, -0.74], [-0.67, -0.39], [0.03, 0.39], [-1.00, 0.79], [1.00, 1.00],
+    [0.83, -0.95], [-1.00, -0.97], [0.67, 0.66], [-0.50, 0.00], [0.45, 0.06]
+  ];
+
+  const nodes = SKILLS.map((s) => {
+    const image = new Image();
+    image.src = ICON_DIR + s.icon + '.svg';
+    // Icons stream in after first paint; repaint if the loop is not running.
+    image.addEventListener('load', () => { if (!raf) draw(); });
+    return {
+      name: s.name, image: image,
+      x: 0, y: 0, vx: 0, vy: 0, scale: 0,
+      baseRestX: 0, baseRestY: 0, restX: 0, restY: 0
+    };
+  });
+
+  const pointer = { x: 0, y: 0, active: false };
+  let W = 0, H = 0, dpr = 1, tile = 56;
+  let trail = [];
+  let order = [];
+  let phase = 'wait';       // wait -> entering -> idle
+  let enterStart = 0;
+  let driftAcc = 0;
+  let last = 0;
+  let raf = 0;
+  let sized = false;
+  let visible = false;
+  let resetAt = null;      // where a right-click reset happened, until re-engaged
+
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function layout() {
+    const r = wrap.getBoundingClientRect();
+    // The skills section sits in a tab that is display:none on load, which
+    // reports 0x0. Stay unsized until the ResizeObserver says it has opened.
+    if (!r.width || !r.height) { sized = false; return; }
+    dpr = window.devicePixelRatio || 1;
+    W = r.width; H = r.height;
+    canvas.width = Math.round(W * dpr);
+    canvas.height = Math.round(H * dpr);
+    canvas.style.width = W + 'px';
+    canvas.style.height = H + 'px';
+
+    tile = Math.round(Math.max(44, Math.min(68, W * 0.085)));
+
+    const pts = W < 600 ? NARROW : WIDE;
+    const halfX = Math.max(20, W / 2 - tile / 2 - 6);
+    const halfY = Math.max(16, H / 2 - tile / 2 - 6);
+    nodes.forEach((n, i) => {
+      const p = pts[i % pts.length];
+      n.baseRestX = p[0] * halfX;
+      n.baseRestY = p[1] * halfY;
+      n.restX = n.baseRestX;
+      n.restY = n.baseRestY;
+      if (phase !== 'entering') { n.x = n.restX; n.y = n.restY; }
+    });
+    sized = true;
+  }
+
+  function releasePointer() {
+    pointer.active = false;
+    trail = [];
+    order = [];
+    resetAt = null;
+  }
+
+  function toLocal(clientX, clientY) {
+    const r = wrap.getBoundingClientRect();
+    return { x: clientX - r.left - r.width / 2, y: clientY - r.top - r.height / 2 };
+  }
+
+  function setPointer(clientX, clientY) {
+    const p = toLocal(clientX, clientY);
+    // After a right-click reset, wait for real movement before grabbing the
+    // cards again, so the jitter of the click itself doesn't undo the reset.
+    if (resetAt) {
+      if (Math.hypot(p.x - resetAt.x, p.y - resetAt.y) < REENGAGE_PX) return;
+      resetAt = null;
+    }
+    pointer.x = p.x;
+    pointer.y = p.y;
+    pointer.active = true;
+  }
+
+  canvas.addEventListener('mousemove', (e) => setPointer(e.clientX, e.clientY));
+  canvas.addEventListener('mouseleave', releasePointer);
+  canvas.addEventListener('touchmove', (e) => {
+    if (e.touches.length) setPointer(e.touches[0].clientX, e.touches[0].clientY);
+  }, { passive: true });
+  canvas.addEventListener('touchend', releasePointer);
+
+  // Either mouse button sends every card home; moving the cursor picks them
+  // up again. Right-click also swallows the browser context menu.
+  function resetField(clientX, clientY) {
+    releasePointer();
+    resetAt = toLocal(clientX, clientY);
+  }
+
+  canvas.addEventListener('click', (e) => resetField(e.clientX, e.clientY));
+  canvas.addEventListener('contextmenu', (e) => {
+    e.preventDefault();
+    resetField(e.clientX, e.clientY);
+  });
+
+  function step(now) {
+    const dt = last ? now - last : 16;
+    last = now;
+
+    if (phase === 'entering') {
+      let done = true;
+      for (let i = 0; i < nodes.length; i++) {
+        const n = nodes[i];
+        const el = now - enterStart - i * ENTER_STAGGER;
+        if (el < 0) { n.scale = 0; done = false; continue; }
+        const t = Math.min(el / ENTER_MS, 1);
+        if (t < 1) done = false;
+        const e = easeOutBack(t);
+        n.x = n.baseRestX * e;
+        n.y = n.baseRestY * e;
+        // pop past full size, then settle back to it
+        n.scale = t < 0.5 ? lerp(0, 1.5, t * 2) : lerp(1.5, 1, (t - 0.5) * 2);
+      }
+      if (done) {
+        phase = 'idle';
+        nodes.forEach((n) => { n.x = n.baseRestX; n.y = n.baseRestY; n.scale = 1; n.vx = 0; n.vy = 0; });
+      }
+    } else if (phase === 'idle') {
+      if (pointer.active) {
+        trail.push({ x: pointer.x, y: pointer.y });
+        if (trail.length > TRAIL_MAX) trail.shift();
+        // Nearest card leads the tail, the rest queue up behind it.
+        if (!order.length) {
+          order = nodes
+            .map((n, i) => ({ i: i, d: Math.hypot(n.x - pointer.x, n.y - pointer.y) }))
+            .sort((a, b) => a.d - b.d)
+            .map((o) => o.i);
+        }
+        for (let k = 0; k < order.length; k++) {
+          const ti = trail.length - 1 - k * TRAIL_GAP;
+          if (ti < 0) break;            // tail too short yet; the rest hold still
+          const p = trail[ti];
+          const n = nodes[order[k]];
+          n.x = lerp(n.x, p.x, FOLLOW);
+          n.y = lerp(n.y, p.y, FOLLOW);
+          n.vx = 0; n.vy = 0;
+        }
+      } else {
+        for (const n of nodes) {
+          n.vx += (n.restX - n.x) * SPRING;
+          n.vy += (n.restY - n.y) * SPRING;
+          n.vx *= DAMP; n.vy *= DAMP;
+          n.x += n.vx; n.y += n.vy;
+        }
+        driftAcc += dt;
+        if (driftAcc > DRIFT_MS) {
+          driftAcc = 0;
+          for (const n of nodes) {
+            n.restX = n.baseRestX + rand(-DRIFT_PX, DRIFT_PX);
+            n.restY = n.baseRestY + rand(-DRIFT_PX, DRIFT_PX);
+          }
+        }
+      }
+    }
+
+    draw();
+    raf = requestAnimationFrame(step);
+  }
+
+  function draw() {
+    if (!sized) return;          // never paint into a canvas of unknown size
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.scale(dpr, dpr);
+    ctx.translate(W / 2, H / 2);
+
+    const brutal = document.documentElement.hasAttribute('data-brutal');
+    const half = tile / 2;
+    const icon = Math.round(tile * 0.62);
+
+    for (const n of nodes) {
+      if (n.scale <= 0) continue;
+      ctx.save();
+      ctx.translate(n.x, n.y);
+      ctx.scale(n.scale, n.scale);
+
+      if (brutal) {
+        ctx.fillStyle = '#111215';
+        ctx.beginPath();
+        ctx.rect(-half + 4, -half + 4, tile, tile);
+        ctx.fill();
+      }
+
+      ctx.fillStyle = brutal ? '#FFFFFF' : 'rgba(30, 32, 42, 0.92)';
+      ctx.strokeStyle = brutal ? '#111215' : 'rgba(255, 219, 112, 0.35)';
+      ctx.lineWidth = brutal ? 2.5 : 1.2;
+      ctx.beginPath();
+      if (ctx.roundRect) ctx.roundRect(-half, -half, tile, tile, brutal ? 0 : 12);
+      else ctx.rect(-half, -half, tile, tile);
+      ctx.fill();
+      ctx.stroke();
+
+      if (n.image && n.image.complete && n.image.naturalWidth) {
+        ctx.drawImage(n.image, -icon / 2, -icon / 2, icon, icon);
+      }
+
+      ctx.restore();
+    }
+  }
+
+  function start() {
+    if (raf) return;
+    last = 0;
+    raf = requestAnimationFrame(step);
+  }
+
+  function stop() {
+    cancelAnimationFrame(raf);
+    raf = 0;
+  }
+
+  function restAll() {
+    nodes.forEach((n) => { n.x = n.restX; n.y = n.restY; n.scale = 1; });
+  }
+
+  layout();
+
+  if (reduced) {
+    // Honour reduced-motion: show the field at rest, no loop, no cursor follow.
+    restAll();
+    draw();
+    new ResizeObserver(() => { layout(); restAll(); draw(); }).observe(wrap);
+    return;
+  }
+
+  // Run the entrance once the section is both on screen and actually laid out.
+  function maybeStart() {
+    if (!visible || !sized) return;
+    if (phase === 'wait') { phase = 'entering'; enterStart = performance.now(); }
+    start();
+  }
+
+  const io = new IntersectionObserver((entries) => {
+    visible = entries[0].isIntersecting;
+    if (visible) maybeStart();
+    else { stop(); releasePointer(); }
+  }, { threshold: 0.1 });
+  io.observe(wrap);
+
+  // Fires when the tab opens (0x0 -> real size) and on every later resize, so
+  // this covers both the hidden-on-load case and window resizing.
+  new ResizeObserver(() => {
+    const wasSized = sized;
+    layout();
+    if (!sized) { stop(); return; }
+    if (!wasSized) maybeStart();
+    else if (!raf) draw();
+  }).observe(wrap);
+})();

@@ -1320,3 +1320,66 @@
   border-radius: 0 !important;
 }
 
+
+/*-----------------------------------*\
+  BRUTAL MODE SKILLS OVERRIDES
+\*-----------------------------------*/
+
+[data-brutal] .skills-interactive-container {
+  background: #FFFFFF !important;
+  border: 3px solid #111215 !important;
+  box-shadow: 5px 5px 0 #111215 !important;
+  border-radius: 0 !important;
+}
+
+[data-brutal] .skills-interactive-container::before {
+  display: none !important;
+}
+
+[data-brutal] .skills-interactive-subtitle {
+  font-family: var(--brutal-font-head) !important;
+  font-weight: 800 !important;
+  color: #111215 !important;
+  text-transform: uppercase !important;
+}
+
+[data-brutal] .skills-interactive-hint {
+  font-family: var(--brutal-font-head) !important;
+  font-weight: 700 !important;
+  color: #111215 !important;
+  background: #FACC15 !important;
+  border: 2px solid #111215 !important;
+  padding: 2px 8px !important;
+}
+
+/* `[data-brutal] *` blanket-kills animation to keep the theme static, but the
+   skills marquee IS the feature here - put its scroll back. Higher specificity
+   than the universal rule, so it wins without weakening the blanket. */
+[data-brutal] .horizontal-skills-wrapper {
+  animation: marquee-scroll 32s linear infinite !important;
+}
+
+[data-brutal] .horizontal-skills-wrapper.reverse {
+  animation: marquee-scroll-reverse 32s linear infinite !important;
+}
+
+[data-brutal] .horizontal-skills-wrapper:hover,
+[data-brutal] .horizontal-skills-wrapper.reverse:hover {
+  animation-play-state: paused !important;
+}
+
+[data-brutal] .skill-marquee-card {
+  background: #FFFFFF !important;
+  border: 2.5px solid #111215 !important;
+  box-shadow: 3px 3px 0 #111215 !important;
+  color: #111215 !important;
+  font-family: var(--brutal-font-head) !important;
+  font-weight: 800 !important;
+  border-radius: 0 !important;
+}
+
+[data-brutal] .skill-marquee-card:hover {
+  background: #FACC15 !important;
+  transform: translate(-2px, -2px) !important;
+  box-shadow: 5px 5px 0 #111215 !important;
+}

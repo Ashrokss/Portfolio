@@ -8,9 +8,6 @@
  */
 
 
-
-
-
 /*-----------------------------------*\
   #CUSTOM PROPERTY
 \*-----------------------------------*/
@@ -118,9 +115,6 @@
 }
 
 
-
-
-
 /*-----------------------------------*\
   #RESET
 \*-----------------------------------*/
@@ -182,9 +176,6 @@ html {
 body {
   background: var(--smoky-black);
 }
-
-
-
 
 
 /*-----------------------------------*\
@@ -386,9 +377,6 @@ article.active {
 }
 
 
-
-
-
 /*-----------------------------------*\
   #MAIN
 \*-----------------------------------*/
@@ -398,9 +386,6 @@ main {
   margin-bottom: 75px;
   min-width: 259px;
 }
-
-
-
 
 
 /*-----------------------------------*\
@@ -442,7 +427,6 @@ main {
   object-fit: cover;
   border-radius: 50%;
 }
-
 
 
 .info-content .name {
@@ -658,10 +642,6 @@ main {
 }
 
 
-
-
-
-
 /*-----------------------------------*\
   #NAVBAR
 \*-----------------------------------*/
@@ -775,9 +755,6 @@ main {
 }
 
 
-
-
-
 /*-----------------------------------*\
   #ABOUT
 \*-----------------------------------*/
@@ -796,7 +773,6 @@ main {
 .about-text p {
   margin-bottom: 15px;
 }
-
 
 
 /**
@@ -1115,9 +1091,6 @@ main {
 }
 
 
-
-
-
 /*-----------------------------------*\
   #RESUME
 \*-----------------------------------*/
@@ -1381,9 +1354,6 @@ main {
 }
 
 
-
-
-
 /*-----------------------------------*\
   #PORTFOLIO
 \*-----------------------------------*/
@@ -1563,9 +1533,6 @@ main {
 }
 
 
-
-
-
 /*-----------------------------------*\
   #BLOG
 \*-----------------------------------*/
@@ -1657,9 +1624,6 @@ main {
   font-weight: var(--fw-300);
   line-height: 1.6;
 }
-
-
-
 
 
 /*-----------------------------------*\
@@ -1788,9 +1752,6 @@ textarea.form-input::-webkit-resizer {
 .form-btn:disabled:hover::before {
   background: var(--bg-gradient-jet);
 }
-
-
-
 
 
 /*-----------------------------------*\
@@ -1965,9 +1926,6 @@ textarea.form-input::-webkit-resizer {
 }
 
 
-
-
-
 /*-----------------------------------*\
   #RESPONSIVE
 \*-----------------------------------*/
@@ -1987,7 +1945,6 @@ textarea.form-input::-webkit-resizer {
   }
 
 
-
   /**
    * #PORTFOLIO, BLOG 
    */
@@ -1998,9 +1955,6 @@ textarea.form-input::-webkit-resizer {
   }
 
 }
-
-
-
 
 
 /**
@@ -2028,7 +1982,6 @@ textarea.form-input::-webkit-resizer {
     --fs-8: 12px;
 
   }
-
 
 
   /**
@@ -2060,7 +2013,6 @@ textarea.form-input::-webkit-resizer {
   }
 
 
-
   /**
    * #MAIN
    */
@@ -2069,7 +2021,6 @@ textarea.form-input::-webkit-resizer {
     margin-top: 60px;
     margin-bottom: 100px;
   }
-
 
 
   /**
@@ -2134,7 +2085,6 @@ textarea.form-input::-webkit-resizer {
   }
 
 
-
   /**
    * #NAVBAR
    */
@@ -2150,7 +2100,6 @@ textarea.form-input::-webkit-resizer {
   .navbar-link {
     --fs-8: 14px;
   }
-
 
 
   /**
@@ -2271,7 +2220,6 @@ textarea.form-input::-webkit-resizer {
   }
 
 
-
   /**
    * #RESUME
    */
@@ -2295,7 +2243,6 @@ textarea.form-input::-webkit-resizer {
   }
 
 
-
   /**
    * #PORTFOLIO, BLOG
    */
@@ -2312,7 +2259,6 @@ textarea.form-input::-webkit-resizer {
   .blog-content {
     padding: 25px;
   }
-
 
 
   /**
@@ -2349,9 +2295,6 @@ textarea.form-input::-webkit-resizer {
 }
 
 
-
-
-
 /**
  * responsive larger than 768px screen
  */
@@ -2372,7 +2315,6 @@ textarea.form-input::-webkit-resizer {
   }
 
 
-
   /**
    * SIDEBAR
    */
@@ -2383,7 +2325,6 @@ textarea.form-input::-webkit-resizer {
   }
 
 
-
   /**
    * NAVBAR
    */
@@ -2391,7 +2332,6 @@ textarea.form-input::-webkit-resizer {
   .navbar-link {
     --fs-8: 15px;
   }
-
 
 
   /**
@@ -2408,7 +2348,6 @@ textarea.form-input::-webkit-resizer {
   .modal-avatar-box img {
     width: 80px;
   }
-
 
 
   /**
@@ -2454,7 +2393,6 @@ textarea.form-input::-webkit-resizer {
   }
 
 
-
   /**
    * CONTACT
    */
@@ -2469,9 +2407,6 @@ textarea.form-input::-webkit-resizer {
   }
 
 }
-
-
-
 
 
 /**
@@ -2497,7 +2432,6 @@ textarea.form-input::-webkit-resizer {
   }
 
 
-
   /**
    * REUSED STYLE
    */
@@ -2507,7 +2441,6 @@ textarea.form-input::-webkit-resizer {
     width: 950px;
     box-shadow: var(--shadow-5);
   }
-
 
 
   /**
@@ -2523,7 +2456,6 @@ textarea.form-input::-webkit-resizer {
     width: max-content;
     margin: auto;
   }
-
 
 
   /**
@@ -2582,7 +2514,6 @@ textarea.form-input::-webkit-resizer {
   }
 
 
-
   /**
    * ABOUT
    */
@@ -2607,7 +2538,6 @@ textarea.form-input::-webkit-resizer {
   }
 
 
-
   /**
    * PORTFOLIO
    */
@@ -2615,7 +2545,6 @@ textarea.form-input::-webkit-resizer {
   .project-list {
     grid-template-columns: repeat(3, 1fr);
   }
-
 
 
   /**
@@ -2627,9 +2556,6 @@ textarea.form-input::-webkit-resizer {
   }
 
 }
-
-
-
 
 
 /**
@@ -2667,7 +2593,6 @@ textarea.form-input::-webkit-resizer {
   }
 
 
-
   /**
    * REUSED STYLE
    */
@@ -2680,7 +2605,6 @@ textarea.form-input::-webkit-resizer {
   article {
     min-height: 100%;
   }
-
 
 
   /**
@@ -2701,7 +2625,6 @@ textarea.form-input::-webkit-resizer {
     width: 75%;
     margin: 0;
   }
-
 
 
   /**
@@ -2770,7 +2693,6 @@ textarea.form-input::-webkit-resizer {
   .social-list {
     justify-content: center;
   }
-
 
 
   /**
@@ -3012,7 +2934,6 @@ textarea.form-input::-webkit-resizer {
   visibility: hidden;
   pointer-events: none;
 }
-
 
 
 /*-----------------------------------*\
@@ -3565,3 +3486,156 @@ textarea.form-input::-webkit-resizer {
 
 }
 
+
+/*-----------------------------------*\
+  #SKILLS SECTION (Interactive & Marquee)
+\*-----------------------------------*/
+
+.skill {
+  margin-bottom: 40px;
+}
+
+.skills-title {
+  margin-bottom: 24px;
+}
+
+/* Interactive Floating Canvas Container */
+.skills-interactive-container {
+  position: relative;
+  width: 100%;
+  border-radius: 16px;
+  background: var(--border-gradient-onyx);
+  padding: 1px;
+  box-shadow: var(--shadow-2);
+  margin-bottom: 30px;
+  overflow: hidden;
+}
+
+.skills-interactive-container::before {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  background: var(--bg-gradient-jet);
+  border-radius: inherit;
+  z-index: 1;
+}
+
+.skills-interactive-header {
+  position: relative;
+  z-index: 2;
+  padding: 20px 24px 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.skills-interactive-subtitle {
+  font-size: var(--fs-4);
+  font-weight: var(--fw-600);
+  color: var(--white-1);
+}
+
+.skills-interactive-hint {
+  font-size: var(--fs-8);
+  color: var(--orange-yellow-crayola);
+  font-weight: var(--fw-500);
+}
+
+.skills-canvas-wrapper {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 320px;
+  overflow: hidden;
+}
+
+#skills-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  cursor: grab;
+}
+
+#skills-canvas:active {
+  cursor: grabbing;
+}
+
+/* Continuous Horizontal Marquee Section */
+.horizontal-skills-parent {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  margin-bottom: 35px;
+  padding: 10px 0;
+  mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+}
+
+.horizontal-skills-wrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  width: max-content;
+  white-space: nowrap;
+  animation: marquee-scroll 32s linear infinite;
+}
+
+.horizontal-skills-wrapper.reverse {
+  animation: marquee-scroll-reverse 32s linear infinite;
+}
+
+.horizontal-skills-wrapper:hover {
+  animation-play-state: paused;
+}
+
+.skill-marquee-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--onyx);
+  border: 1px solid var(--jet);
+  padding: 10px 18px;
+  border-radius: 12px;
+  box-shadow: var(--shadow-1);
+  color: var(--white-2);
+  font-size: var(--fs-6);
+  font-weight: var(--fw-500);
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+  user-select: none;
+}
+
+.skill-marquee-icon {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+  object-fit: contain;
+}
+
+.skill-marquee-card:hover {
+  transform: translateY(-3px) scale(1.04);
+  border-color: var(--orange-yellow-crayola);
+  box-shadow: 0 8px 20px rgba(255, 219, 112, 0.15);
+}
+
+@keyframes marquee-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes marquee-scroll-reverse {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
