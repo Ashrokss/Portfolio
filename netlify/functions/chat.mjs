@@ -1,11 +1,18 @@
 // Netlify Function (modern format — .mjs so it streams without a package.json).
-// Proxies chat requests to an OpenAI-compatible LLM endpoint, keeping the API
-// key server-side. Swap providers with env vars only: LLM_BASE_URL / LLM_MODEL.
+// Proxies chat requests to Groq LLM endpoint with Gemini fallback.
 import BIO from './bio.js';
 
-const BASE_URL = process.env.LLM_BASE_URL || 'https://api.groq.com/openai/v1';
-const MODEL = process.env.LLM_MODEL || 'openai/gpt-oss-120b';
-const API_KEY = process.env.LLM_API_KEY;
+function getEnv(key) {
+  return (typeof Netlify !== 'undefined' && Netlify.env ? Netlify.env.get(key) : process.env[key]) || '';
+}
+
+const GROQ_BASE_URL = getEnv('LLM_BASE_URL') || 'https://api.groq.com/openai/v1';
+const GROQ_MODEL = getEnv('LLM_MODEL') || getEnv('GROQ_MODEL') || 'openai/gpt-oss-120b';
+const GROQ_API_KEY = (getEnv('GROQ_API_KEY') || getEnv('LLM_API_KEY')).trim();
+
+const GEMINI_BASE_URL = getEnv('GEMINI_BASE_URL') || 'https://generativelanguage.googleapis.com/v1beta/openai';
+const GEMINI_MODEL = getEnv('GEMINI_MODEL') || 'gemini-3.5-flash-lite';
+const GEMINI_API_KEY = getEnv('GEMINI_API_KEY').trim();
 
 const SYSTEM = `You are the AI assistant on Ashish Pal's portfolio website.
 You answer visitors' questions about Ashish — recruiters, hiring managers,
@@ -41,11 +48,29 @@ function sanitizeMessages(messages) {
     .map((m) => ({ role: m.role, content: m.content.slice(0, 2000) }));
 }
 
+async function callLLM(baseUrl, apiKey, model, messages) {
+  return await fetch(`${baseUrl}/chat/completions`, {
+    method: 'POST',
+    headers: {
+      'content-type': 'application/json',
+      authorization: `Bearer ${apiKey}`,
+    },
+    body: JSON.stringify({
+      model: model,
+      messages: [{ role: 'system', content: SYSTEM }, ...messages],
+      temperature: 0.6,
+      max_tokens: 600,
+      stream: true,
+    }),
+  });
+}
+
 export default async (req) => {
   if (req.method !== 'POST') {
     return new Response(JSON.stringify({ error: 'Method not allowed' }), { status: 405 });
   }
-  if (!API_KEY) {
+
+  if (!GROQ_API_KEY && !GEMINI_API_KEY) {
     return new Response(JSON.stringify({ error: 'Assistant is not configured yet.' }), { status: 500 });
   }
 
@@ -62,28 +87,37 @@ export default async (req) => {
   }
 
   let upstream;
-  try {
-    upstream = await fetch(`${BASE_URL}/chat/completions`, {
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json',
-        authorization: `Bearer ${API_KEY}`,
-      },
-      body: JSON.stringify({
-        model: MODEL,
-        messages: [{ role: 'system', content: SYSTEM }, ...messages],
-        temperature: 0.6,
-        max_tokens: 600,
-        stream: true,
-      }),
-    });
-  } catch {
-    return new Response(JSON.stringify({ error: 'Could not reach the assistant. Try again shortly.' }), { status: 502 });
+
+  // 1. Try Groq (Primary) if key is configured
+  if (GROQ_API_KEY) {
+    try {
+      upstream = await callLLM(GROQ_BASE_URL, GROQ_API_KEY, GROQ_MODEL, messages);
+      // If Groq fails (e.g. Rate limit 429 or server error 5xx) and Gemini key is available, fallback to Gemini
+      if (!upstream.ok && GEMINI_API_KEY) {
+        console.warn(`Groq API returned status ${upstream.status}. Falling back to Gemini...`);
+        upstream.body?.cancel();
+        upstream = null;
+      }
+    } catch (err) {
+      console.warn('Failed to reach Groq API. Falling back to Gemini...', err);
+      upstream = null;
+    }
   }
 
-  if (!upstream.ok || !upstream.body) {
-    const status = upstream.status === 429 ? 429 : 502;
-    const detail = status === 429 ? "I'm getting a lot of questions right now — try again in a minute." : 'The assistant hit an error. Try again shortly.';
+  // 2. Fallback to Gemini if Groq failed or was not configured
+  if (!upstream && GEMINI_API_KEY) {
+    try {
+      upstream = await callLLM(GEMINI_BASE_URL, GEMINI_API_KEY, GEMINI_MODEL, messages);
+    } catch (err) {
+      console.error('Failed to reach Gemini API fallback:', err);
+    }
+  }
+
+  if (!upstream || !upstream.ok || !upstream.body) {
+    const status = (upstream && upstream.status === 429) ? 429 : 502;
+    const detail = status === 429 
+      ? "I'm getting a lot of questions right now — try again in a minute." 
+      : 'The assistant hit an error. Try again shortly.';
     return new Response(JSON.stringify({ error: detail }), { status });
   }
 
