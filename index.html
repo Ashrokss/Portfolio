@@ -586,87 +586,145 @@
 
           </section>
 
-          <section class="skill">
+          <section class="skill" id="skills-section">
 
-            <h3 class="h3 skills-title">My skills</h3>
+            <h3 class="h3 skills-title">MY SKILLS</h3>
 
-            <div class="skills-wrapper">
+            <!-- 1. Interactive Physics Canvas Floating Skills -->
+            <div class="skills-interactive-container">
+              <div class="skills-interactive-header">
+                <p class="skills-interactive-subtitle">Skillset I Bring To The Table.</p>
+                <span class="skills-interactive-hint">✦ Move cursor or tap to interact</span>
+              </div>
+              <div class="skills-canvas-wrapper">
+                <canvas id="skills-canvas"></canvas>
+              </div>
+            </div>
 
-              <div class="skills-column">
-                <h4 class="h4 skill-title">Cloud & DevOps</h4>
-                <ul class="skills-list content-card">
-                  <li class="skills-item">
-                    <div class="title-wrapper">
-                      <h5 class="h5">Azure</h5>
-                      <data value="80">80%</data>
-                    </div>
-                    <div class="skill-progress-bg">
-                      <div class="skill-progress-fill" style="width: 80%;"></div>
-                    </div>
-                  </li>
-                  <li class="skills-item">
-                    <div class="title-wrapper">
-                      <h5 class="h5">Terraform</h5>
-                      <data value="75">75%</data>
-                    </div>
-                    <div class="skill-progress-bg">
-                      <div class="skill-progress-fill" style="width: 75%;"></div>
-                    </div>
-                  </li>
-                  <li class="skills-item">
-                    <div class="title-wrapper">
-                      <h5 class="h5">Git</h5>
-                      <data value="85">85%</data>
-                    </div>
-                    <div class="skill-progress-bg">
-                      <div class="skill-progress-fill" style="width: 85%;"></div>
-                    </div>
-                  </li>
-                  <li class="skills-item">
-                    <div class="title-wrapper">
-                      <h5 class="h5">Linux</h5>
-                      <data value="80">80%</data>
-                    </div>
-                    <div class="skill-progress-bg">
-                      <div class="skill-progress-fill" style="width: 80%;"></div>
-                    </div>
-                  </li>
-                </ul>
+            <!-- 2. Infinite Continuous Horizontal Marquee Ticker -->
+            <div class="horizontal-skills-parent">
+              <div class="horizontal-skills-wrapper">
+                <div class="skill-marquee-card"><ion-icon name="cloud-outline"></ion-icon> <span>Azure</span> <span class="badge">80%</span></div>
+                <div class="skill-marquee-card"><ion-icon name="code-working-outline"></ion-icon> <span>Terraform</span> <span class="badge">75%</span></div>
+                <div class="skill-marquee-card"><ion-icon name="git-branch-outline"></ion-icon> <span>Git</span> <span class="badge">85%</span></div>
+                <div class="skill-marquee-card"><ion-icon name="terminal-outline"></ion-icon> <span>Linux</span> <span class="badge">80%</span></div>
+                <div class="skill-marquee-card"><ion-icon name="cube-outline"></ion-icon> <span>Docker</span> <span class="badge">85%</span></div>
+                <div class="skill-marquee-card"><ion-icon name="logo-amazon"></ion-icon> <span>AWS</span> <span class="badge">80%</span></div>
+                <div class="skill-marquee-card"><ion-icon name="hardware-chip-outline"></ion-icon> <span>Kubernetes</span> <span class="badge">75%</span></div>
+                <div class="skill-marquee-card"><ion-icon name="sync-outline"></ion-icon> <span>CI/CD Pipelines</span> <span class="badge">90%</span></div>
+
+                <!-- Duplicate row icons for seamless infinite marquee loop -->
+                <div class="skill-marquee-card"><ion-icon name="cloud-outline"></ion-icon> <span>Azure</span> <span class="badge">80%</span></div>
+                <div class="skill-marquee-card"><ion-icon name="code-working-outline"></ion-icon> <span>Terraform</span> <span class="badge">75%</span></div>
+                <div class="skill-marquee-card"><ion-icon name="git-branch-outline"></ion-icon> <span>Git</span> <span class="badge">85%</span></div>
+                <div class="skill-marquee-card"><ion-icon name="terminal-outline"></ion-icon> <span>Linux</span> <span class="badge">80%</span></div>
+                <div class="skill-marquee-card"><ion-icon name="cube-outline"></ion-icon> <span>Docker</span> <span class="badge">85%</span></div>
+                <div class="skill-marquee-card"><ion-icon name="logo-amazon"></ion-icon> <span>AWS</span> <span class="badge">80%</span></div>
+                <div class="skill-marquee-card"><ion-icon name="hardware-chip-outline"></ion-icon> <span>Kubernetes</span> <span class="badge">75%</span></div>
+                <div class="skill-marquee-card"><ion-icon name="sync-outline"></ion-icon> <span>CI/CD Pipelines</span> <span class="badge">90%</span></div>
               </div>
 
-              <div class="skills-column">
-                <h4 class="h4 skill-title">Data Science</h4>
-                <ul class="skills-list content-card">
-                  <li class="skills-item">
-                    <div class="title-wrapper">
-                      <h5 class="h5">SQL</h5>
-                      <data value="80">80%</data>
+              <div class="horizontal-skills-wrapper reverse">
+                <div class="skill-marquee-card"><ion-icon name="server-outline"></ion-icon> <span>SQL</span> <span class="badge">80%</span></div>
+                <div class="skill-marquee-card"><ion-icon name="logo-python"></ion-icon> <span>Python</span> <span class="badge">70%</span></div>
+                <div class="skill-marquee-card"><ion-icon name="analytics-outline"></ion-icon> <span>Machine Learning</span> <span class="badge">90%</span></div>
+                <div class="skill-marquee-card"><ion-icon name="bar-chart-outline"></ion-icon> <span>Power BI</span> <span class="badge">85%</span></div>
+                <div class="skill-marquee-card"><ion-icon name="stats-chart-outline"></ion-icon> <span>Excel</span> <span class="badge">80%</span></div>
+                <div class="skill-marquee-card"><ion-icon name="sparkles-outline"></ion-icon> <span>GenAI</span> <span class="badge">85%</span></div>
+                <div class="skill-marquee-card"><ion-icon name="pie-chart-outline"></ion-icon> <span>Data Science</span> <span class="badge">85%</span></div>
+
+                <!-- Duplicate row icons for seamless infinite marquee loop -->
+                <div class="skill-marquee-card"><ion-icon name="server-outline"></ion-icon> <span>SQL</span> <span class="badge">80%</span></div>
+                <div class="skill-marquee-card"><ion-icon name="logo-python"></ion-icon> <span>Python</span> <span class="badge">70%</span></div>
+                <div class="skill-marquee-card"><ion-icon name="analytics-outline"></ion-icon> <span>Machine Learning</span> <span class="badge">90%</span></div>
+                <div class="skill-marquee-card"><ion-icon name="bar-chart-outline"></ion-icon> <span>Power BI</span> <span class="badge">85%</span></div>
+                <div class="skill-marquee-card"><ion-icon name="stats-chart-outline"></ion-icon> <span>Excel</span> <span class="badge">80%</span></div>
+                <div class="skill-marquee-card"><ion-icon name="sparkles-outline"></ion-icon> <span>GenAI</span> <span class="badge">85%</span></div>
+                <div class="skill-marquee-card"><ion-icon name="pie-chart-outline"></ion-icon> <span>Data Science</span> <span class="badge">85%</span></div>
+              </div>
+            </div>
+
+            <!-- 3. Neo-Brutalist Structured Skill Progress Bars -->
+            <div class="skills-wrapper-brutal">
+              <div class="skills-column-brutal">
+                <h4 class="h4 skill-category-header">CLOUD &amp; DEVOPS</h4>
+                <div class="brutal-skills-box">
+                  <div class="brutal-skill-row">
+                    <div class="brutal-skill-head">
+                      <span class="skill-name">AZURE</span>
+                      <span class="skill-badge">80%</span>
                     </div>
-                    <div class="skill-progress-bg">
-                      <div class="skill-progress-fill" style="width: 80%;"></div>
+                    <div class="brutal-progress-bar">
+                      <div class="brutal-progress-fill" style="width: 80%;"></div>
                     </div>
-                  </li>
-                  <li class="skills-item">
-                    <div class="title-wrapper">
-                      <h5 class="h5">Python</h5>
-                      <data value="70">70%</data>
+                  </div>
+
+                  <div class="brutal-skill-row">
+                    <div class="brutal-skill-head">
+                      <span class="skill-name">TERRAFORM</span>
+                      <span class="skill-badge">75%</span>
                     </div>
-                    <div class="skill-progress-bg">
-                      <div class="skill-progress-fill" style="width: 70%;"></div>
+                    <div class="brutal-progress-bar">
+                      <div class="brutal-progress-fill" style="width: 75%;"></div>
                     </div>
-                  </li>
-                  <li class="skills-item">
-                    <div class="title-wrapper">
-                      <h5 class="h5">Machine Learning</h5>
-                      <data value="90">90%</data>
+                  </div>
+
+                  <div class="brutal-skill-row">
+                    <div class="brutal-skill-head">
+                      <span class="skill-name">GIT</span>
+                      <span class="skill-badge">85%</span>
                     </div>
-                    <div class="skill-progress-bg">
-                      <div class="skill-progress-fill" style="width: 90%;"></div>
+                    <div class="brutal-progress-bar">
+                      <div class="brutal-progress-fill" style="width: 85%;"></div>
                     </div>
-                  </li>
-                </ul>
+                  </div>
+
+                  <div class="brutal-skill-row">
+                    <div class="brutal-skill-head">
+                      <span class="skill-name">LINUX</span>
+                      <span class="skill-badge">80%</span>
+                    </div>
+                    <div class="brutal-progress-bar">
+                      <div class="brutal-progress-fill" style="width: 80%;"></div>
+                    </div>
+                  </div>
+                </div>
               </div>
 
+              <div class="skills-column-brutal">
+                <h4 class="h4 skill-category-header">DATA SCIENCE</h4>
+                <div class="brutal-skills-box">
+                  <div class="brutal-skill-row">
+                    <div class="brutal-skill-head">
+                      <span class="skill-name">SQL</span>
+                      <span class="skill-badge">80%</span>
+                    </div>
+                    <div class="brutal-progress-bar">
+                      <div class="brutal-progress-fill" style="width: 80%;"></div>
+                    </div>
+                  </div>
+
+                  <div class="brutal-skill-row">
+                    <div class="brutal-skill-head">
+                      <span class="skill-name">PYTHON</span>
+                      <span class="skill-badge">70%</span>
+                    </div>
+                    <div class="brutal-progress-bar">
+                      <div class="brutal-progress-fill" style="width: 70%;"></div>
+                    </div>
+                  </div>
+
+                  <div class="brutal-skill-row">
+                    <div class="brutal-skill-head">
+                      <span class="skill-name">MACHINE LEARNING</span>
+                      <span class="skill-badge">90%</span>
+                    </div>
+                    <div class="brutal-progress-bar">
+                      <div class="brutal-progress-fill" style="width: 90%;"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
 
           </section>

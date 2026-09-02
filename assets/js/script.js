@@ -359,3 +359,211 @@ askForm.addEventListener("submit", async function (e) {
     askSendBtn.removeAttribute("disabled");
   }
 });
+
+
+/*-----------------------------------*\
+  #INTERACTIVE SKILLS CANVAS PHYSICS
+\*-----------------------------------*/
+(function initSkillsCanvas() {
+  const canvas = document.getElementById('skills-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+
+  const container = canvas.parentElement;
+  let width, height;
+
+  function resizeCanvas() {
+    if (!container) return;
+    const rect = container.getBoundingClientRect();
+    width = canvas.width = rect.width || 700;
+    height = canvas.height = rect.height || 280;
+  }
+  resizeCanvas();
+
+  const skillsData = [
+    { name: 'Azure', percent: '80%', color: '#0089D6' },
+    { name: 'Terraform', percent: '75%', color: '#7B42BC' },
+    { name: 'Git', percent: '85%', color: '#F05032' },
+    { name: 'Linux', percent: '80%', color: '#FCC624' },
+    { name: 'SQL', percent: '80%', color: '#4479A1' },
+    { name: 'Python', percent: '70%', color: '#3776AB' },
+    { name: 'Machine Learning', percent: '90%', color: '#FF6F61' },
+    { name: 'Docker', percent: '85%', color: '#2496ED' },
+    { name: 'AWS', percent: '80%', color: '#FF9900' },
+    { name: 'CI/CD', percent: '90%', color: '#00C853' },
+    { name: 'Power BI', percent: '85%', color: '#F2C811' },
+    { name: 'GenAI', percent: '85%', color: '#A855F7' }
+  ];
+
+  const nodes = skillsData.map((skill, index) => {
+    const angle = (index / skillsData.length) * Math.PI * 2;
+    const radiusX = (width * 0.35);
+    const radiusY = (height * 0.3);
+    const restX = width / 2 + Math.cos(angle) * radiusX;
+    const restY = height / 2 + Math.sin(angle) * radiusY;
+
+    return {
+      name: skill.name,
+      percent: skill.percent,
+      color: skill.color,
+      x: restX,
+      y: restY,
+      baseX: restX,
+      baseY: restY,
+      vx: (Math.random() - 0.5) * 0.6,
+      vy: (Math.random() - 0.5) * 0.6,
+      phase: Math.random() * Math.PI * 2
+    };
+  });
+
+  let mouse = { x: -1000, y: -1000, active: false };
+
+  canvas.addEventListener('mousemove', (e) => {
+    const rect = canvas.getBoundingClientRect();
+    mouse.x = e.clientX - rect.left;
+    mouse.y = e.clientY - rect.top;
+    mouse.active = true;
+  });
+
+  canvas.addEventListener('mouseleave', () => {
+    mouse.active = false;
+  });
+
+  canvas.addEventListener('touchmove', (e) => {
+    if (e.touches.length > 0) {
+      const rect = canvas.getBoundingClientRect();
+      mouse.x = e.touches[0].clientX - rect.left;
+      mouse.y = e.touches[0].clientY - rect.top;
+      mouse.active = true;
+    }
+  }, { passive: true });
+
+  canvas.addEventListener('touchend', () => {
+    mouse.active = false;
+  });
+
+  window.addEventListener('resize', () => {
+    resizeCanvas();
+    nodes.forEach((node, index) => {
+      const angle = (index / skillsData.length) * Math.PI * 2;
+      node.baseX = width / 2 + Math.cos(angle) * (width * 0.35);
+      node.baseY = height / 2 + Math.sin(angle) * (height * 0.3);
+    });
+  });
+
+  let time = 0;
+  function animate() {
+    ctx.clearRect(0, 0, width, height);
+    time += 0.015;
+
+    const isBrutal = document.documentElement.hasAttribute('data-brutal');
+
+    nodes.forEach((node) => {
+      // Ambient floating motion
+      const floatX = Math.sin(time + node.phase) * 0.5;
+      const floatY = Math.cos(time * 0.9 + node.phase) * 0.5;
+      node.baseX += floatX * 0.1;
+      node.baseY += floatY * 0.1;
+
+      // Mouse interactive physics (repulsion force)
+      if (mouse.active) {
+        const dx = node.x - mouse.x;
+        const dy = node.y - mouse.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        const maxDist = 130;
+
+        if (dist < maxDist && dist > 0) {
+          const force = (maxDist - dist) / maxDist;
+          const angle = Math.atan2(dy, dx);
+          node.vx += Math.cos(angle) * force * 1.6;
+          node.vy += Math.sin(angle) * force * 1.6;
+        }
+      }
+
+      // Spring return to base position
+      const dxBase = node.baseX - node.x;
+      const dyBase = node.baseY - node.y;
+      node.vx += dxBase * 0.025;
+      node.vy += dyBase * 0.025;
+
+      // Velocity damping
+      node.vx *= 0.86;
+      node.vy *= 0.86;
+
+      node.x += node.vx;
+      node.y += node.vy;
+
+      // Draw floating skill badge
+      ctx.save();
+      ctx.translate(node.x, node.y);
+
+      const cardW = 125;
+      const cardH = 38;
+      const rx = -cardW / 2;
+      const ry = -cardH / 2;
+
+      // Draw Hard shadow if in brutal mode
+      if (isBrutal) {
+        ctx.fillStyle = '#111215';
+        ctx.beginPath();
+        if (ctx.roundRect) ctx.roundRect(rx + 4, ry + 4, cardW, cardH, 0);
+        else ctx.rect(rx + 4, ry + 4, cardW, cardH);
+        ctx.fill();
+      }
+
+      // Card Body
+      ctx.fillStyle = isBrutal ? '#FFFFFF' : 'rgba(30, 32, 42, 0.92)';
+      ctx.strokeStyle = isBrutal ? '#111215' : 'rgba(255, 219, 112, 0.35)';
+      ctx.lineWidth = isBrutal ? 2.5 : 1.2;
+
+      ctx.beginPath();
+      const cornerRadius = isBrutal ? 0 : 10;
+      if (ctx.roundRect) ctx.roundRect(rx, ry, cardW, cardH, cornerRadius);
+      else ctx.rect(rx, ry, cardW, cardH);
+      ctx.fill();
+      ctx.stroke();
+
+      // Category color dot / accent
+      ctx.fillStyle = node.color;
+      ctx.beginPath();
+      ctx.arc(rx + 16, 0, 4, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Skill Title
+      ctx.fillStyle = isBrutal ? '#111215' : '#FFFFFF';
+      ctx.font = isBrutal ? '800 12px "Space Grotesk", sans-serif' : '600 12px "Poppins", sans-serif';
+      ctx.textAlign = 'left';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(node.name, rx + 26, 0);
+
+      // Percentage Tag
+      const badgeW = 28;
+      const badgeH = 18;
+      const badgeX = rx + cardW - badgeW - 6;
+      const badgeY = -badgeH / 2;
+
+      ctx.fillStyle = isBrutal ? '#FACC15' : '#FFDB70';
+      ctx.beginPath();
+      if (ctx.roundRect) ctx.roundRect(badgeX, badgeY, badgeW, badgeH, isBrutal ? 0 : 4);
+      else ctx.rect(badgeX, badgeY, badgeW, badgeH);
+      ctx.fill();
+
+      if (isBrutal) {
+        ctx.strokeStyle = '#111215';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+      }
+
+      ctx.fillStyle = '#111215';
+      ctx.font = '800 9px "Space Grotesk", sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText(node.percent, badgeX + badgeW / 2, 0);
+
+      ctx.restore();
+    });
+
+    requestAnimationFrame(animate);
+  }
+
+  animate();
+})();

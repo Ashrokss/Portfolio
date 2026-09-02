@@ -3565,3 +3565,250 @@ textarea.form-input::-webkit-resizer {
 
 }
 
+
+/*-----------------------------------*\
+  #SKILLS SECTION (Interactive & Marquee)
+\*-----------------------------------*/
+
+.skill {
+  margin-bottom: 40px;
+}
+
+.skills-title {
+  margin-bottom: 24px;
+}
+
+/* Interactive Floating Canvas Container */
+.skills-interactive-container {
+  position: relative;
+  width: 100%;
+  border-radius: 16px;
+  background: var(--border-gradient-onyx);
+  padding: 1px;
+  box-shadow: var(--shadow-2);
+  margin-bottom: 30px;
+  overflow: hidden;
+}
+
+.skills-interactive-container::before {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  background: var(--bg-gradient-jet);
+  border-radius: inherit;
+  z-index: 1;
+}
+
+.skills-interactive-header {
+  position: relative;
+  z-index: 2;
+  padding: 20px 24px 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.skills-interactive-subtitle {
+  font-size: var(--fs-4);
+  font-weight: var(--fw-600);
+  color: var(--white-1);
+}
+
+.skills-interactive-hint {
+  font-size: var(--fs-8);
+  color: var(--orange-yellow-crayola);
+  font-weight: var(--fw-500);
+}
+
+.skills-canvas-wrapper {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 280px;
+  overflow: hidden;
+}
+
+#skills-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  cursor: grab;
+}
+
+#skills-canvas:active {
+  cursor: grabbing;
+}
+
+/* Continuous Horizontal Marquee Section */
+.horizontal-skills-parent {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  margin-bottom: 35px;
+  padding: 10px 0;
+  mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+}
+
+.horizontal-skills-wrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 16px;
+  width: max-content;
+  white-space: nowrap;
+  animation: marquee-scroll 32s linear infinite;
+}
+
+.horizontal-skills-wrapper.reverse {
+  animation: marquee-scroll-reverse 32s linear infinite;
+}
+
+.horizontal-skills-wrapper:hover {
+  animation-play-state: paused;
+}
+
+.skill-marquee-card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--onyx);
+  border: 1px solid var(--jet);
+  padding: 10px 18px;
+  border-radius: 12px;
+  box-shadow: var(--shadow-1);
+  color: var(--white-2);
+  font-size: var(--fs-6);
+  font-weight: var(--fw-500);
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+  user-select: none;
+}
+
+.skill-marquee-card ion-icon {
+  font-size: 20px;
+  color: var(--orange-yellow-crayola);
+}
+
+.skill-marquee-card .badge {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--smoky-black);
+  background: var(--orange-yellow-crayola);
+  padding: 2px 7px;
+  border-radius: 6px;
+  margin-left: 4px;
+}
+
+.skill-marquee-card:hover {
+  transform: translateY(-3px) scale(1.04);
+  border-color: var(--orange-yellow-crayola);
+  box-shadow: 0 8px 20px rgba(255, 219, 112, 0.15);
+}
+
+@keyframes marquee-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes marquee-scroll-reverse {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+/* Neo-Brutalist Structured Skill Progress Card System */
+.skills-wrapper-brutal {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 25px;
+}
+
+@media (min-width: 768px) {
+  .skills-wrapper-brutal {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.skill-category-header {
+  font-size: var(--fs-4);
+  font-weight: 800;
+  color: var(--white-1);
+  margin-bottom: 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.brutal-skills-box {
+  background: var(--border-gradient-onyx);
+  padding: 24px;
+  border-radius: 16px;
+  box-shadow: var(--shadow-2);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.brutal-skills-box::before {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  background: var(--bg-gradient-jet);
+  border-radius: inherit;
+  z-index: 1;
+}
+
+.brutal-skill-row {
+  position: relative;
+  z-index: 2;
+}
+
+.brutal-skill-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.brutal-skill-head .skill-name {
+  font-size: var(--fs-6);
+  font-weight: 700;
+  color: var(--white-1);
+  letter-spacing: 0.02em;
+}
+
+.brutal-skill-head .skill-badge {
+  font-size: 11px;
+  font-weight: 800;
+  background: var(--orange-yellow-crayola);
+  color: var(--smoky-black);
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.brutal-progress-bar {
+  width: 100%;
+  height: 12px;
+  background: var(--onyx);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.brutal-progress-fill {
+  height: 100%;
+  background: var(--orange-yellow-crayola);
+  border-radius: 6px;
+  transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
