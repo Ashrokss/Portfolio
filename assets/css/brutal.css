@@ -1321,7 +1321,6 @@
 }
 
 
-
 /*-----------------------------------*\
   BRUTAL MODE SKILLS OVERRIDES
 \*-----------------------------------*/
@@ -1353,6 +1352,22 @@
   padding: 2px 8px !important;
 }
 
+/* `[data-brutal] *` blanket-kills animation to keep the theme static, but the
+   skills marquee IS the feature here - put its scroll back. Higher specificity
+   than the universal rule, so it wins without weakening the blanket. */
+[data-brutal] .horizontal-skills-wrapper {
+  animation: marquee-scroll 32s linear infinite !important;
+}
+
+[data-brutal] .horizontal-skills-wrapper.reverse {
+  animation: marquee-scroll-reverse 32s linear infinite !important;
+}
+
+[data-brutal] .horizontal-skills-wrapper:hover,
+[data-brutal] .horizontal-skills-wrapper.reverse:hover {
+  animation-play-state: paused !important;
+}
+
 [data-brutal] .skill-marquee-card {
   background: #FFFFFF !important;
   border: 2.5px solid #111215 !important;
@@ -1363,69 +1378,8 @@
   border-radius: 0 !important;
 }
 
-[data-brutal] .skill-marquee-card ion-icon {
-  color: #111215 !important;
-}
-
-[data-brutal] .skill-marquee-card .badge {
-  background: #FACC15 !important;
-  color: #111215 !important;
-  border: 1.5px solid #111215 !important;
-  box-shadow: 1.5px 1.5px 0 #111215 !important;
-  font-family: var(--brutal-font-head) !important;
-  font-weight: 800 !important;
-  border-radius: 0 !important;
-}
-
 [data-brutal] .skill-marquee-card:hover {
   background: #FACC15 !important;
   transform: translate(-2px, -2px) !important;
   box-shadow: 5px 5px 0 #111215 !important;
-}
-
-[data-brutal] .skill-category-header {
-  font-family: var(--brutal-font-head) !important;
-  font-weight: 800 !important;
-  color: #111215 !important;
-}
-
-[data-brutal] .brutal-skills-box {
-  background: #FFFFFF !important;
-  border: 3px solid #111215 !important;
-  box-shadow: 5px 5px 0 #111215 !important;
-  border-radius: 0 !important;
-}
-
-[data-brutal] .brutal-skills-box::before {
-  display: none !important;
-}
-
-[data-brutal] .brutal-skill-head .skill-name {
-  font-family: var(--brutal-font-head) !important;
-  font-weight: 800 !important;
-  color: #111215 !important;
-}
-
-[data-brutal] .brutal-skill-head .skill-badge {
-  background: #FACC15 !important;
-  color: #111215 !important;
-  border: 1.5px solid #111215 !important;
-  box-shadow: 1.5px 1.5px 0 #111215 !important;
-  font-family: var(--brutal-font-head) !important;
-  font-weight: 800 !important;
-  border-radius: 0 !important;
-}
-
-[data-brutal] .brutal-progress-bar {
-  background: #FFFFFF !important;
-  border: 2.5px solid #111215 !important;
-  box-shadow: 2px 2px 0 #111215 !important;
-  height: 14px !important;
-  border-radius: 0 !important;
-}
-
-[data-brutal] .brutal-progress-fill {
-  background: #FACC15 !important;
-  border-right: 2px solid #111215 !important;
-  border-radius: 0 !important;
 }
