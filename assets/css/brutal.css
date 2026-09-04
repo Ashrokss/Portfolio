@@ -970,6 +970,14 @@
   color: var(--brutal-ink) !important;
 }
 
+[data-brutal] .ask-msg a,
+[data-brutal] .ask-msg span:not(.status-dot):not(.ask-thinking):not(.ask-thinking span),
+[data-brutal] .ask-msg strong,
+[data-brutal] .ask-msg em,
+[data-brutal] .ask-msg code {
+  display: inline !important;
+}
+
 [data-brutal] .ask-kicker {
   color: #475569 !important;
   font-family: var(--ff-poppins), sans-serif !important;
@@ -1002,7 +1010,7 @@
   box-shadow: 3.5px 3.5px 0 var(--brutal-ink) !important;
   color: var(--brutal-ink) !important;
   border-radius: 10px !important;
-  padding: 14px !important;
+  padding: 14px 16px !important;
 }
 
 [data-brutal] .ask-intro-card {
@@ -1018,16 +1026,79 @@
   font-weight: 600 !important;
 }
 
+[data-brutal] .ask-msg--assistant p {
+  color: var(--brutal-ink) !important;
+  margin: 0 0 10px 0 !important;
+  font-size: 13.5px !important;
+  line-height: 1.6 !important;
+  font-weight: 500 !important;
+}
+
+[data-brutal] .ask-msg--assistant p:last-child {
+  margin-bottom: 0 !important;
+}
+
+[data-brutal] .ask-msg--assistant ul,
+[data-brutal] .ask-msg--assistant ol {
+  margin: 6px 0 10px 20px !important;
+  padding: 0 !important;
+}
+
+[data-brutal] .ask-msg--assistant ul:last-child,
+[data-brutal] .ask-msg--assistant ol:last-child {
+  margin-bottom: 0 !important;
+}
+
+[data-brutal] .ask-msg--assistant li {
+  margin-bottom: 6px !important;
+  color: var(--brutal-ink) !important;
+  font-weight: 500 !important;
+  font-size: 13.5px !important;
+  line-height: 1.5 !important;
+}
+
+[data-brutal] .ask-msg--assistant li::marker {
+  color: var(--brutal-ink) !important;
+  font-weight: 800 !important;
+}
+
 [data-brutal] .ask-msg--assistant strong {
   color: var(--brutal-ink) !important;
   font-family: var(--brutal-font-head) !important;
+  font-weight: 800 !important;
+}
+
+[data-brutal] .ask-msg--assistant em {
+  font-style: italic !important;
+  color: var(--brutal-ink) !important;
+}
+
+[data-brutal] .ask-msg--assistant code {
+  background: #FEF08A !important;
+  border: 1.5px solid var(--brutal-ink) !important;
+  color: var(--brutal-ink) !important;
+  font-weight: 700 !important;
+  padding: 1px 5px !important;
+  border-radius: 4px !important;
 }
 
 [data-brutal] .ask-msg--assistant a {
   color: var(--brutal-ink) !important;
+  text-decoration: underline !important;
   text-decoration-color: var(--brutal-yellow) !important;
   text-decoration-thickness: 3px !important;
+  text-underline-offset: 2px !important;
   font-weight: 700 !important;
+  transition: background 0.15s ease !important;
+}
+
+[data-brutal] .ask-msg--assistant a:is(:hover, :focus-visible) {
+  background: var(--brutal-yellow) !important;
+  text-decoration: none !important;
+}
+
+[data-brutal] .ask-msg--assistant.streaming .ask-msg-content::after {
+  background: var(--brutal-ink) !important;
 }
 
 [data-brutal] .ask-error-text {

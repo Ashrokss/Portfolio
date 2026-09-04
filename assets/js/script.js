@@ -239,37 +239,110 @@ const askEscapeHtml = function (str) {
 };
 
 const askFormatMarkdown = function (raw) {
-  const escaped = askEscapeHtml(raw);
-  const withBold = escaped.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
-  // Only http(s) links — the escape above already neutralized quotes, so
-  // these captured groups can't break out of the href attribute they land in.
-  const withLinks = withBold.replace(
+  if (!raw) return "";
+
+  // 1. Safe HTML escape first
+  let text = askEscapeHtml(raw);
+
+  // 2. Inline formatting
+  // Code: `code`
+  text = text.replace(/`([^`]+)`/g, "<code>$1</code>");
+  // Bold: **text** or __text__
+  text = text.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
+  text = text.replace(/__(.+?)__/g, "<strong>$1</strong>");
+  // Italics: *text* or _text_ (excluding list bullets at start of line)
+  text = text.replace(/(^|[^\*])\*([^\*\s][^\*]*[^\*\s]|[^\*\s])\*/g, "$1<em>$2</em>");
+  // Links: [text](url) - only http(s)
+  text = text.replace(
     /\[([^\]]+)\]\((https?:\/\/[^\s)]+)\)/g,
     '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>'
   );
 
-  return withLinks
-    .split(/\n{2,}/)
-    .map(function (block) {
-      const lines = block.split("\n").filter(function (l) { return l.trim() !== ""; });
-      const isList = lines.length > 0 && lines.every(function (l) { return /^[-*]\s+/.test(l.trim()); });
+  // 3. Line-by-line block parser
+  const lines = text.split("\n");
+  const htmlBlocks = [];
+  let currentParagraph = [];
+  let currentList = null; // { type: 'ul'|'ol', items: [] }
 
-      if (isList) {
-        const items = lines.map(function (l) {
-          return "<li>" + l.trim().replace(/^[-*]\s+/, "") + "</li>";
-        }).join("");
-        return "<ul>" + items + "</ul>";
+  const cleanString = function (arr) {
+    return arr
+      .map(function (l) { return l.trim(); })
+      .filter(Boolean)
+      .join(" ")
+      .replace(/\s+([.,!?;:])/g, "$1")
+      .trim();
+  };
+
+  const flushParagraph = function () {
+    if (currentParagraph.length > 0) {
+      const pText = cleanString(currentParagraph);
+      if (pText) {
+        htmlBlocks.push("<p>" + pText + "</p>");
       }
+      currentParagraph = [];
+    }
+  };
 
-      const cleanText = lines
-        .map(function (l) { return l.trim(); })
-        .join(" ")
-        .replace(/\s+([.,!?;:])/g, "$1")
-        .trim();
+  const flushList = function () {
+    if (currentList && currentList.items.length > 0) {
+      const tag = currentList.type;
+      const itemsHtml = currentList.items
+        .map(function (itemLines) {
+          const itemText = cleanString(itemLines);
+          return itemText ? "<li>" + itemText + "</li>" : "";
+        })
+        .filter(Boolean)
+        .join("");
+      if (itemsHtml) {
+        htmlBlocks.push("<" + tag + ">" + itemsHtml + "</" + tag + ">");
+      }
+      currentList = null;
+    }
+  };
 
-      return "<p>" + cleanText + "</p>";
-    })
-    .join("");
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    const trimmed = line.trim();
+
+    if (!trimmed) {
+      // Blank line flushes open blocks
+      flushParagraph();
+      flushList();
+      continue;
+    }
+
+    const ulMatch = trimmed.match(/^[-*+]\s+(.+)/);
+    const olMatch = trimmed.match(/^\d+\.\s+(.+)/);
+
+    if (ulMatch) {
+      flushParagraph();
+      if (!currentList || currentList.type !== "ul") {
+        flushList();
+        currentList = { type: "ul", items: [] };
+      }
+      currentList.items.push([ulMatch[1]]);
+    } else if (olMatch) {
+      flushParagraph();
+      if (!currentList || currentList.type !== "ol") {
+        flushList();
+        currentList = { type: "ol", items: [] };
+      }
+      currentList.items.push([olMatch[1]]);
+    } else {
+      // If inside a list, subsequent non-empty lines without a bullet marker
+      // continue the current list item. Otherwise, accumulate in currentParagraph.
+      if (currentList && currentList.items.length > 0) {
+        currentList.items[currentList.items.length - 1].push(trimmed);
+      } else {
+        currentParagraph.push(trimmed);
+      }
+    }
+  }
+
+  flushParagraph();
+  flushList();
+
+  return htmlBlocks.join("");
 };
 
 askForm.addEventListener("submit", async function (e) {
@@ -296,11 +369,83 @@ askForm.addEventListener("submit", async function (e) {
   let started = false;
 
   try {
-    const res = await fetch("/.netlify/functions/chat", {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({ messages: askHistory }),
-    });
+    let res;
+    let isLocalFallback = false;
+    let fullText = "";
+
+    try {
+      res = await fetch("/.netlify/functions/chat", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ messages: askHistory }),
+      });
+      if (!res.ok && (res.status === 404 || res.status === 501)) {
+        isLocalFallback = true;
+      }
+    } catch (netErr) {
+      // Only treat this as "no backend available" when the page itself isn't
+      // served over http(s) (e.g. opened straight from disk). On a real
+      // deployment a thrown fetch is a genuine network failure and must
+      // surface as one, not get masked by a fake canned answer.
+      if (location.protocol === "file:") {
+        isLocalFallback = true;
+      } else {
+        throw netErr;
+      }
+    }
+
+    if (isLocalFallback) {
+      // Local dev mode without netlify dev proxying serverless functions.
+      // Provide simulated streaming response so local preview never breaks.
+      assistantMsg.classList.remove("thinking");
+      assistantMsg.classList.add("streaming");
+
+      const mockText = (function (prompt) {
+        const p = prompt.toLowerCase();
+        if (p.includes("cloud") || p.includes("project") || p.includes("walkthrough") || p.includes("aks") || p.includes("terraform")) {
+          return "Ashish has built several enterprise-grade Cloud & DevOps projects:\n\n" +
+            "- **[Enterprise AKS Platform](https://github.com/Ashrokss/Enterprise-Aks-Platform)**: Azure Kubernetes Service infrastructure built with modular `Terraform`, ArgoCD GitOps, and Azure Key Vault.\n" +
+            "- **[Terraform Ansible Lab](https://github.com/Ashrokss/Terraform-Ansible-Lab)**: End-to-end automation combining Terraform provisioning with Ansible configuration management.\n" +
+            "- **[AzOps](https://github.com/Ashrokss/AzOps)**: Terminal-native Azure management utility for fast CLI resource inspection.\n\n" +
+            "*Note: Local static preview mode active. To test live Groq/Gemini LLM responses, run `netlify dev`.*";
+        }
+        if (p.includes("do") || p.includes("about") || p.includes("who") || p.includes("skill") || p.includes("experience") || p.includes("background")) {
+          return "Ashish Pal is a **Cloud & DevOps Engineer** specializing in automated infrastructure, container orchestration, and CI/CD pipelines.\n\n" +
+            "Key Technical Skills:\n" +
+            "- **Cloud Platforms**: Azure, AWS\n" +
+            "- **Infrastructure as Code**: Terraform, Ansible, GitOps (ArgoCD)\n" +
+            "- **Containers & Orchestration**: Docker, Kubernetes (AKS)\n" +
+            "- **Data & AI**: Python, SQL, Generative AI models\n\n" +
+            "*Note: Local static preview mode active. To test live Groq/Gemini LLM responses, run `netlify dev`.*";
+        }
+        if (p.includes("opportunity") || p.includes("contact") || p.includes("hire") || p.includes("email") || p.includes("phone")) {
+          return "Ashish is open to Cloud & DevOps engineering roles and collaborative opportunities!\n\n" +
+            "- **Email**: [ashish200221@gmail.com](mailto:ashish200221@gmail.com)\n" +
+            "- **Phone**: +91 7878816331\n" +
+            "- **LinkedIn**: [Ashish Pal](https://www.linkedin.com/in/ashish-pal-544485226)\n" +
+            "- **GitHub**: [Ashrokss](https://github.com/Ashrokss)\n\n" +
+            "*Note: Local static preview mode active. To test live Groq/Gemini LLM responses, run `netlify dev`.*";
+        }
+        return "Hello! I am Ashish's AI assistant. Ashish is a Cloud & DevOps Engineer specializing in Azure, Terraform, and CI/CD automation.\n\n" +
+          "Feel free to ask about his **cloud projects**, **skills**, or **contact details**!\n\n" +
+          "*Note: Local static preview mode active. To test live Groq/Gemini LLM responses, run `netlify dev`.*";
+      })(text);
+
+      let currentLength = 0;
+      fullText = "";
+      while (currentLength < mockText.length) {
+        currentLength += Math.min( mockText.length - currentLength, Math.floor(Math.random() * 4) + 2 );
+        fullText = mockText.slice(0, currentLength);
+        assistantContent.innerHTML = askFormatMarkdown(fullText);
+        askThread.scrollTop = askThread.scrollHeight;
+        await new Promise((r) => setTimeout(r, 20));
+      }
+
+      assistantMsg.classList.remove("streaming");
+      askHistory.push({ role: "assistant", content: fullText });
+      askHistory = askHistory.slice(-20);
+      return;
+    }
 
     if (!res.ok || !res.body) {
       const data = await res.json().catch(() => ({}));
@@ -310,7 +455,6 @@ askForm.addEventListener("submit", async function (e) {
     const reader = res.body.getReader();
     const decoder = new TextDecoder();
     let buffer = "";
-    let fullText = "";
 
     while (true) {
       const { done, value } = await reader.read();
