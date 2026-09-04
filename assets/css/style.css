@@ -1838,8 +1838,13 @@ textarea.form-input::-webkit-resizer {
 .terminal-iframe-wrapper {
   position: relative;
   width: 100%;
-  height: 600px;
+  /* the shell inside switches to its mobile layout at max-width:640px OR
+     max-height:640px, so the frame has to stay taller than 640px to keep
+     the desktop layout on desktop */
+  height: clamp(660px, 78vh, 820px);
   background: #0d1117;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .terminal-iframe {
@@ -1901,7 +1906,9 @@ textarea.form-input::-webkit-resizer {
   }
 
   .terminal-iframe-wrapper {
-    height: 440px;
+    height: 68vh;
+    height: 68dvh;
+    min-height: 440px;
   }
 
   .terminal-window-title span {
@@ -1916,7 +1923,6 @@ textarea.form-input::-webkit-resizer {
   .terminal-chips-hint {
     padding: 10px 12px;
     gap: 6px;
-    margin-bottom: 75px;
   }
 
   .terminal-cmd-tag {
