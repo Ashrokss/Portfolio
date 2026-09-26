@@ -103,8 +103,6 @@ Cloud & DevOps:
   provisioned with modular Terraform, deployed via ArgoCD GitOps, secrets
   from Azure Key Vault via the CSI driver, running a 3-tier app
   (React + Node.js + PostgreSQL).
-- [AzOps](https://github.com/Ashrokss/AzOps) — a terminal-native TUI for
-  managing Azure infrastructure without leaving the terminal.
 - [Terraform Ansible Lab](https://github.com/Ashrokss/Terraform-Ansible-Lab)
   — end-to-end Azure infrastructure automation: Terraform for provisioning,
   Ansible for Docker and NGINX configuration.

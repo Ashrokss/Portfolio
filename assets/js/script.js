@@ -406,7 +406,7 @@ askForm.addEventListener("submit", async function (e) {
           return "Ashish has built several enterprise-grade Cloud & DevOps projects:\n\n" +
             "- **[Enterprise AKS Platform](https://github.com/Ashrokss/Enterprise-Aks-Platform)**: Azure Kubernetes Service infrastructure built with modular `Terraform`, ArgoCD GitOps, and Azure Key Vault.\n" +
             "- **[Terraform Ansible Lab](https://github.com/Ashrokss/Terraform-Ansible-Lab)**: End-to-end automation combining Terraform provisioning with Ansible configuration management.\n" +
-            "- **[AzOps](https://github.com/Ashrokss/AzOps)**: Terminal-native Azure management utility for fast CLI resource inspection.\n\n" +
+            "- **[AKS Terraform GitOps](https://github.com/Ashrokss/AKS-Terraform-GitOps)**: Multi-environment Azure Kubernetes infrastructure with ArgoCD GitOps.\n\n" +
             "*Note: Local static preview mode active. To test live Groq/Gemini LLM responses, run `netlify dev`.*";
         }
         if (p.includes("do") || p.includes("about") || p.includes("who") || p.includes("skill") || p.includes("experience") || p.includes("background")) {

@@ -72,6 +72,12 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Archivo+Black&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
 
   <!--
+    - preload critical avatar images for fast initial load & instant theme transitions
+  -->
+  <link rel="preload" as="image" href="./assets/images/my-avatar.webp" type="image/webp" fetchpriority="high">
+  <link rel="preload" as="image" href="./assets/images/brutal-avatar.jpg" type="image/jpeg" fetchpriority="low">
+
+  <!--
     - brutal mode: set before first paint so a reload doesn't flash the dark theme
   -->
   <script>
@@ -83,6 +89,12 @@
       } catch (e) { /* storage unavailable, default theme stands */ }
     })();
   </script>
+  <noscript>
+    <style>
+      .avatar-loader { display: none !important; }
+      .avatar-box img { opacity: 1 !important; transform: none !important; }
+    </style>
+  </noscript>
 </head>
 
 <body>
@@ -101,9 +113,34 @@
 
       <div class="sidebar-info">
 
-        <figure class="avatar-box">
-          <img src="./assets/images/my-avatar.png" alt="Ashish Pal" width="150">
+        <figure class="avatar-box" data-avatar-box>
+          <div class="avatar-loader" data-avatar-loader aria-hidden="true">
+            <div class="avatar-spinner"></div>
+          </div>
+          <img src="./assets/images/my-avatar.webp"
+            alt="Ashish Pal"
+            width="150"
+            height="150"
+            fetchpriority="high"
+            data-avatar-img
+            onerror="this.onerror=null;if(this.src.endsWith('.webp'))this.src='./assets/images/my-avatar.png';">
         </figure>
+        <script>
+          (function() {
+            var box = document.querySelector('[data-avatar-box]');
+            var img = document.querySelector('[data-avatar-img]');
+            if (!box || !img) return;
+            if (document.documentElement.hasAttribute('data-brutal')) {
+              img.src = './assets/images/brutal-avatar.jpg';
+            }
+            if (img.complete && img.naturalWidth > 0) {
+              box.classList.add('loaded');
+            } else {
+              img.addEventListener('load', function() { box.classList.add('loaded'); }, { once: true });
+              img.addEventListener('error', function() { box.classList.add('loaded'); }, { once: true });
+            }
+          })();
+        </script>
 
         <div class="info-content">
           <h1 class="name" title="Ashish Pal">Ashish Pal</h1>

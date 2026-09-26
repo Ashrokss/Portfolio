@@ -22,12 +22,72 @@
     });
   };
 
-  const DEFAULT_AVATAR = './assets/images/my-avatar.png';
+  const DEFAULT_AVATAR = './assets/images/my-avatar.webp';
   const BRUTAL_AVATAR = './assets/images/brutal-avatar.jpg';
-  const avatarImg = document.querySelector('.avatar-box img');
+  const avatarBox = document.querySelector('[data-avatar-box]');
+  const avatarImg = document.querySelector('[data-avatar-img]');
+
+  // In-memory preloading cache so theme swaps never wait on network requests
+  const avatarCache = {};
+  const preloadAvatar = function (src) {
+    if (!src) return null;
+    if (avatarCache[src]) return avatarCache[src];
+    const img = new Image();
+    img.src = src;
+    avatarCache[src] = img;
+    return img;
+  };
+
+  // Eagerly pre-cache both avatars immediately on page load
+  preloadAvatar(DEFAULT_AVATAR);
+  preloadAvatar(BRUTAL_AVATAR);
 
   const setAvatar = function (on) {
-    if (avatarImg) avatarImg.src = on ? BRUTAL_AVATAR : DEFAULT_AVATAR;
+    if (!avatarImg || !avatarBox) return;
+    const targetSrc = on ? BRUTAL_AVATAR : DEFAULT_AVATAR;
+
+    // Check if the displayed image is already pointing to targetSrc
+    const currentSrc = avatarImg.getAttribute('src');
+    if (currentSrc === targetSrc) {
+      if (avatarImg.complete && avatarImg.naturalWidth > 0) {
+        avatarBox.classList.add('loaded');
+      }
+      return;
+    }
+
+    const preloaded = preloadAvatar(targetSrc);
+
+    // If preloaded image is already in browser cache / complete:
+    if (preloaded && preloaded.complete && preloaded.naturalWidth > 0) {
+      avatarImg.src = targetSrc;
+      avatarBox.classList.add('loaded');
+    } else {
+      // Still fetching over network: trigger loader animation!
+      avatarBox.classList.remove('loaded');
+
+      const handleReady = function () {
+        avatarImg.src = targetSrc;
+        requestAnimationFrame(function () {
+          avatarBox.classList.add('loaded');
+        });
+      };
+
+      if (preloaded) {
+        preloaded.onload = handleReady;
+        preloaded.onerror = function () {
+          // If webp fails, fallback to png
+          if (targetSrc.endsWith('.webp')) {
+            avatarImg.src = './assets/images/my-avatar.png';
+          } else {
+            avatarImg.src = targetSrc;
+          }
+          avatarBox.classList.add('loaded');
+        };
+      } else {
+        avatarImg.onload = handleReady;
+        avatarImg.src = targetSrc;
+      }
+    }
   };
 
   setLabel(root.hasAttribute('data-brutal'));
