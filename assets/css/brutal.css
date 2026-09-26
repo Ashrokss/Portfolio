@@ -489,7 +489,7 @@
   border-radius: 0 !important;
   width: 38px !important;
   height: 38px !important;
-  display: flex !important;
+  display: flex;
   align-items: center !important;
   justify-content: center !important;
   box-sizing: border-box !important;
@@ -500,10 +500,20 @@
   display: none !important;
 }
 
-[data-brutal] .info_more-btn span,
+[data-brutal] .info_more-btn span {
+  display: none !important;
+}
+
 [data-brutal] .info_more-btn ion-icon {
+  display: flex !important;
+  font-size: 18px !important;
   color: var(--brutal-ink) !important;
   font-weight: 800 !important;
+  transition: transform 0.25s ease !important;
+}
+
+[data-brutal] .sidebar.active .info_more-btn ion-icon {
+  transform: rotate(180deg) !important;
 }
 
 [data-brutal] .info_more-btn:hover {
@@ -1400,6 +1410,12 @@
     right: 10px !important;
     transform: scale(0.85);
     transform-origin: bottom right;
+  }
+}
+
+@media (min-width: 1250px) {
+  [data-brutal] .info_more-btn {
+    display: none !important;
   }
 }
 

@@ -2781,7 +2781,7 @@ textarea.form-input::-webkit-resizer {
   }
 
   .info_more-btn {
-    display: none;
+    display: none !important;
   }
 
   .sidebar-info_more {
