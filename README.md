@@ -6,8 +6,6 @@ Personal portfolio site for **Ashish Pal**, Cloud & DevOps Engineer (Azure, Terr
 
 ![Portfolio video preview](assets/images/readme/portfolio-video.gif)
 
----
-
 ## Features
 
 ### About
