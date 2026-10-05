@@ -4,7 +4,7 @@ Personal portfolio site for **Ashish Pal**, Cloud & DevOps Engineer (Azure, Terr
 
 **Live site:** [ash-21.netlify.app](https://ash-21.netlify.app/) 
 
-[![Portfolio video: click to play](assets/images/readme/portfolio-video.jpg)](assets/videos/portfolio-video.mp4)
+![Portfolio video preview](assets/images/readme/portfolio-video.gif)
 
 ---
 
