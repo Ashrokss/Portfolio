@@ -2,7 +2,9 @@
 
 Personal portfolio site for **Ashish Pal**, Cloud & DevOps Engineer (Azure, Terraform, CI/CD, GenAI). A single-page static site with an interactive resume, filterable project gallery, an AI chat assistant, a web-shell terminal, and a full neubrutalist theme switch.
 
-**Live site:** [ash-21.netlify.app](https://ash-21.netlify.app/) · **Demo video:** [Watch on Drive](https://drive.google.com/file/d/1leoTsAZGnbtX2eCMI_B49IyalKVDMQgr/view?usp=drive_link)
+**Live site:** [ash-21.netlify.app](https://ash-21.netlify.app/) 
+
+[![Portfolio video: click to play](assets/images/readme/portfolio-video.jpg)](assets/videos/portfolio-video.mp4)
 
 ---
 
