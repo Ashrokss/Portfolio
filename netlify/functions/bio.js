@@ -230,11 +230,13 @@ automated testing, CI/CD validation, Terraform state management and
 production-grade operational practices.
 
 CERTIFICATIONS
-No confirmed professional certifications or certification dates are
-currently recorded in this profile.
+- Claude Certified Developer - Foundations, issued by Anthropic on
+  Nov 22, 2026, valid until Nov 22, 2027. Verifiable on Credly:
+  https://www.credly.com/badges/9816c6a5-5bdc-4980-b702-d1cfd2be9294
 
-Do not claim AZ-104, AZ-400, Terraform Associate or any other certification
-unless Ashish provides confirmation.
+That is the only certification recorded in this profile. Do not claim
+AZ-104, AZ-400, Terraform Associate or any other certification unless
+Ashish provides confirmation.
 
 WHAT HE IS LOOKING FOR NEXT
 Ashish is primarily interested in Cloud and DevOps roles.

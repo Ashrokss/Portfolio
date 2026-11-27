@@ -323,6 +323,10 @@
           </li>
 
           <li class="navbar-item">
+            <button class="navbar-link " data-nav-link>Certifications</button>
+          </li>
+
+          <li class="navbar-item">
             <button class="navbar-link " data-nav-link>Blog</button>
           </li>
 
@@ -1355,6 +1359,74 @@
 
 
       <!--
+        - #CERTIFICATIONS
+        Nav links and [data-page] articles are matched by index in script.js,
+        so this article must stay in the same position as its nav button.
+        To add a certificate: copy the <li>, point both PDF paths at the new file.
+      -->
+
+      <article class="certifications" data-page="certifications">
+
+        <header>
+          <h2 class="h2 article-title">Certifications</h2>
+        </header>
+
+        <section class="blog-posts">
+
+          <ul class="blog-posts-list">
+
+            <li class="blog-post-item">
+              <div class="cert-card">
+
+                <a class="blog-banner-box" href="./assets/certifications/CCDV-F.pdf" target="_blank" rel="noopener"
+                  aria-label="View certificate: Claude Certified Developer — Foundations">
+                  <!-- page 1 of the PDF is drawn here by the PDF.js script at the end of the page -->
+                  <canvas data-cert-pdf="./assets/certifications/CCDV-F.pdf" aria-hidden="true"></canvas>
+                </a>
+
+                <div class="blog-content">
+
+                  <div class="blog-meta">
+                    <p class="blog-category">Anthropic</p>
+
+                    <span class="dot"></span>
+
+                    <time datetime="2026-11-22">Nov 22, 2026</time>
+                  </div>
+
+                  <h3 class="h3 blog-item-title">Claude Certified Developer&nbsp;— Foundations</h3>
+
+                  <p class="blog-text">
+                    Valid until Nov 22, 2027.
+                  </p>
+
+                  <div class="cert-links">
+                    <a href="./assets/certifications/CCDV-F.pdf" target="_blank" rel="noopener">
+                      <ion-icon name="document-text-outline" aria-hidden="true"></ion-icon>
+                      View certificate
+                    </a>
+                    <a href="https://www.credly.com/badges/9816c6a5-5bdc-4980-b702-d1cfd2be9294" target="_blank" rel="noopener">
+                      <ion-icon name="shield-checkmark-outline" aria-hidden="true"></ion-icon>
+                      Verify on Credly
+                    </a>
+                  </div>
+
+                </div>
+
+              </div>
+            </li>
+
+          </ul>
+
+        </section>
+
+      </article>
+
+
+
+
+
+      <!--
         - #BLOG
       -->
 
@@ -1699,6 +1771,20 @@
       }
     }).catch(function (error) {
       console.error('Error rendering PDF:', error);
+    });
+
+    // Certification previews: draw page 1 of each certificate PDF into its card.
+    document.querySelectorAll('canvas[data-cert-pdf]').forEach(function (canvas) {
+      pdfjsLib.getDocument(canvas.dataset.certPdf).promise.then(function (pdf) {
+        return pdf.getPage(1);
+      }).then(function (page) {
+        const viewport = page.getViewport({ scale: 1.5 });
+        canvas.height = viewport.height;
+        canvas.width = viewport.width;
+        return page.render({ canvasContext: canvas.getContext('2d'), viewport: viewport }).promise;
+      }).catch(function (error) {
+        console.error('Error rendering certificate preview:', error);
+      });
     });
   </script>
 </body>

@@ -29,6 +29,9 @@ Filterable project grid (All / Machine Learning / Power BI / Excel / SQL / GenAI
 
 ![Projects](assets/images/readme/projects.png)
 
+### Certifications
+Card per certificate with a live preview rendered from the PDF in `assets/certifications/`, plus links to the full certificate and its Credly verification page.
+
 ### Blog
 Card-based index linking out to technical write-ups.
 
