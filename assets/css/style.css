@@ -1813,6 +1813,13 @@ main {
   color: var(--orange-yellow-crayola);
 }
 
+/* headings are text-transform: capitalize; this keeps names like ".env"
+   from becoming ".Env" (inline, since the reset makes span a block) */
+.keep-case {
+  display: inline;
+  text-transform: none;
+}
+
 .blog-text {
   color: var(--light-gray);
   font-size: var(--fs-6);

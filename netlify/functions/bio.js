@@ -152,6 +152,12 @@ WRITING
   Aug 19, 2024.
 - "Predict Salaries with Machine Learning" — used linear regression to
   predict salaries. Medium.
+- "Claude Code with GitHub Actions (AWS Bedrock Version)" — Notion guide to
+  running the Claude GitHub app through AWS Bedrock, authenticating with
+  GitHub OIDC instead of stored AWS keys.
+- ".env pushed accidentally? Don't worry, follow these steps" — Notion guide:
+  rotate the leaked secrets, stop tracking .env in Git, and add it to
+  .gitignore.
 
 
 AVAILABILITY AND OPPORTUNITIES
