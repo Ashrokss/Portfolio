@@ -50,6 +50,9 @@ Interests: Cloud Architecture, Infrastructure as Code, CI/CD Automation, Generat
 - **12th Senior Secondary** — Tilak Public School, Jaipur (2020) | 76%
 - **10th Secondary** — Aditya Birla Vani Bharti, West Bengal (2018) | 78%
 
+## Certifications
+- **Claude Certified Developer — Foundations** — Anthropic (issued Nov 22, 2026, valid until Nov 22, 2027) | [Certificate PDF](./assets/certifications/CCDV-F.pdf) | [Verify on Credly](https://www.credly.com/badges/9816c6a5-5bdc-4980-b702-d1cfd2be9294)
+
 ## Technical Skills
 
 ### Cloud & DevOps

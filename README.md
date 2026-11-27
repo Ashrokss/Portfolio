@@ -16,7 +16,7 @@ Sidebar profile with contact details and socials, a "What I'm Doing" grid, and a
 ![About](assets/images/readme/about.png)
 
 ### Resume — Portfolio View
-Education and experience timelines, plus an interactive physics-based skills canvas (drag/tap the icons) backed by a dual-direction infinite marquee of every tool in the stack.
+Education, experience and certification timelines, plus an interactive physics-based skills canvas (drag/tap the icons) backed by a dual-direction infinite marquee of every tool in the stack.
 
 ![Resume timeline](assets/images/readme/resume-timeline.png)
 ![Interactive skills canvas](assets/images/readme/skills-interactive.png)

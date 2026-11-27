@@ -732,6 +732,29 @@
   margin-bottom: 6px;
 }
 
+/* certification links: same sticker treatment as .resume-toggle-btn */
+[data-brutal] .cert-links {
+  margin-bottom: 16px; /* keep the chips off the card's bottom border */
+}
+
+[data-brutal] .cert-links a {
+  background: var(--brutal-card-bg);
+  border: 2px solid var(--brutal-ink);
+  box-shadow: 2px 2px 0 var(--brutal-ink);
+  font-family: var(--brutal-font-head);
+  font-size: 11px;
+  font-weight: 700 !important;
+  text-transform: uppercase;
+  transition: all 0.12s ease;
+}
+
+[data-brutal] .cert-links a:hover,
+[data-brutal] .cert-links a:focus-visible {
+  background: #FEF08A;
+  transform: translate(-1.5px, -1.5px);
+  box-shadow: 3.5px 3.5px 0 var(--brutal-ink);
+}
+
 [data-brutal] .skill-progress-bg {
   background: var(--brutal-card-bg);
   border: 2.5px solid var(--brutal-ink);
