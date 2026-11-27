@@ -128,6 +128,10 @@ Interests: Cloud Architecture, Infrastructure as Code, CI/CD Automation, Generat
   Link: https://medium.com/@ashish200221/build-a-sentiment-analysis-web-app-using-python-and-gradio-c1f37771763a
 - **Predict Salaries with Machine Learning** (Medium, Aug 19, 2024) — Machine learning model build write-up using Linear Regression for salary forecasting.  
   Link: https://medium.com/@ashish200221/predict-salaries-with-machine-learning-salary-prediction-web-app-e458add3924b
+- **Claude Code with GitHub Actions (AWS Bedrock Version)** (Notion) — Setting up the Claude GitHub app on AWS Bedrock, using GitHub OIDC instead of long-lived AWS keys.
+  Link: https://app.notion.com/p/Claude-Code-with-GitHub-Actions-AWS-Bedrock-Version-41598afcd39a80c1ba78d180a457e59e
+- **.env Pushed Accidentally? Don't Worry, Follow These Steps** (Notion) — Recovering from a committed `.env`: rotate the leaked secrets, stop tracking the file, and ignore it going forward.
+  Link: https://app.notion.com/p/env-pushed-accidentally-Don-t-worry-follow-these-steps-3ee98afcd39a80899499c7ccdc07f81d
 
 ## Portfolio Website Architecture
 This portfolio is built as a single-page application (SPA) featuring:
