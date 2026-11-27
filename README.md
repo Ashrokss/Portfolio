@@ -16,7 +16,7 @@ Sidebar profile with contact details and socials, a "What I'm Doing" grid, and a
 ![About](assets/images/readme/about.png)
 
 ### Resume — Portfolio View
-Education, experience and certification timelines, plus an interactive physics-based skills canvas (drag/tap the icons) backed by a dual-direction infinite marquee of every tool in the stack.
+Education and experience timelines, plus an interactive physics-based skills canvas (drag/tap the icons) backed by a dual-direction infinite marquee of every tool in the stack.
 
 ![Resume timeline](assets/images/readme/resume-timeline.png)
 ![Interactive skills canvas](assets/images/readme/skills-interactive.png)
@@ -30,6 +30,9 @@ Toggles to a native in-page PDF viewer of the downloadable resume, with a PDF.js
 Filterable project grid (All / Machine Learning / Power BI / Excel / SQL / GenAI / Cloud) covering AI agents, data analysis, and cloud automation work.
 
 ![Projects](assets/images/readme/projects.png)
+
+### Certifications
+Card per certificate with a live preview rendered from the PDF in `assets/certifications/`, plus links to the full certificate and its Credly verification page.
 
 ### Blog
 Card-based index linking out to technical write-ups.

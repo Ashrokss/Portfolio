@@ -1423,8 +1423,52 @@ main {
   line-height: 1.6;
 }
 
-/* certification links — chips matching .resume-toggle-box; the rest of the
-   Certifications section is plain .timeline markup */
+/* With 8 tabs the bottom bar no longer fits one row on tablets. Scroll it
+   sideways like the phone layout instead of wrapping: a two-row bar slides
+   under the Ask launcher. Auto margins centre the row when it fits and
+   collapse when it overflows (justify-content: center would clip the first tabs). */
+@media (min-width: 581px) and (max-width: 1023px) {
+  .navbar-list {
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .navbar-list::-webkit-scrollbar {
+    display: none;
+  }
+
+  .navbar-item:first-child {
+    margin-left: auto;
+  }
+
+  .navbar-item:last-child {
+    margin-right: auto;
+  }
+
+  .navbar-link {
+    white-space: nowrap;
+  }
+}
+
+/* Certifications tab: the card reuses the blog card classes; only the PDF
+   preview and the link chips (styled after .resume-toggle-box) are its own */
+.certifications .article-title {
+  margin-bottom: 20px;
+}
+
+.cert-card .blog-banner-box {
+  height: auto; /* show the whole certificate instead of cropping to the blog banner height */
+  background: var(--onyx);
+}
+
+.cert-card canvas {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
 .cert-links {
   display: flex;
   flex-wrap: wrap;
@@ -1694,7 +1738,10 @@ main {
   gap: 20px;
 }
 
-.blog-post-item>a {
+/* .cert-card is the Certifications tab's card: same shell as a blog card, but
+   a <div>, because it holds two links and a card-wide <a> can't nest them */
+.blog-post-item>a,
+.cert-card {
   position: relative;
   background: var(--border-gradient-onyx);
   height: 100%;
@@ -1703,7 +1750,8 @@ main {
   z-index: 1;
 }
 
-.blog-post-item>a::before {
+.blog-post-item>a::before,
+.cert-card::before {
   content: "";
   position: absolute;
   inset: 1px;
@@ -2624,7 +2672,7 @@ textarea.form-input::-webkit-resizer {
     right: 0;
     width: max-content;
     border-radius: 0 20px;
-    padding: 0 20px;
+    padding: 0 12px; /* tightened with .navbar-list below so 8 tabs clear the page title */
     box-shadow: none;
   }
 
@@ -2657,8 +2705,8 @@ textarea.form-input::-webkit-resizer {
   }
 
   .navbar-list {
-    gap: 12px;
-    padding: 0 10px;
+    gap: 10px;
+    padding: 0;
   }
 
   .navbar-link {
